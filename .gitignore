@@ -14,7 +14,7 @@
 *.la
 *.lo
 
-# Shared objects (inc. Windows DLLs)
+# Shared objects 
 *.dll
 *.so
 *.so.*
@@ -30,3 +30,8 @@
 
 # Debug files
 *.dSYM/
+
+# my stuff
+*~
+build
+_build
