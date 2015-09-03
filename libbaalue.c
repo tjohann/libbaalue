@@ -20,6 +20,19 @@
 
 #include "libbaalue.h"
 
+
+/*
+ * print lib version -> see CMakeFiles.txt
+ */
+void print_lib_version(void)
+{
+	fprintf(stdout, "libbaalue@version.%d.%d.%d\n", 
+		libbaalue_VERSION_MAJOR,
+		libbaalue_VERSION_MINOR,
+		libbaalue_VERSION_BUGFIX);
+}
+
+
 /*
  * common error function which is called in all exported error handling 
  * functions

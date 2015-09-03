@@ -44,7 +44,7 @@
 #include <sysexits.h>
 #include <ctype.h>
 #include <pthread.h>
-#include <bsd/stdlib.h>
+//#include <bsd/stdlib.h>
 
 // getopt and locale realted inc
 #include <getopt.h>
@@ -70,12 +70,21 @@
 #include <net/if.h>
 #include <netpacket/packet.h>
 
+// libbaalue build config
+#include "config.h"
 
 
 /*
  * some common defines
  */
 #define MAXLINE 254
+
+/*
+ * some info functions
+ */
+
+// print lib version -> see CMakeFiles.txt
+void print_lib_version(void);
 
 
 
