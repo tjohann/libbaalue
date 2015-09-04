@@ -6,6 +6,8 @@ all::
 	@echo "+----------------------------------------------------------+"
 	@echo "| make setup_build -> setup build env and configure with   |"
 	@echo "|                     defaults                             |"
+	@echo "| make build       -> cd _build && make                    |"
+	@echo "| make install     -> cd _build && make install            |"
 	@echo "+----------------------------------------------------------+"	
 
 setup_build::
@@ -16,6 +18,11 @@ setup_build::
 	@echo "| ready to build -> cd _build && make && make install      |"
 	@echo "+----------------------------------------------------------+"	
 
+build::
+	(cd _build && make VERBOSE=1)
+
+install::
+	(cd _build && make install)
 
 clean::
 	rm -f *~
