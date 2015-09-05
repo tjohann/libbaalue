@@ -6,7 +6,7 @@
 
 #define libbaalue_VERSION_MAJOR @libbaalue_VERSION_MAJOR@
 #define libbaalue_VERSION_MINOR @libbaalue_VERSION_MINOR@
-#define libbaalue_VERSION_BUGFIX @libbaalue_VERSION_BUGFIX@
+#define libbaalue_VERSION_PATCH @libbaalue_VERSION_PATCH@
 
 
 #endif

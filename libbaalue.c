@@ -29,7 +29,7 @@ void print_lib_version(void)
 	fprintf(stdout, "libbaalue@version.%d.%d.%d\n", 
 		libbaalue_VERSION_MAJOR,
 		libbaalue_VERSION_MINOR,
-		libbaalue_VERSION_BUGFIX);
+		libbaalue_VERSION_PATCH);
 }
 
 

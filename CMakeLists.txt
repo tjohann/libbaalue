@@ -14,7 +14,8 @@ set(CMAKE_C_FLAGS "-g -Wall -Wextra -std=c11")
 # set version number
 set(libbaalue_VERSION_MAJOR 0)
 set(libbaalue_VERSION_MINOR 0)
-set(libbaalue_VERSION_BUGFIX 1)
+set(libbaalue_VERSION_PATCH 1)
+set(libbaalue_VERSION ${libbaalue_VERSION_MAJOR}.${libbaalue_VERSION_MINOR}.${libbaalue_VERSION_PATCH})
 
 # special config handling
 configure_file (
@@ -46,6 +47,9 @@ target_link_libraries(baalue_static
 	confuse
        bsd
 )
+
+# target properties
+set_target_properties(baalue PROPERTIES VERSION ${libbaalue_VERSION} SOVERSION ${libbaalue_VERSION_MAJOR})
 
 # install all
 install(TARGETS baalue_static DESTINATION lib)
