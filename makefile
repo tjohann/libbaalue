@@ -29,5 +29,7 @@ clean::
 	rm -f .*~
 	rm -rf build
 	rm -rf _build
+	rm -f cmake/modules/*~
+	rm -f cmake/modules/.*~
 
 distclean: clean
