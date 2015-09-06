@@ -31,5 +31,7 @@ clean::
 	rm -rf _build
 	rm -f cmake/modules/*~
 	rm -f cmake/modules/.*~
+	rm -f man/*~
+	rm -f man/.*~
 
 distclean: clean
