@@ -87,9 +87,8 @@
 void print_lib_version(void);
 
 
-
 /*
- * our common error handling functions
+ * common error handling functions
  */
 
 // common macros
@@ -103,5 +102,12 @@ __attribute__((noreturn)) error_exit(const char *fmt, ...);
 // print error message
 void
 error_msg(const char *fmt, ...);
+
+
+/*
+ * lcd access functions
+ */
+
+
 
 #endif

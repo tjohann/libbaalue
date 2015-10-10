@@ -5,8 +5,8 @@ project(libbaalue C)
 set(SOURCE_FILES
 	libbaalue.c
 	daemon.c
-	config.c
 	network.c
+	lcd.c
 ) 
 
 set(CMAKE_C_FLAGS "-Wall -Wextra -std=c11")
@@ -14,7 +14,7 @@ set(CMAKE_C_FLAGS "-Wall -Wextra -std=c11")
 # set version number
 set(libbaalue_VERSION_MAJOR 0)
 set(libbaalue_VERSION_MINOR 0)
-set(libbaalue_VERSION_PATCH 1)
+set(libbaalue_VERSION_PATCH 2)
 set(libbaalue_VERSION ${libbaalue_VERSION_MAJOR}.${libbaalue_VERSION_MINOR}.${libbaalue_VERSION_PATCH})
 
 # set build type 
@@ -40,18 +40,18 @@ configure_file (
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules")
 
 # check for other libs
-find_package(Confuse REQUIRED)
+# find_package(Confuse REQUIRED)
 find_package(LibBSD REQUIRED)
 
 # add bin to include path
 include_directories(
 	"${PROJECT_BINARY_DIR}"
-	"${CONFUSE_INCLUDE_DIR}"
+#	"${CONFUSE_INCLUDE_DIR}"
 	)
 
 # check needed includes
 include(CheckIncludeFile)
-check_include_file(confuse.h HAVE_LIBCONFUSE)
+# check_include_file(confuse.h HAVE_LIBCONFUSE)
 check_include_file(bsd/stdlib.h HAVE_LIBBSD)
 
 # create shared lib
