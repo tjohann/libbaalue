@@ -20,11 +20,13 @@ AM_INIT_AUTOMAKE([-Wall -Werror dist-bzip2])
 AC_PROG_CC
 AM_PROG_AR
 AM_PROG_LEX
+AC_PROG_RANLIB
 
-LT_INIT([
-	disable-static
-	pic-only
-])
+LT_INIT
+#LT_INIT([
+#	disable-static
+#	pic-only
+#])
 
 # -> ./configure --enable-silent-rules to get quite build behaviour
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([no])])

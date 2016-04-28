@@ -10,3 +10,15 @@ fi
 
 echo "Setting up autotools"
 autoreconf --install --force || exit 1
+
+libdir() {
+        echo $(cd $1/$(gcc -print-multi-os-directory); pwd)
+}
+
+args="--prefix=/usr --sysconfdir=/etc --libdir=$(libdir /usr/lib)"
+
+echo
+echo "----------------------------------------------------------------"
+echo " init done -> run ./configure CFLAGS='-g -O2' $args             "
+echo "----------------------------------------------------------------"
+echo
