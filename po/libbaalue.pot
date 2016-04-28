@@ -1,0 +1,32 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Thorsten Johannvorderbrueggen
+# This file is distributed under the same license as the libbaalue package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: libbaalue trunk\n"
+"Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
+"POT-Creation-Date: 2016-04-28 18:46+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/libbaalue.h:137
+#, c-format
+msgid "Your're in %s of %s"
+msgstr ""
+
+#: src/error.c:177
+#, c-format
+msgid "syslog enabled for %s"
+msgstr ""
+
+#: src/error.c:182
+msgid "syslog disabled for %"
+msgstr ""

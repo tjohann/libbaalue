@@ -9,11 +9,10 @@ AC_CONFIG_MACRO_DIR([build-aux/m4])
 AM_CONFIG_HEADER(config.h)
 AC_CONFIG_SRCDIR(src/error.c)
 
-AC_CONFIG_FILES([Makefile \
-		 src/Makefile])
+AC_CONFIG_FILES([Makefile src/Makefile po/Makefile.in libbaalue.pc])
 
-#AM_GNU_GETTEXT_VERSION([0.19.4])
-#AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT_VERSION([0.19.7])
+AM_GNU_GETTEXT([external])
 
 AM_INIT_AUTOMAKE([-Wall -Werror dist-bzip2])
 
@@ -38,7 +37,6 @@ PKG_PROG_PKG_CONFIG
 # checks for header files.
 AC_HEADER_STDC
 AC_CHECK_HEADERS([unistd.h])
-AC_CHECK_HEADERS([sys/stat.h])
 
 # checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST

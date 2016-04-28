@@ -1,0 +1,4 @@
+# List of source files which contain translatable strings.
+
+src/libbaalue.h
+src/error.c
