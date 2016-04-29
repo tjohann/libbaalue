@@ -1,24 +1,24 @@
 /*
-  LGPL
+  GPL
   (c) 2016, thorsten.johannvorderbrueggen@t-online.de
 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
 
-  This library is distributed in the hope that it will be useful,
+  This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
   GNU General Public License for more details.
 
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-#ifndef _LIBSERVICE_H_
-#define _LIBSERVICE_H_
+#ifndef _LIBBAALUE_H_
+#define _LIBBAALUE_H_
 
 #ifndef __USE_GNU
 #define __USE_GNU
@@ -79,7 +79,7 @@
 #include <getopt.h>
 #include <libintl.h>
 #include <locale.h>
-//#include "gettext.h"
+#include "gettext.h"
 
 // libgit2
 #include <git2.h>
@@ -119,12 +119,10 @@
 #define MAX_LEN_MSG 100
 
 
-
 /*
  * common types
  * -------------
  */
-
 
 
 /*
@@ -139,12 +137,10 @@
 	} while (0)
 
 
-
 /*
  * helper.c
  * ========
  */
-
 
 
 /*
@@ -160,60 +156,60 @@
  */
 
 /*
+ * +-------------------------+------------+------------+--------------------------+
+ * |     function            | use errno? | terminate? | log_level (man 3 syslog) |
+ * +-------------------------+------------+------------+--------------------------+
+ * | baa_error_exit          |     yes    |   exit()   |         LOG_ERR          |
+ * | baa_info_exit           |     no     |   exit()   |         LOG_ERR          |
+ * | baa_dump_exit           |     yes    |  abort()   |         LOG_ERR          |
+ * | baa_error_msg           |     yes    |    no      |         LOG_ERR          |
+ * | baa_info_msg            |     no     |    no      |         LOG_INFO         |
+ * | baa_debug_msg           |     yes    |    no      |         LOG_DEBUG        |
  * +---------------------+------------+------------+--------------------------+
- * |     function        | use errno? | terminate? | log_level (man 3 syslog) |
- * +---------------------+------------+------------+--------------------------+
- * | error_exit          |     yes    |   exit()   |         LOG_ERR          |
- * | info_exit           |     no     |   exit()   |         LOG_ERR          |
- * | dump_exit           |     yes    |  abort()   |         LOG_ERR          |
- * | error_msg           |     yes    |    no      |         LOG_ERR          |
- * | info_msg            |     no     |    no      |         LOG_INFO         |
- * | debug_msg           |     yes    |    no      |         LOG_DEBUG        |
- * +---------------------+------------+------------+--------------------------+
- * | th_error_msg        | errno_val  |    no      |         LOG_ERR          |
- * | th_error_exit       | errno_val  |   exit()   |         LOG_ERR          |
- * | th_dump_exit        | errno_val  |  abourt()  |         LOG_ERR          |
- * +---------------------+------------+------------+--------------------------+
+ * | baa_th_error_msg        | errno_val  |    no      |         LOG_ERR          |
+ * | baa_th_error_exit       | errno_val  |   exit()   |         LOG_ERR          |
+ * | baa_th_dump_exit        | errno_val  |  abourt()  |         LOG_ERR          |
+ * +-------------------------+------------+------------+--------------------------+
  */
 
 // print error message and exit
 void
-__attribute__((noreturn)) error_exit(const char *fmt, ...);
+__attribute__((noreturn)) baa_error_exit(const char *fmt, ...);
 
 void
-__attribute__((noreturn)) info_exit(const char *fmt, ...);
+__attribute__((noreturn)) baa_info_exit(const char *fmt, ...);
 
 // print error message and dump/exit
 void
-__attribute__((noreturn)) dump_exit(const char *fmt, ...);
+__attribute__((noreturn)) baa_dump_exit(const char *fmt, ...);
 
 // print error message
 void
-error_msg(const char *fmt, ...);
+baa_error_msg(const char *fmt, ...);
 
 // print info message
 void
-info_msg(const char *fmt, ...);
+baa_info_msg(const char *fmt, ...);
 
 // print debug message
 void
-debug_msg(const char *fmt, ...);
+baa_debug_msg(const char *fmt, ...);
 
 // print error message with errno = errno_val
 void
-th_error_msg(int errno_val, const char *fmt, ...);
+baa_th_error_msg(int errno_val, const char *fmt, ...);
 
 // print error message with errno = errno_val and dump/exit
 void
-__attribute__((noreturn)) th_dump_exit(int errno_val, const char *fmt, ...);
+__attribute__((noreturn)) baa_th_dump_exit(int errno_val, const char *fmt, ...);
 
 // print error message with errno = errno_val and exit
 void
-__attribute__((noreturn)) th_error_exit(int errno_val, const char *fmt, ...);
+__attribute__((noreturn)) baa_th_error_exit(int errno_val, const char *fmt, ...);
 
 // enable/disable logging via syslog
 void
-enable_syslog(bool use_it, const char *name);
+baa_enable_syslog(bool use_it, const char *name);
 
 
 #endif
