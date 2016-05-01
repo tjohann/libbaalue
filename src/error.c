@@ -174,11 +174,11 @@ baa_enable_syslog(bool use_it, const char *name)
 		use_syslog = true;
 		if (name != NULL) {
 			openlog(name, LOG_PID | LOG_CONS, LOG_DAEMON);
-			info_msg(_("syslog enabled for %s"), name);
+			baa_info_msg(_("syslog enabled for %s"), name);
 		}
 	} else {
 		use_syslog = false;
 		if (name != NULL)
-			info_msg(_("syslog disabled for %"), name);
+			baa_info_msg(_("syslog disabled for %"), name);
 	}
 }

@@ -103,6 +103,14 @@
  * common defines
  * -------------
  */
+
+/*
+ * make sure that at least this size is avalable without page fault
+ * see https://rt.wiki.kernel.org/index.php/RT_PREEMPT_HOWTO
+ */
+#define BASE_SAFE_SIZE 1024
+#define DEF_MEM_FAC 1
+
 #define MAXLINE 254
 #define DUMMY_STRING "dummy"
 #define FILE_EMPTY -2
@@ -118,17 +126,40 @@
 // max num of bytes per uds msg
 #define MAX_LEN_MSG 100
 
+/* supported protocol type */
+#define PTYPE_SCHED_PROPS 0x00
+#define PTYPE_VERIFY_ACK  0xFE
+#define PTYPE_RCV_ACK     0xFF
 
 /*
  * common types
  * -------------
  */
+// shortcut for old signal api (signal_old())
+typedef	void sigfunc(int);
 
+// one function as part of the scheduling table
+typedef struct {
+	pthread_t tid;
+	pid_t kernel_tid;
+	void (*func) (void);
+	struct sched_param sched_param;
+	struct timespec t;
+	int policy;
+	int cpu;
+	int dt;
+	int dt_sec;
+	unsigned int safe_stack_fac;
+	unsigned int safe_heap_fac;
+} fiber_element_t;
 
 /*
  * common macros
  * -------------
  */
+#define NSEC_PER_SEC 1000000000
+#define NS_TO_MS(val) (val / 1000000)
+
 #define _(string) gettext(string)
 
 #define PRINT_LOCATION() do {			      \
@@ -141,6 +172,53 @@
  * helper.c
  * ========
  */
+sigfunc *
+baa_signal_old(int signo, sigfunc *func);
+
+void
+baa_set_program_name(char **program_name, char *kdo_arg);
+
+void
+baa_show_package_name();
+
+void
+baa_show_version_info();
+
+ssize_t
+baa_read_line(int fd, void *buf, size_t n_bytes);
+
+int
+baa_set_cloexec(int fd);
+
+int
+baa_become_daemon(void);
+
+int
+baa_lock_region(int fd);
+
+char *
+baa_create_file_with_pid(const char *name, const char *dir);
+
+int
+baa_create_psem(char *name, sem_t **sem);
+
+int
+baa_open_psem(char *name, sem_t **sem);
+
+void
+baa_unlink_psem(char *name);
+
+void
+baa_close_psem(sem_t **sem);
+
+bool
+check_for_rtpreempt();
+
+void
+show_clock_resolution(clockid_t clock_type);
+
+int
+drop_capability(int hold_capability);
 
 
 /*
@@ -148,6 +226,58 @@
  * =========
  */
 
+int
+baa_uds_dgram_server(const char *name, const char *dir, char **socket_f);
+
+int
+baa_uds_stream_server(const char *name, const char *dir, char **socket_f);
+
+int
+baa_uds_dgram_client(const char *name, const char *dir, char **socket_f);
+
+int
+baa_uds_stream_client(const char *name, const char *dir, char **socket_f);
+
+int
+baa_unlink_uds(int sfd);
+
+char *
+baa_get_uds_name_s(const char *file, const char *dir);
+
+
+/*
+ * process.c
+ * =========
+ */
+void
+baa_get_num_cpu(int *cpu_conf, int *cpu_onln);
+
+int
+baa_get_sched_policy(pid_t pid);
+
+int
+baa_get_sched_priority(pid_t pid);
+
+long
+baa_get_sched_time_slice_ms(pid_t pid);
+
+void
+baa_print_cpu_affinity(pid_t pid, size_t max);
+
+void
+baa_print_sched_policy(pid_t pid);
+
+void
+baa_print_sched_priority(pid_t pid);
+
+void
+baa_print_priority_range(int policy);
+
+void
+baa_print_sched_time_slice_ms(pid_t pid);
+
+void
+baa_print_num_cpu();
 
 
 /*
@@ -156,20 +286,20 @@
  */
 
 /*
- * +-------------------------+------------+------------+--------------------------+
- * |     function            | use errno? | terminate? | log_level (man 3 syslog) |
- * +-------------------------+------------+------------+--------------------------+
- * | baa_error_exit          |     yes    |   exit()   |         LOG_ERR          |
- * | baa_info_exit           |     no     |   exit()   |         LOG_ERR          |
- * | baa_dump_exit           |     yes    |  abort()   |         LOG_ERR          |
- * | baa_error_msg           |     yes    |    no      |         LOG_ERR          |
- * | baa_info_msg            |     no     |    no      |         LOG_INFO         |
- * | baa_debug_msg           |     yes    |    no      |         LOG_DEBUG        |
  * +---------------------+------------+------------+--------------------------+
- * | baa_th_error_msg        | errno_val  |    no      |         LOG_ERR          |
- * | baa_th_error_exit       | errno_val  |   exit()   |         LOG_ERR          |
- * | baa_th_dump_exit        | errno_val  |  abourt()  |         LOG_ERR          |
- * +-------------------------+------------+------------+--------------------------+
+ * |     function        | use errno? | terminate? | log_level (man 3 syslog) |
+ * +---------------------+------------+------------+--------------------------+
+ * | baa_error_exit      |     yes    |   exit()   |         LOG_ERR          |
+ * | baa_info_exit       |     no     |   exit()   |         LOG_ERR          |
+ * | baa_dump_exit       |     yes    |  abort()   |         LOG_ERR          |
+ * | baa_error_msg       |     yes    |    no      |         LOG_ERR          |
+ * | baa_info_msg        |     no     |    no      |         LOG_INFO         |
+ * | baa_debug_msg       |     yes    |    no      |         LOG_DEBUG        |
+ * +---------------------+------------+------------+--------------------------+
+ * | baa_th_error_msg    | errno_val  |    no      |         LOG_ERR          |
+ * | baa_th_error_exit   | errno_val  |   exit()   |         LOG_ERR          |
+ * | baa_th_dump_exit    | errno_val  |  abourt()  |         LOG_ERR          |
+ * +---------------------+------------+------------+--------------------------+
  */
 
 // print error message and exit
@@ -211,5 +341,81 @@ __attribute__((noreturn)) baa_th_error_exit(int errno_val, const char *fmt, ...)
 void
 baa_enable_syslog(bool use_it, const char *name);
 
+
+/*
+ * wrapper.c
+ * =========
+ */
+
+/*
+ * wrapper functions around libc/syscalls
+ *
+ * usecase: - check all useful errors
+ *          - in most cases exit due to failures (save state)
+ */
+
+void
+baa_wrap_close(int fd);
+
+/*
+ * serialize.c
+ * ===========
+ */
+int
+baa_pack(unsigned char *buf, char *fmt, ...);
+
+int
+baa_unpack(unsigned char *buf, char *fmt, ...);
+
+
+/*
+ * sh_mq.c
+ * =======
+ */
+
+
+/*
+ * sh_mem.c
+ * ========
+ */
+int
+baa_shmem_server(char *name, size_t size, void **mmap_seg);
+
+int
+baa_shmem_client(char *name, size_t size, void **mmap_seg);
+
+void
+baa_unlink_mmap_seg(char *name);
+
+
+/*
+ * fiber.c
+ * =======
+ */
+
+void
+baa_sigint_handler_sched(int sig);
+
+void *
+baa_fiber(void *arg);
+
+int
+baa_build_scheduler(fiber_element_t fiber_array[], int count);
+
+int
+baa_set_schedule_props(fiber_element_t fiber_array[], int count);
+
+int
+baa_start_scheduler(fiber_element_t fiber_array[], int count);
+
+int
+baa_set_schedule_props_via_server(fiber_element_t fiber_array[], int count,
+				int sfd, char *kdo_f);
+
+bool
+baa_is_fiber_config_valid(fiber_element_t fiber_array[], int count);
+
+void *
+baa_schedule_server_th(void *args);
 
 #endif
