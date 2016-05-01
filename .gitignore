@@ -105,3 +105,9 @@ po/POTFILES
 po/Rules-quot
 po/stamp-it
 po/stamp-po
+
+# src
+src/Makefile
+
+# others
+libbaalue.pc

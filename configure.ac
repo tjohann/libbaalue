@@ -14,13 +14,13 @@ AC_CONFIG_FILES([Makefile src/Makefile po/Makefile.in libbaalue.pc])
 AM_GNU_GETTEXT_VERSION([0.19.7])
 AM_GNU_GETTEXT([external])
 
-AM_INIT_AUTOMAKE([-Wall -Werror dist-bzip2])
+AM_INIT_AUTOMAKE([-Wall dist-bzip2])
 
 # checks for programs.
 AC_PROG_CC
 AM_PROG_AR
 AM_PROG_LEX
-AC_PROG_RANLIB
+AC_PROG_CC_STDC
 
 LT_INIT
 #LT_INIT([
@@ -47,3 +47,17 @@ AC_C_CONST
 AC_CHECK_FUNCS([strcasecmp strdup strndup])
 
 AC_OUTPUT
+
+AC_MSG_RESULT([
+        $PACKAGE $VERSION
+        ========
+
+        prefix:                 ${prefix}
+        sysconfdir:             ${sysconfdir}
+        libdir:                 ${libdir}
+        includedir:             ${includedir}
+
+        compiler:               ${CC}
+        cflags:                 ${CFLAGS}
+        ldflags:                ${LDFLAGS}
+])
