@@ -59,5 +59,4 @@ AC_MSG_RESULT([
 
         compiler:               ${CC}
         cflags:                 ${CFLAGS}
-        ldflags:                ${LDFLAGS}
 ])
