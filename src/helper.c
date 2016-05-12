@@ -338,7 +338,7 @@ baa_close_psem(sem_t **sem)
 }
 
 bool
-check_for_rtpreempt()
+baa_check_for_rtpreempt()
 {
 	FILE *fd;
 	struct utsname u;

@@ -212,7 +212,7 @@ void
 baa_close_psem(sem_t **sem);
 
 bool
-check_for_rtpreempt();
+baa_check_for_rtpreempt();
 
 void
 show_clock_resolution(clockid_t clock_type);
