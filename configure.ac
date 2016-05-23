@@ -36,6 +36,9 @@ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([no])])
 # checks for programs.
 PKG_PROG_PKG_CONFIG
 
+# Checks for libraries.
+PKG_CHECK_MODULES([LIBCAPNG], [libcap-ng])
+
 # checks for header files.
 AC_HEADER_STDC
 AC_CHECK_HEADERS([unistd.h])
