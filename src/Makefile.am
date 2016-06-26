@@ -12,6 +12,7 @@ libbaalue_la_SOURCES  = error.c \
 	process.c  		\
 	fiber.c  		\
 	serialize.c  		\
+	can_lin.c  		\
 	libbaalue.h 		\
 	gettext.h
 
