@@ -17,7 +17,8 @@
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-#include "libbaalue.h"
+#include <libbaalue.h>
+#include "libbaalue-private.h"
 
 static int
 shmem_handle(char *name, size_t size,
@@ -57,7 +58,7 @@ ftruncate_cmd:
 	return fd;
 }
 
-int
+BAALUE_EXPORT int
 baa_shmem_server(char *name, size_t size, void **mmap_seg)
 {
 	mode_t access_mode = O_RDWR | O_CREAT | O_EXCL;
@@ -66,7 +67,7 @@ baa_shmem_server(char *name, size_t size, void **mmap_seg)
 	return shmem_handle(name, size, access_mode, user_mode, mmap_seg);
 }
 
-int
+BAALUE_EXPORT int
 baa_shmem_client(char *name, size_t size, void **mmap_seg)
 {
 	mode_t access_mode = O_RDWR;
@@ -75,7 +76,7 @@ baa_shmem_client(char *name, size_t size, void **mmap_seg)
 	return shmem_handle(name, size, access_mode, user_mode, mmap_seg);
 }
 
-void
+BAALUE_EXPORT void
 baa_unlink_mmap_seg(char *name)
 {
 	if (shm_unlink(name) == -1)

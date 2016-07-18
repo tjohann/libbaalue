@@ -17,11 +17,10 @@
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-#include "libbaalue.h"
+#include <libbaalue.h>
+#include "libbaalue-private.h"
 
-// global for all
 static bool use_syslog;
-
 
 static void
 error_common(int errno_flag, int errno_val, int log_level,
@@ -53,8 +52,8 @@ error_common(int errno_flag, int errno_val, int log_level,
 	fflush(NULL);
 }
 
-// print error message and exit
-void
+/* print error message and exit */
+BAALUE_EXPORT void
 __attribute__((noreturn)) baa_error_exit(const char *fmt, ...)
 {
 	va_list va;
@@ -66,8 +65,8 @@ __attribute__((noreturn)) baa_error_exit(const char *fmt, ...)
 	exit(EXIT_FAILURE);
 }
 
-// print error message and exit (without errno)
-void
+/* print error message and exit (without errno) */
+BAALUE_EXPORT void
 __attribute__((noreturn)) baa_info_exit(const char *fmt, ...)
 {
 	va_list va;
@@ -79,8 +78,8 @@ __attribute__((noreturn)) baa_info_exit(const char *fmt, ...)
 	exit(EXIT_FAILURE);
 }
 
-// print error message and dump/exit
-void
+/* print error message and dump/exit */
+BAALUE_EXPORT void
 __attribute__((noreturn)) baa_dump_exit(const char *fmt, ...)
 {
 	va_list va;
@@ -93,8 +92,8 @@ __attribute__((noreturn)) baa_dump_exit(const char *fmt, ...)
 	exit(EXIT_FAILURE);  // shouldn't get here
 }
 
-// print error message
-void
+/* print error message */
+BAALUE_EXPORT void
 baa_error_msg(const char *fmt, ...)
 {
 	va_list	va;
@@ -104,8 +103,8 @@ baa_error_msg(const char *fmt, ...)
 	va_end(va);
 }
 
-// print info message
-void
+/* print info message */
+BAALUE_EXPORT void
 baa_info_msg(const char *fmt, ...)
 {
 	va_list	va;
@@ -115,8 +114,8 @@ baa_info_msg(const char *fmt, ...)
 	va_end(va);
 }
 
-// print debug message
-void
+/* print debug message */
+BAALUE_EXPORT void
 baa_debug_msg(const char *fmt, ...)
 {
 	va_list	va;
@@ -129,7 +128,7 @@ baa_debug_msg(const char *fmt, ...)
 /*
  * print error message with errno = errno_val
  */
-void
+BAALUE_EXPORT void
 baa_th_error_msg(int errno_val, const char *fmt, ...)
 {
 	va_list	va;
@@ -139,8 +138,8 @@ baa_th_error_msg(int errno_val, const char *fmt, ...)
 	va_end(va);
 }
 
-// print error message with errno = errno_val and dump/exit
-void
+/* print error message with errno = errno_val and dump/exit */
+BAALUE_EXPORT void
 __attribute__((noreturn)) baa_th_dump_exit(int errno_val, const char *fmt, ...)
 {
 	va_list	va;
@@ -153,8 +152,8 @@ __attribute__((noreturn)) baa_th_dump_exit(int errno_val, const char *fmt, ...)
 	exit(EXIT_FAILURE);  // shouldn't get here
 }
 
-// print error message with errno = errno_val and exit
-void
+/* print error message with errno = errno_val and exit */
+BAALUE_EXPORT void
 __attribute__((noreturn)) baa_th_error_exit(int errno_val, const char *fmt, ...)
 {
 	va_list	va;
@@ -166,8 +165,8 @@ __attribute__((noreturn)) baa_th_error_exit(int errno_val, const char *fmt, ...)
 	exit(EXIT_FAILURE);
 }
 
-// enable/disable syslog
-void
+/* enable/disable syslog */
+BAALUE_EXPORT void
 baa_enable_syslog(bool use_it, const char *name)
 {
 	if (use_it) {

@@ -17,8 +17,8 @@
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-#include "libbaalue.h"
-
+#include <libbaalue.h>
+#include "libbaalue-private.h"
 
 static void
 pack_16(unsigned char *buf, unsigned int i)
@@ -105,7 +105,7 @@ unpack_32(unsigned char *buf)
 	       buf[3];
 }
 
-int
+BAALUE_EXPORT int
 baa_pack(unsigned char *buf, char *fmt, ...)
 {
 	unsigned char c;
@@ -167,7 +167,7 @@ baa_pack(unsigned char *buf, char *fmt, ...)
 	return size;
 }
 
-int
+BAALUE_EXPORT int
 baa_unpack(unsigned char *buf, char *fmt, ...)
 {
 	unsigned char *c;

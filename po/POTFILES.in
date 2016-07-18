@@ -2,3 +2,12 @@
 
 src/libbaalue.h
 src/error.c
+src/can_lin.c
+src/fiber.c
+src/helper.c
+src/network.c
+src/process.c
+src/serialize.c
+src/sh_mem.c
+src/sh_mq.c
+src/wrapper.c

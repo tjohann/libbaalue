@@ -7,7 +7,6 @@ AC_CONFIG_AUX_DIR([build-aux/autoconf])
 AC_CONFIG_MACRO_DIR([build-aux/m4])
 
 AM_CONFIG_HEADER(config.h)
-AC_CONFIG_SRCDIR(src/error.c)
 
 AC_CONFIG_FILES([Makefile src/Makefile po/Makefile.in libbaalue.pc])
 

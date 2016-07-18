@@ -17,5 +17,12 @@
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
+#ifndef _LIBBAALUE_PRIVATE_H_
+#define _LIBBAALUE_PRIVATE_H_
+
 #include <libbaalue.h>
-#include "libbaalue-private.h"
+
+#define BAALUE_EXPORT __attribute__ ((visibility ("default")))
+#define BAALUE_LOCAL  __attribute__ ((visibility ("hidden")))
+
+#endif

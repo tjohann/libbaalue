@@ -17,23 +17,23 @@
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-#include "libbaalue.h"
+#include <libbaalue.h>
+#include "libbaalue-private.h"
 
-
-void
+BAALUE_EXPORT void
 baa_get_num_cpu(int *cpu_conf, int *cpu_onln)
 {
 	*cpu_conf = get_nprocs_conf();
 	*cpu_onln = get_nprocs();
 }
 
-int
+BAALUE_EXPORT int
 baa_get_sched_policy(pid_t pid)
 {
 	return sched_getscheduler(pid);
 }
 
-int
+BAALUE_EXPORT int
 baa_get_sched_priority(pid_t pid)
 {
 	struct sched_param sp;
@@ -46,7 +46,7 @@ baa_get_sched_priority(pid_t pid)
 		return sp.sched_priority;
 }
 
-long
+BAALUE_EXPORT long
 baa_get_sched_time_slice_ms(pid_t pid)
 {
 	struct timespec t;
@@ -68,7 +68,7 @@ baa_get_sched_time_slice_ms(pid_t pid)
 	return NS_TO_MS(t.tv_nsec);
 }
 
-void
+BAALUE_EXPORT void
 baa_print_cpu_affinity(pid_t pid, size_t max)
 {
 	cpu_set_t set;
@@ -88,7 +88,7 @@ baa_print_cpu_affinity(pid_t pid, size_t max)
 	}
 }
 
-void
+BAALUE_EXPORT void
 baa_print_sched_policy(pid_t pid)
 {
 	int policy = baa_get_sched_policy(pid);
@@ -124,14 +124,14 @@ baa_print_sched_policy(pid_t pid)
 	}
 }
 
-void
+BAALUE_EXPORT void
 baa_print_sched_priority(pid_t pid)
 {
 	baa_info_msg(_("priority  for pid %ld is %d"),
 		(long) pid, baa_get_sched_priority(pid));
 }
 
-void
+BAALUE_EXPORT void
 baa_print_priority_range(int policy)
 {
 	int min, max;
@@ -153,14 +153,14 @@ baa_print_priority_range(int policy)
 	}
 }
 
-void
+BAALUE_EXPORT void
 baa_print_sched_time_slice_ms(pid_t pid)
 {
 	baa_info_msg("time slice for pid %ld in ms %ld",
 		(long) pid, baa_get_sched_time_slice_ms(pid));
 }
 
-void
+BAALUE_EXPORT void
 baa_print_num_cpu()
 {
 	int cpu_conf = 0, cpu_onln = 0;

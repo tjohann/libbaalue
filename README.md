@@ -1,7 +1,7 @@
 Libbaalue
 =========
 
-My basic lib for my different projects like sdk_builder(https://github.com/tjohann/sdk_builder) and baalued(https://github.com/tjohann/baalued.git).
+My basic lib for my different projects like sdk_builder(https://github.com/tjohann/sdk_builder) or baalued(https://github.com/tjohann/baalued.git).
 
 WARNING: This is work in progress! Don't expect things to be complete in any dimension.
 
@@ -9,7 +9,7 @@ WARNING: This is work in progress! Don't expect things to be complete in any dim
 Overview
 --------
 
-The prefix for all functions and datatypes is "baa". See src/libbaalue.h for more detailed informations. All functions represent some parts i want to encapsulate to make the usage of a technologie easier. Topics like setup a datargram based unix domain socket server are provided by the library. Everthing is grouped in files which represent a certain topic, only herlpe.c is a summary of unspecified parts.
+The prefix for all functions and datatypes is "baa". See src/libbaalue.h for more detailed informations. All functions represent some parts i want to encapsulate to make the usage of a technologie easier. Topics like setup a datargram based unix domain socket server are provided by the library. Everthing is grouped in files which represent a certain topic, only helper.c is a summary of unspecified parts.
 
 
 error.c
@@ -33,19 +33,19 @@ Network related topics like setup a unix domain socket server.
 fiber.c
 -------
 
-Functions to set properties of a thread/process like scheduling policies or cpu affinity. It also defines a datastructure to easily setup something like a time-triggert process environment (http://www.cs.utexas.edu/~mok/cs378/Spring16/Reading/KopetzTTvsET_1991.pdf and http://www.safetty.net/publications/pttes).
+Functions to set properties of a thread/process like scheduling policies or cpu affinity based on a datastructure to easily setup something like a time-triggert process environment (http://www.cs.utexas.edu/~mok/cs378/Spring16/Reading/KopetzTTvsET_1991.pdf and http://www.safetty.net/publications/pttes).
 
 
 sh_mem.c
 --------
 
-Functions to handle posix shared memory
+Functions to handle posix shared memory.
 
 
 sh_mq.c
 -------
 
-Functions to handle posix message queues
+Functions to handle posix message queues.
 
 
 serialize.c
@@ -57,4 +57,16 @@ Simple functions to pack/unpack in a printf like style (https://en.wikipedia.org
 wrapper.c
 ---------
 
-Some wrapper functions about linux/unix syscals (similiar to what R.Stevens did in his books https://en.wikipedia.org/wiki/W._Richard_Stevens).
+Some wrapper functions around some linux/unix syscalls.
+
+
+can_lin.c
+---------
+
+Functions to handle CAN and/or LIN communication.
+
+
+process.c
+---------
+
+Functions to handle special process topics like priority and cpu affinity.

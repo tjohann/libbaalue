@@ -11,13 +11,13 @@
 #
 # -------------- 2016-05-01 ----------------------------------------------------
 #
-- check AM_CFLAGS content -> what is include in -Wextra
+- check AM_CFLAGS content -> what is include in -Wextra     [2016-07-18 -> done]
 
 
 #
 # -------------- 2016-04-28 ----------------------------------------------------
 #
-- add libbaalue.spec.on
+- add libbaalue.spec.on                                [2016-07-18 -> chanceled]
 
 
 #

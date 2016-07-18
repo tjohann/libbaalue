@@ -17,7 +17,8 @@
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-#include "libbaalue.h"
+#include <libbaalue.h>
+#include "libbaalue-private.h"
 
 // to sync all threads
 static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -58,7 +59,7 @@ static pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 		baa_info_msg("---------_END_------------");		\
 	} while (0)
 
-void
+BAALUE_EXPORT void
 baa_sigint_handler_sched(int sig)
 {
 	(void) sig;
@@ -101,7 +102,7 @@ void ts_norm(struct timespec *t)
 	}
 }
 
-void *
+BAALUE_EXPORT void *
 baa_fiber(void *arg)
 {
 	fiber_element_t *fiber = (fiber_element_t *) arg;
@@ -144,7 +145,7 @@ baa_fiber(void *arg)
 	return NULL;
 }
 
-int
+BAALUE_EXPORT int
 baa_build_scheduler(fiber_element_t fiber_array[], int count)
 {
 	int ret = -1;
@@ -166,7 +167,7 @@ baa_build_scheduler(fiber_element_t fiber_array[], int count)
 	return 0;
 }
 
-int
+BAALUE_EXPORT int
 baa_set_schedule_props(fiber_element_t fiber_array[], int count)
 {
 	cpu_set_t set;

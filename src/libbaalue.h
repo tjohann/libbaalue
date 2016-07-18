@@ -99,6 +99,10 @@
 #include <cap-ng.h>
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*
  * common defines
  * -------------
@@ -417,5 +421,16 @@ baa_is_fiber_config_valid(fiber_element_t fiber_array[], int count);
 
 void *
 baa_schedule_server_th(void *args);
+
+
+/*
+ * can_lin.c
+ * =========
+ */
+
+
+#ifdef __cplusplus
+} /* extern "C" */
+#endif
 
 #endif

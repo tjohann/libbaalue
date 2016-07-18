@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libbaalue trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-05-01 12:10+0200\n"
+"POT-Creation-Date: 2016-07-18 14:25+0200\n"
 "PO-Revision-Date: 2016-04-28 18:47+0200\n"
 "Last-Translator:  <thorsten.johannvorderbrueggen@t-online.de>\n"
 "Language-Team: German\n"
@@ -17,16 +17,478 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/libbaalue.h:166
+#: src/libbaalue.h:170
 #, c-format
 msgid "Your're in %s of %s"
 msgstr ""
 
-#: src/error.c:177
+#: src/error.c:176
 #, c-format
 msgid "syslog enabled for %s"
 msgstr ""
 
-#: src/error.c:182
+#: src/error.c:181
 msgid "syslog disabled for %"
+msgstr ""
+
+#: src/fiber.c:43
+msgid "show REQUIRED values"
+msgstr ""
+
+#: src/fiber.c:44
+#, c-format
+msgid "all below for thread-id %d"
+msgstr ""
+
+#: src/fiber.c:46
+#, c-format
+msgid "cpu %d"
+msgstr ""
+
+#: src/fiber.c:47
+#, c-format
+msgid "policy %d"
+msgstr ""
+
+#: src/fiber.c:48
+#, c-format
+msgid "priority %d"
+msgstr ""
+
+#: src/fiber.c:55
+msgid "show CONFIGURED values"
+msgstr ""
+
+#: src/fiber.c:89 src/helper.c:77
+#, c-format
+msgid "malloc in %s"
+msgstr ""
+
+#: src/fiber.c:135
+#, c-format
+msgid "interrupted by signal SIGINT handler in %s"
+msgstr ""
+
+#: src/fiber.c:159
+#, c-format
+msgid "pthread_create in %s"
+msgstr ""
+
+#: src/fiber.c:186
+#, c-format
+msgid "could not set fiber to CPU %d"
+msgstr ""
+
+#: src/fiber.c:191
+#, c-format
+msgid "no physical cpu %d"
+msgstr ""
+
+#: src/fiber.c:193
+msgid "sched_setaffinity() == -1 "
+msgstr ""
+
+#: src/fiber.c:217
+#, c-format
+msgid "pthread_join in %s"
+msgstr ""
+
+#: src/fiber.c:255 src/fiber.c:398
+#, c-format
+msgid "message is to longer (%d) than %d"
+msgstr ""
+
+#: src/fiber.c:263
+#, c-format
+msgid "num_send != num_packed in %s"
+msgstr ""
+
+#: src/fiber.c:265
+#, c-format
+msgid "send/pack %ld/%d bytes (protocol type %d) to %s"
+msgstr ""
+
+#: src/fiber.c:271 src/fiber.c:387
+#, c-format
+msgid "num_read == -1 in %s"
+msgstr ""
+
+#: src/fiber.c:274
+#, c-format
+msgid "wrong answer %d"
+msgstr ""
+
+#: src/fiber.c:286
+msgid "fiber_array == NULL || count == 0"
+msgstr ""
+
+#: src/fiber.c:303 src/fiber.c:315
+#, c-format
+msgid "priority > %d"
+msgstr ""
+
+#: src/fiber.c:307 src/fiber.c:319
+#, c-format
+msgid "priority < %d"
+msgstr ""
+
+#: src/fiber.c:325 src/fiber.c:332 src/fiber.c:339
+#, c-format
+msgid "priority %d != 0"
+msgstr ""
+
+#: src/fiber.c:345
+#, c-format
+msgid "policy %d invalid"
+msgstr ""
+
+#: src/fiber.c:351
+#, c-format
+msgid "cpu affinity > configured cpu (%d > %d)"
+msgstr ""
+
+#: src/fiber.c:379
+#, c-format
+msgid "pthread_detach in %s"
+msgstr ""
+
+#: src/fiber.c:405
+msgid "Couldn't set schedule properties"
+msgstr ""
+
+#: src/fiber.c:410
+#, c-format
+msgid "num_send == -1 in %s"
+msgstr ""
+
+#: src/fiber.c:414
+#, c-format
+msgid "protocol type %d not supported"
+msgstr ""
+
+#: src/fiber.c:418
+#, c-format
+msgid "received/unpack %ld/%d bytes (protocol type %d) from %s"
+msgstr ""
+
+#: src/helper.c:28
+msgid "Show content of version realted info: "
+msgstr ""
+
+#: src/helper.c:29 src/helper.c:34 src/helper.c:46 src/helper.c:53
+#: src/helper.c:56
+msgid "------------------------------------- "
+msgstr ""
+
+#: src/helper.c:30
+#, c-format
+msgid "Package version: %s                   "
+msgstr ""
+
+#: src/helper.c:35
+#, c-format
+msgid "System name: %s                       "
+msgstr ""
+
+#: src/helper.c:37
+#, c-format
+msgid "Kernel release: %s                    "
+msgstr ""
+
+#: src/helper.c:39
+#, c-format
+msgid "Version: %s                           "
+msgstr ""
+
+#: src/helper.c:41
+msgid "------------------------------------ "
+msgstr ""
+
+#: src/helper.c:42
+#, c-format
+msgid "Architecture: %s                      "
+msgstr ""
+
+#: src/helper.c:52
+msgid "Show content of package realted info: "
+msgstr ""
+
+#: src/helper.c:54
+#, c-format
+msgid "Package name is %s                    "
+msgstr ""
+
+#: src/helper.c:149 src/helper.c:157
+#, c-format
+msgid "fcntl() at line %d"
+msgstr ""
+
+#: src/helper.c:171 src/helper.c:184
+#, c-format
+msgid "fork() at line %d"
+msgstr ""
+
+#: src/helper.c:178
+#, c-format
+msgid "setsid() at line %d"
+msgstr ""
+
+#: src/helper.c:191
+#, c-format
+msgid "chdir() at line %d"
+msgstr ""
+
+#: src/helper.c:207
+#, c-format
+msgid "open() at line %d"
+msgstr ""
+
+#: src/helper.c:242 src/network.c:51
+#, c-format
+msgid "couln't unlink %s"
+msgstr ""
+
+#: src/helper.c:249 src/sh_mem.c:42
+#, c-format
+msgid "could not open %s"
+msgstr ""
+
+#: src/helper.c:252
+#, c-format
+msgid "use %s as pid file"
+msgstr ""
+
+#: src/helper.c:256
+#, c-format
+msgid "pid_file == NULL %s"
+msgstr ""
+
+#: src/helper.c:263 src/helper.c:268
+#, c-format
+msgid "could not set flag for %s"
+msgstr ""
+
+#: src/helper.c:272
+#, c-format
+msgid "pid file %s already in-use"
+msgstr ""
+
+#: src/helper.c:274
+#, c-format
+msgid "could not lock region in pid file: %s"
+msgstr ""
+
+#: src/helper.c:284
+#, c-format
+msgid "could not truncate pid file %s"
+msgstr ""
+
+#: src/helper.c:290
+#, c-format
+msgid "could not write %s to file %s"
+msgstr ""
+
+#: src/helper.c:306
+#, c-format
+msgid "named semaphore %s already exist"
+msgstr ""
+
+#: src/helper.c:320
+#, c-format
+msgid "could not open named semaphore %s"
+msgstr ""
+
+#: src/helper.c:331
+#, c-format
+msgid "could not unlink named semaphore %s"
+msgstr ""
+
+#: src/helper.c:338
+msgid "could not close named semaphore"
+msgstr ""
+
+#: src/helper.c:348
+#, c-format
+msgid "uname at line %d"
+msgstr ""
+
+#: src/helper.c:351
+msgid "NO preempt kernel"
+msgstr ""
+
+#: src/helper.c:358
+msgid "Kernel is a RT-PREEMPT kernel"
+msgstr ""
+
+#: src/helper.c:361 src/helper.c:365
+msgid "Kernel is a PREEMPT kernel"
+msgstr ""
+
+#: src/helper.c:382
+#, c-format
+msgid "Clock resoultion is %lu nsec"
+msgstr ""
+
+#: src/helper.c:384
+msgid "Can't get clock resolution"
+msgstr ""
+
+#: src/helper.c:395
+#, c-format
+msgid "can't set capability -> %s"
+msgstr ""
+
+#: src/network.c:56
+#, c-format
+msgid "strlen(str) > sizeof(add.sun_path) in %s"
+msgstr ""
+
+#: src/network.c:62
+#, c-format
+msgid "use %s as socket"
+msgstr ""
+
+#: src/network.c:66
+#, c-format
+msgid "could not open socket in %s"
+msgstr ""
+
+#: src/network.c:73
+msgid "could not bind socket"
+msgstr ""
+
+#: src/network.c:78
+msgid "could not connect socket"
+msgstr ""
+
+#: src/network.c:82
+#, c-format
+msgid "sfd_f == NULL %s"
+msgstr ""
+
+#: src/network.c:103
+#, c-format
+msgid "listen in %s"
+msgstr ""
+
+#: src/network.c:127
+#, c-format
+msgid "could not get sun_path in %s"
+msgstr ""
+
+#: src/network.c:131
+#, c-format
+msgid "no such file %s"
+msgstr ""
+
+#: src/network.c:133
+#, c-format
+msgid "could not unlink %s in %s"
+msgstr ""
+
+#: src/network.c:154
+#, c-format
+msgid "strlen(tmp_s) > sizeof(add.sun_path) in %s"
+msgstr ""
+
+#: src/network.c:161
+#, c-format
+msgid "str == NULL %s"
+msgstr ""
+
+#: src/network.c:167
+#, c-format
+msgid "assembled name %s"
+msgstr ""
+
+#: src/process.c:60
+#, c-format
+msgid "times slice sec: %d ns: %ld"
+msgstr ""
+
+#: src/process.c:85
+#, c-format
+msgid "pid %d cpu=%d is %s"
+msgstr ""
+
+#: src/process.c:96
+#, c-format
+msgid "could not get schedule policy for pid %ld"
+msgstr ""
+
+#: src/process.c:101
+#, c-format
+msgid "scheduler SCHED_FIFO for pid %d"
+msgstr ""
+
+#: src/process.c:105
+#, c-format
+msgid "scheduler SCHED_RR for pid %d"
+msgstr ""
+
+#: src/process.c:109
+#, c-format
+msgid "scheduler SCHED_OTHER for pid %d"
+msgstr ""
+
+#: src/process.c:113
+#, c-format
+msgid "scheduler SCHED_IDLE for pid %d"
+msgstr ""
+
+#: src/process.c:117
+#, c-format
+msgid "scheduler SCHED_BATCH for pid %d"
+msgstr ""
+
+#: src/process.c:121
+#, c-format
+msgid "unknown scheduler %d for %ld"
+msgstr ""
+
+#: src/process.c:130
+#, c-format
+msgid "priority  for pid %ld is %d"
+msgstr ""
+
+#: src/process.c:143
+#, c-format
+msgid "priorty range for SCHED_FIFO is %d - %d"
+msgstr ""
+
+#: src/process.c:148
+#, c-format
+msgid "priorty range for SCHED_RR is %d - %d"
+msgstr ""
+
+#: src/process.c:151
+#, c-format
+msgid "priority range makes no sense for policy %d (must be 0)"
+msgstr ""
+
+#: src/serialize.c:161 src/serialize.c:224
+#, c-format
+msgid "unknown format %c"
+msgstr ""
+
+#: src/sh_mem.c:29
+msgid "name for shared memory segment is NULL"
+msgstr ""
+
+#: src/sh_mem.c:38
+#, c-format
+msgid "shared memory segmente %s already exist"
+msgstr ""
+
+#: src/sh_mem.c:52 src/sh_mem.c:56
+#, c-format
+msgid "could not truncate shmem segment %s"
+msgstr ""
+
+#: src/sh_mem.c:83
+msgid "could not unlink %"
+msgstr ""
+
+#: src/wrapper.c:33
+msgid "FATAL: could not close fd"
 msgstr ""

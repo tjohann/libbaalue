@@ -2,6 +2,10 @@
 # some news ... see also TODO for hints
 #
 
+2016-07-18 -> some cleanups and preparations for can/lin stuff
+
+2016-06-xx -> add file for can/lin functions
+
 2016-05-23 -> all basic functions are implemented
 
 2016-04-21 -> start to implement new structure as basic for sdk_builder and others

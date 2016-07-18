@@ -3,10 +3,10 @@ exec_prefix=@exec_prefix@
 libdir=@libdir@
 includedir=@includedir@
 
-
 Name: @PACKAGE@
 Version: @VERSION@
 Description: library with a lot of basic functions
 Requires:
 Libs: -L${libdir} -lbaalue @LTLIBINTL@
+Libs.private:
 Cflags: -I${includedir}

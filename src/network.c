@@ -17,7 +17,8 @@
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-#include "libbaalue.h"
+#include <libbaalue.h>
+#include "libbaalue-private.h"
 
 #define USE_PID 0x01
 #define USE_BIND 0x02
@@ -87,13 +88,13 @@ uds_socket(const char *name, const char *dir, char **socket_f, int type,
 	return sfd;
 }
 
-int
+BAALUE_EXPORT int
 baa_uds_dgram_server(const char *name, const char *dir, char **socket_f)
 {
 	return uds_socket(name, dir, socket_f, SOCK_DGRAM, USE_BIND);
 }
 
-int
+BAALUE_EXPORT int
 baa_uds_stream_server(const char *name, const char *dir, char **socket_f)
 {
 	int sfd = uds_socket(name, dir, socket_f, SOCK_STREAM, USE_BIND);
@@ -104,19 +105,19 @@ baa_uds_stream_server(const char *name, const char *dir, char **socket_f)
 	return sfd;
 }
 
-int
+BAALUE_EXPORT int
 baa_uds_dgram_client(const char *name, const char *dir, char **socket_f)
 {
 	return uds_socket(name, dir, socket_f, SOCK_DGRAM, USE_PID | USE_BIND);
 }
 
-int
+BAALUE_EXPORT int
 baa_uds_stream_client(const char *name, const char *dir, char **socket_f)
 {
 	return uds_socket(name, dir, socket_f, SOCK_DGRAM, USE_PID | USE_CONNECT);
 }
 
-int
+BAALUE_EXPORT int
 baa_unlink_uds(int sfd)
 {
 	struct sockaddr_un addr;
@@ -136,7 +137,7 @@ baa_unlink_uds(int sfd)
 	return 0;
 }
 
-char *
+BAALUE_EXPORT char *
 baa_get_uds_name_s(const char *file, const char *dir)
 {
 	if ((file == NULL) || (dir == NULL ))

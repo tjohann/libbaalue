@@ -17,9 +17,10 @@
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-#include "libbaalue.h"
+#include <libbaalue.h>
+#include "libbaalue-private.h"
 
-void
+BAALUE_EXPORT void
 baa_show_version_info()
 {
 	struct utsname u;
@@ -45,7 +46,7 @@ baa_show_version_info()
 	baa_info_msg(_("------------------------------------- "));
 }
 
-void
+BAALUE_EXPORT void
 baa_show_package_name()
 {
 	baa_info_msg(_("Show content of package realted info: "));
@@ -55,7 +56,7 @@ baa_show_package_name()
 	baa_info_msg(_("------------------------------------- "));
 }
 
-void
+BAALUE_EXPORT void
 baa_set_program_name(char **program_name, char *kdo_arg)
 {
 	char *whoami = NULL;
@@ -81,7 +82,7 @@ baa_set_program_name(char **program_name, char *kdo_arg)
 	*program_name = tmp_str;
 }
 
-sigfunc *
+BAALUE_EXPORT sigfunc *
 baa_signal_old(int signo, sigfunc *func)
 {
 	struct sigaction actual, old_actual;
@@ -106,7 +107,7 @@ baa_signal_old(int signo, sigfunc *func)
 	return old_actual.sa_handler;
 }
 
-ssize_t
+BAALUE_EXPORT ssize_t
 baa_read_line(int fd, void *buf, size_t n_bytes)
 {
 	ssize_t n = 0;
@@ -140,7 +141,7 @@ read_cmd:
 	return count;
 }
 
-int
+BAALUE_EXPORT int
 baa_set_cloexec(int fd)
 {
 	int err = fcntl(fd, F_GETFD, 0);
@@ -160,7 +161,7 @@ baa_set_cloexec(int fd)
 	return 0;
 }
 
-int
+BAALUE_EXPORT int
 baa_become_daemon(void)
 {
 	umask(0);
@@ -208,7 +209,7 @@ baa_become_daemon(void)
 	return 0;
 }
 
-int
+BAALUE_EXPORT int
 baa_lock_region(int fd)
 {
 	struct flock fl;
@@ -221,7 +222,7 @@ baa_lock_region(int fd)
 	return fcntl(fd, F_SETLK, &fl);
 }
 
-char *
+BAALUE_EXPORT char *
 baa_create_file_with_pid(const char *name, const char *dir)
 {
 	if (name == NULL || dir == NULL)
@@ -294,7 +295,7 @@ ftruncate_cmd:
 	return pid_file;
 }
 
-int
+BAALUE_EXPORT int
 baa_create_psem(char *name, sem_t **sem)
 {
 	mode_t access_mode = O_CREAT | O_EXCL;
@@ -312,7 +313,7 @@ baa_create_psem(char *name, sem_t **sem)
 	return 0;
 }
 
-int
+BAALUE_EXPORT int
 baa_open_psem(char *name, sem_t **sem)
 {
 	if ((*sem = sem_open(name, 0)) == SEM_FAILED)
@@ -323,21 +324,21 @@ baa_open_psem(char *name, sem_t **sem)
 	return 1;
 }
 
-void
+BAALUE_EXPORT void
 baa_unlink_psem(char *name)
 {
 	if (sem_unlink(name) == -1)
 		baa_error_msg(_("could not unlink named semaphore %s"), name);
 }
 
-void
+BAALUE_EXPORT void
 baa_close_psem(sem_t **sem)
 {
 	if (sem_close(*sem) == -1)
 		baa_error_msg(_("could not close named semaphore"));
 }
 
-bool
+BAALUE_EXPORT bool
 baa_check_for_rtpreempt()
 {
 	FILE *fd;
@@ -372,7 +373,7 @@ out:
 	return true;
 }
 
-void
+BAALUE_EXPORT void
 show_clock_resolution(clockid_t clock_type)
 {
 	struct timespec res;
@@ -383,7 +384,7 @@ show_clock_resolution(clockid_t clock_type)
 		baa_error_msg(_("Can't get clock resolution"));
 }
 
-int
+BAALUE_EXPORT int
 drop_capability(int hold_capability)
 {
 	capng_clear(CAPNG_SELECT_BOTH);

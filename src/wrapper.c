@@ -17,9 +17,10 @@
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-#include "libbaalue.h"
+#include <libbaalue.h>
+#include "libbaalue-private.h"
 
-void
+BAALUE_EXPORT void
 baa_wrap_close(int fd)
 {
 	int err = -1;
