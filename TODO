@@ -2,6 +2,14 @@
 # TODO with date and progress
 #
 
+
+#
+# -------------- 2016-07-10 ----------------------------------------------------
+#
+- add libgit to ac file -> check is missing
+- add libcurl to ac file -> check is missing
+
+
 #
 # -------------- 2016-05-23 ----------------------------------------------------
 #
