@@ -219,10 +219,10 @@ bool
 baa_check_for_rtpreempt();
 
 void
-show_clock_resolution(clockid_t clock_type);
+baa_show_clock_resolution(clockid_t clock_type);
 
 int
-drop_capability(int hold_capability);
+baa_drop_capability(int hold_capability);
 
 
 /*
