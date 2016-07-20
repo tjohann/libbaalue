@@ -168,3 +168,60 @@ baa_get_uds_name_s(const char *file, const char *dir)
 #endif
 	return str;
 }
+
+
+/*
+ * TODO ....
+ */
+static int
+connect_inet_socket(const char *host, const char *service, int type)
+{
+	struct addrinfo *result_sav = NULL;
+	struct addrinfo *result = NULL;
+	struct addrinfo hints;
+
+	memset(&hints, 0, sizeof(struct addrinfo));
+
+	hints.ai_addr = NULL;
+	hints.ai_canonname = NULL;
+	hints.ai_next = NULL;
+	hints.ai_family = AF_UNSPEC;
+	hints.ai_socktype = type;
+
+	int ret = getaddrinfo(host, service, &hints, &result);
+	if (ret != 0) {
+		baa_info_msg(_("getaddrinfo in %s with %s"), __FUNCTION__,
+			     gai_strerror(ret));
+		return -1;
+	}
+
+	result_sav = result;
+
+	int sfd = -1;
+	do {
+                sfd = socket(result->ai_family,
+			     result->ai_socktype,
+			     result->ai_protocol);
+                if (sfd == -1)
+                        continue;
+
+		/* take the first valid socket */
+		if (connect(sfd, result->ai_addr, result->ai_addrlen) == 0)
+			break;
+
+                if (close(sfd) == -1) {
+			fprintf(stderr, "close\n");
+			return -1;
+		}
+
+        } while ((result = result->ai_next) != NULL);
+
+	freeaddrinfo(result_sav);
+
+	if (result == NULL) {
+		fprintf(stderr, "something went wrong\n");
+		return -1;
+	}
+
+	return sfd;
+}

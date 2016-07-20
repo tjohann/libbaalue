@@ -166,7 +166,7 @@ typedef struct {
 
 #define _(string) gettext(string)
 
-#define PRINT_LOCATION() do {			      \
+#define BAA_PRINT_LOCATION() do {		      \
 		info_msg(_("Your're in %s of %s"),    \
 			 __FUNCTION__, __FILE__);     \
 	} while (0)

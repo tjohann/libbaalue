@@ -37,6 +37,8 @@ PKG_PROG_PKG_CONFIG
 
 # Checks for libraries.
 PKG_CHECK_MODULES([LIBCAPNG], [libcap-ng])
+PKG_CHECK_MODULES([LIBGIT2], [libgit2])
+PKG_CHECK_MODULES([LIBCURL], [libcurl])
 
 # checks for header files.
 AC_HEADER_STDC

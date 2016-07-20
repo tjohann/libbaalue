@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libbaalue trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-07-18 14:25+0200\n"
+"POT-Creation-Date: 2016-07-20 09:01+0200\n"
 "PO-Revision-Date: 2016-04-28 18:47+0200\n"
 "Last-Translator:  <thorsten.johannvorderbrueggen@t-online.de>\n"
 "Language-Team: German\n"
@@ -399,6 +399,11 @@ msgstr ""
 #: src/network.c:167
 #, c-format
 msgid "assembled name %s"
+msgstr ""
+
+#: src/network.c:193
+#, c-format
+msgid "getaddrinfo in %s with %s"
 msgstr ""
 
 #: src/process.c:60
