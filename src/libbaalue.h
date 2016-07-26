@@ -224,6 +224,12 @@ baa_show_clock_resolution(clockid_t clock_type);
 int
 baa_drop_capability(int hold_capability);
 
+char *
+baa_strupr(char* str);
+
+char *
+baa_strlwr(char* str);
+
 
 /*
  * network.c

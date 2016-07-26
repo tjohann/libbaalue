@@ -402,3 +402,25 @@ drop_capability(int hold_capability)
 
 	return 0;
 }
+
+BAALUE_EXPORT char *
+baa_strlwr(char* str)
+{
+    char* s = str;
+
+    for (;*s;++s)
+        *s = tolower((unsigned char) *s);
+
+    return str;
+}
+
+BAALUE_EXPORT char *
+baa_strupr(char* str)
+{
+    char* s = str;
+
+    for (;*s;++s)
+        *s = toupper((unsigned char) *s);
+
+    return str;
+}
