@@ -93,8 +93,8 @@ heap_prefault(size_t size)
 	return 0;
 }
 
-static inline
-void ts_norm(struct timespec *t)
+BAALUE_EXPORT void
+baa_ts_norm(struct timespec *t)
 {
 	while (t->tv_nsec >= NSEC_PER_SEC) {
 		t->tv_nsec -= NSEC_PER_SEC;
@@ -139,7 +139,7 @@ baa_fiber(void *arg)
 		fiber->func();
 
 		fiber->t.tv_nsec += fiber->dt;
-		ts_norm(&fiber->t);
+		baa_ts_norm(&fiber->t);
 	}
 
 	return NULL;

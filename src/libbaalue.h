@@ -428,6 +428,9 @@ baa_is_fiber_config_valid(fiber_element_t fiber_array[], int count);
 void *
 baa_schedule_server_th(void *args);
 
+void
+baa_ts_norm(struct timespec *t);
+
 
 /*
  * can_lin.c
