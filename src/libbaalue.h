@@ -25,7 +25,7 @@
 #endif
 #define _GNU_SOURCE
 
-// more or less common inc
+/* more or less common inc */
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -57,10 +57,10 @@
 #include <semaphore.h>
 #include <sys/syscall.h>
 
-// inotify inc
+/* inotify inc */
 #include <sys/inotify.h>
 
-// more or less network related inc
+/* more or less network related inc */
 #include <netinet/in.h>
 #include <netdb.h>
 #include <sys/socket.h>
@@ -69,31 +69,31 @@
 #include <net/if.h>
 #include <netpacket/packet.h>
 
-// libconfig
+/* libconfig */
 #include <libconfig.h>
 
-// autotools generated config
+/* autotools generated config */
 #include <config.h>
 
-// getopt and locale realted inc
+/* getopt and locale realted inc */
 #include <getopt.h>
 #include <libintl.h>
 #include <locale.h>
 #include "gettext.h"
 
-// libgit2
+/* libgit2 */
 #include <git2.h>
 #include <git2/clone.h>
 
-// libcurl
+/* libcurl */
 #include <curl/curl.h>
 
-// libarchive
-#include <archive.h>
-#include <archive_entry.h>
+/* libarchive -> actually not needed */
+/* #include <archive.h>
+   #include <archive_entry.h> */
 
-// libressl
-#include <openssl/sha.h>
+/* libressl -> actually not needed */
+/* #include <openssl/sha.h> */
 
 // libcap-ng
 #include <cap-ng.h>
@@ -139,10 +139,10 @@ extern "C" {
  * common types
  * -------------
  */
-// shortcut for old signal api (signal_old())
+/* shortcut for old signal api (signal_old()) */
 typedef	void sigfunc(int);
 
-// one function as part of the scheduling table
+/* one function as part of the scheduling table */
 typedef struct {
 	pthread_t tid;
 	pid_t kernel_tid;
@@ -312,42 +312,43 @@ baa_print_num_cpu();
  * +---------------------+------------+------------+--------------------------+
  */
 
-// print error message and exit
+/* print error message and exit */
 void
 __attribute__((noreturn)) baa_error_exit(const char *fmt, ...);
 
+/* print info message and exit */
 void
 __attribute__((noreturn)) baa_info_exit(const char *fmt, ...);
 
-// print error message and dump/exit
+/* print error message and dump/exit */
 void
 __attribute__((noreturn)) baa_dump_exit(const char *fmt, ...);
 
-// print error message
+/* print error message */
 void
 baa_error_msg(const char *fmt, ...);
 
-// print info message
+/* print info message */
 void
 baa_info_msg(const char *fmt, ...);
 
-// print debug message
+/* print debug message */
 void
 baa_debug_msg(const char *fmt, ...);
 
-// print error message with errno = errno_val
+/* print error message with errno = errno_val */
 void
 baa_th_error_msg(int errno_val, const char *fmt, ...);
 
-// print error message with errno = errno_val and dump/exit
+/* print error message with errno = errno_val and dump/exit */
 void
 __attribute__((noreturn)) baa_th_dump_exit(int errno_val, const char *fmt, ...);
 
-// print error message with errno = errno_val and exit
+/* print error message with errno = errno_val and exit */
 void
 __attribute__((noreturn)) baa_th_error_exit(int errno_val, const char *fmt, ...);
 
-// enable/disable logging via syslog
+/* enable/disable logging via syslog */
 void
 baa_enable_syslog(bool use_it, const char *name);
 
