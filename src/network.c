@@ -23,10 +23,15 @@
 #define USE_PID 0x01
 #define USE_BIND 0x02
 #define USE_CONNECT 0x04
+#define USE_LISTEN 0x08
 
 // buffer 10 connection
 #define BACKLOG 10
 
+
+/*
+ * unix domain socket
+ */
 static int
 uds_socket(const char *name, const char *dir, char **socket_f, int type,
 	   unsigned char flags)
@@ -171,12 +176,11 @@ baa_get_uds_name_s(const char *file, const char *dir)
 
 
 /*
- * TODO ....
+ * inet socket -> client side
  */
 static int
 connect_inet_socket(const char *host, const char *service, int type)
 {
-	struct addrinfo *result_sav = NULL;
 	struct addrinfo *result = NULL;
 	struct addrinfo hints;
 
@@ -195,8 +199,6 @@ connect_inet_socket(const char *host, const char *service, int type)
 		return -1;
 	}
 
-	result_sav = result;
-
 	int sfd = -1;
 	do {
                 sfd = socket(result->ai_family,
@@ -205,23 +207,124 @@ connect_inet_socket(const char *host, const char *service, int type)
                 if (sfd == -1)
                         continue;
 
-		/* take the first valid socket */
-		if (connect(sfd, result->ai_addr, result->ai_addrlen) == 0)
+		/* take the first valid one */
+		ret = connect(sfd, result->ai_addr, result->ai_addrlen);
+		if (ret == 0)
 			break;
 
-                if (close(sfd) == -1) {
-			fprintf(stderr, "close\n");
-			return -1;
-		}
+                close(sfd);
 
         } while ((result = result->ai_next) != NULL);
 
-	freeaddrinfo(result_sav);
-
 	if (result == NULL) {
-		fprintf(stderr, "something went wrong\n");
+		baa_error_msg(_("something went wrong"));
+		close(sfd);
+		return -1;
+	} else {
+		freeaddrinfo(result);
+	}
+
+	return sfd;
+}
+
+
+BAALUE_EXPORT int
+baa_inet_dgram_client(const char *host, const char *service)
+{
+	return connect_inet_socket(host, service, SOCK_DGRAM);
+}
+
+BAALUE_EXPORT int
+baa_inet_stream_client(const char *host, const char *service)
+{
+	return connect_inet_socket(host, service, SOCK_STREAM);
+}
+
+
+/*
+ * inet socket -> server side
+ */
+int
+inet_socket(const char *host, const char *service, int type,
+	    unsigned char flags)
+{
+	struct addrinfo *result = NULL;
+	struct addrinfo hints;
+
+	memset(&hints, 0, sizeof(struct addrinfo));
+
+	hints.ai_addr = NULL;
+	hints.ai_canonname = NULL;
+	hints.ai_next = NULL;
+	hints.ai_family = AF_UNSPEC;
+	hints.ai_flags = AI_PASSIVE;
+	hints.ai_socktype = type;
+
+	int ret = getaddrinfo(host, service, &hints, &result);
+	if (ret != 0) {
+		baa_info_msg(_("getaddrinfo in %s with %s"), __FUNCTION__,
+			     gai_strerror(ret));
 		return -1;
 	}
+
+	int sfd = -1;
+	int opt_val = 1;
+	do {
+                sfd = socket(result->ai_family,
+			     result->ai_socktype,
+			     result->ai_protocol);
+                if (sfd == -1)
+                        continue;
+
+		if (flags & USE_LISTEN) {
+			ret = setsockopt(sfd, SOL_SOCKET, SO_REUSEADDR,
+					 &opt_val, sizeof(opt_val));
+			if (ret == -1) {
+				baa_error_msg(_("setsockopt in %s"),
+					      __FUNCTION__);
+				goto error;
+			}
+		}
+
+		/* take the first valid one */
+		ret = bind(sfd, result->ai_addr, result->ai_addrlen);
+		if (ret == 0)
+                        break;
+
+		close(sfd);
+
+        } while ((result = result->ai_next) != NULL);
+
+	if (result == NULL) {
+		baa_error_msg(_("something went wrong"));
+		goto error;
+	} else {
+		freeaddrinfo(result);
+	}
+
+	return sfd;
+error:
+	if (result != NULL)
+		freeaddrinfo(result);
+
+	close(sfd);
+
+	return -1;
+}
+
+BAALUE_EXPORT int
+baa_inet_dgram_server(const char *host, const char *service)
+{
+	return inet_socket(host, service, SOCK_DGRAM, 0);
+}
+
+BAALUE_EXPORT int
+baa_inet_stream_server(const char *host, const char *service)
+{
+	int sfd = inet_socket(host, service, SOCK_DGRAM, USE_LISTEN);
+
+	if (listen(sfd, BACKLOG) == -1)
+		baa_error_exit(_("listen in %s"), __FUNCTION__);
 
 	return sfd;
 }

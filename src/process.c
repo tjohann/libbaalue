@@ -156,7 +156,7 @@ baa_print_priority_range(int policy)
 BAALUE_EXPORT void
 baa_print_sched_time_slice_ms(pid_t pid)
 {
-	baa_info_msg("time slice for pid %ld in ms %ld",
+	baa_info_msg(_("time slice for pid %ld in ms %ld"),
 		(long) pid, baa_get_sched_time_slice_ms(pid));
 }
 
@@ -167,6 +167,6 @@ baa_print_num_cpu()
 
 	baa_get_num_cpu(&cpu_conf, &cpu_onln);
 
-	baa_info_msg("number configured cpu's %d", cpu_conf);
-	baa_info_msg("number online cpu's %d", cpu_onln);
+	baa_info_msg(_("number configured cpu's %d"), cpu_conf);
+	baa_info_msg(_("number online cpu's %d"), cpu_onln);
 }

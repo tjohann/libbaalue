@@ -254,6 +254,18 @@ baa_unlink_uds(int sfd);
 char *
 baa_get_uds_name_s(const char *file, const char *dir);
 
+int
+baa_inet_dgram_client(const char *host, const char *service);
+
+int
+baa_inet_stream_client(const char *host, const char *service);
+
+int
+baa_inet_dgram_server(const char *host, const char *service);
+
+int
+baa_inet_stream_server(const char *host, const char *service);
+
 
 /*
  * process.c

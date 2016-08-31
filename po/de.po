@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libbaalue trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-07-20 09:01+0200\n"
+"POT-Creation-Date: 2016-08-30 11:31+0200\n"
 "PO-Revision-Date: 2016-04-28 18:47+0200\n"
 "Last-Translator:  <thorsten.johannvorderbrueggen@t-online.de>\n"
 "Language-Team: German\n"
@@ -243,7 +243,7 @@ msgstr ""
 msgid "open() at line %d"
 msgstr ""
 
-#: src/helper.c:242 src/network.c:51
+#: src/helper.c:242 src/network.c:56
 #, c-format
 msgid "couln't unlink %s"
 msgstr ""
@@ -338,72 +338,81 @@ msgstr ""
 msgid "can't set capability -> %s"
 msgstr ""
 
-#: src/network.c:56
+#: src/network.c:61
 #, c-format
 msgid "strlen(str) > sizeof(add.sun_path) in %s"
 msgstr ""
 
-#: src/network.c:62
+#: src/network.c:67
 #, c-format
 msgid "use %s as socket"
 msgstr ""
 
-#: src/network.c:66
+#: src/network.c:71
 #, c-format
 msgid "could not open socket in %s"
 msgstr ""
 
-#: src/network.c:73
+#: src/network.c:78
 msgid "could not bind socket"
 msgstr ""
 
-#: src/network.c:78
+#: src/network.c:83
 msgid "could not connect socket"
 msgstr ""
 
-#: src/network.c:82
+#: src/network.c:87
 #, c-format
 msgid "sfd_f == NULL %s"
 msgstr ""
 
-#: src/network.c:103
+#: src/network.c:108 src/network.c:327
 #, c-format
 msgid "listen in %s"
 msgstr ""
 
-#: src/network.c:127
+#: src/network.c:132
 #, c-format
 msgid "could not get sun_path in %s"
 msgstr ""
 
-#: src/network.c:131
+#: src/network.c:136
 #, c-format
 msgid "no such file %s"
 msgstr ""
 
-#: src/network.c:133
+#: src/network.c:138
 #, c-format
 msgid "could not unlink %s in %s"
 msgstr ""
 
-#: src/network.c:154
+#: src/network.c:159
 #, c-format
 msgid "strlen(tmp_s) > sizeof(add.sun_path) in %s"
 msgstr ""
 
-#: src/network.c:161
+#: src/network.c:166
 #, c-format
 msgid "str == NULL %s"
 msgstr ""
 
-#: src/network.c:167
+#: src/network.c:172
 #, c-format
 msgid "assembled name %s"
 msgstr ""
 
-#: src/network.c:193
+#: src/network.c:197 src/network.c:265
 #, c-format
 msgid "getaddrinfo in %s with %s"
+msgstr ""
+
+#: src/network.c:220 src/network.c:299
+msgid "something went wrong"
+msgstr ""
+
+#: src/network.c:283
+#, c-format
+msgid "setsockopt in %s"
 msgstr ""
 
 #: src/process.c:60
@@ -469,6 +478,21 @@ msgstr ""
 #: src/process.c:151
 #, c-format
 msgid "priority range makes no sense for policy %d (must be 0)"
+msgstr ""
+
+#: src/process.c:159
+#, c-format
+msgid "time slice for pid %ld in ms %ld"
+msgstr ""
+
+#: src/process.c:170
+#, c-format
+msgid "number configured cpu's %d"
+msgstr ""
+
+#: src/process.c:171
+#, c-format
+msgid "number online cpu's %d"
 msgstr ""
 
 #: src/serialize.c:161 src/serialize.c:224
