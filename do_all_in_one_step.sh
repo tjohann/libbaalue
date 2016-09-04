@@ -8,6 +8,9 @@ autoreconf --install || exit 1
 #./configure --prefix=/usr/local
 ./configure CFLAGS='-g -O2' --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib
 
+# disable examples
+# ./configure CFLAGS='-g -O2' --disable-examples --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib
+
 cd po
 make update-po
 

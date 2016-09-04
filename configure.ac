@@ -8,7 +8,7 @@ AC_CONFIG_MACRO_DIR([build-aux/m4])
 
 AM_CONFIG_HEADER(config.h)
 
-AC_CONFIG_FILES([Makefile src/Makefile po/Makefile.in libbaalue.pc])
+AC_CONFIG_FILES([Makefile src/Makefile po/Makefile.in examples/Makefile libbaalue.pc])
 
 AM_GNU_GETTEXT_VERSION([0.19.7])
 AM_GNU_GETTEXT([external])
@@ -30,6 +30,12 @@ LT_INIT
 # -> ./configure --enable-silent-rules to get quite build behaviour
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([no])])
 
+# disable build of examples
+AC_ARG_ENABLE([examples],
+	[AC_HELP_STRING([--disable-examples], [don't build examples])],
+	[], [enable_examples=yes])
+AM_CONDITIONAL([ENABLE_EXAMPLES], [test "$enable_examples" = yes])
+
 # ------
 
 # checks for programs.
@@ -50,11 +56,14 @@ AC_C_CONST
 # checks for library functions.
 AC_CHECK_FUNCS([strcasecmp strdup strndup])
 
+AC_CHECK_LIB([rt], [shm_open], [SHM_LIBS="-lrt"], [SHM_LIBS=""])
+AC_SUBST(SHM_LIBS)
+
 AC_OUTPUT
 
 AC_MSG_RESULT([
         $PACKAGE $VERSION
-        ========
+        =======================================
 
         prefix:                 ${prefix}
         sysconfdir:             ${sysconfdir}

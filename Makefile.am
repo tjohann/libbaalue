@@ -1,6 +1,6 @@
 # Makefile.am
 
-CLEANFILES       = *~ '\#*\#'
+CLEANFILES = *~ '\#*\#'
 
 AM_LDFLAGS = -Wl,--gc-sections -Wl,--as-needed
 AM_CFLAGS = -Wall 		\
@@ -25,4 +25,8 @@ doc_DATA = README.md AUTHORS COPYING
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libbaalue.pc
 
-SUBDIRS = src po
+EXAMPLES         =
+if ENABLE_EXAMPLES
+  EXAMPLES      += examples
+endif
+SUBDIRS          = src po $(EXAMPLES)
