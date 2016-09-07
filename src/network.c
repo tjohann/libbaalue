@@ -227,7 +227,6 @@ connect_inet_socket(const char *host, const char *service, int type)
 	return sfd;
 }
 
-
 BAALUE_EXPORT int
 baa_inet_dgram_client(const char *host, const char *service)
 {
