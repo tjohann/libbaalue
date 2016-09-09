@@ -98,7 +98,7 @@ signal_handler(void *args)
  * a kernel-tid.
  *
  * -> this process is the unix domain server
- *    (./time_triggert_udp_server)
+ *    (sudo ./time_triggert_udp_server)
  * -> the client process is time_triggert_uds.c
  *    (./time_triggert_uds -d /var/tmp -f lt-time_triggert_uds_server.socket)
  */
@@ -116,9 +116,9 @@ int main(int argc, char *argv[])
 	/*
 	 * we dont need root rights
 	 */
-	err = baa_drop_capability(CAP_SYS_NICE);
-	if (err == -1)
-		exit(EXIT_FAILURE);
+	//err = baa_drop_capability(CAP_SYS_NICE);
+	//if (err == -1)
+	//	exit(EXIT_FAILURE);
 
 	show_some_infos();
 

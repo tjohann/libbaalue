@@ -81,12 +81,15 @@ Below the folder examples you find some usecases of libbaalue. All server are im
 
 UDS (unix domain socket server/client):
 
-This examples show how to use a unix domain socket to configure a threads in an unrelated process. The predefined thread baa_schedule_server_th does the "magic". It controlls via the protocol typ PTYPE_SCHED_PROPS the policy (SCHED_FIFO/...), the cpu affinity and the schedule priority for a kernel-tid.
+This examples show how to use a unix domain socket to configure a threads in an unrelated process. The predefined thread baa_schedule_server_th does the "magic". It controls via the protocol typ PTYPE_SCHED_PROPS the policy (SCHED_FIFO/...), the cpu affinity and the schedule priority for different threads.
+
+To set the properties of a thread the server must be started with root rights, but it drops all except CAP_SYS_NICE.
 
 	uds_server -> create a uds server and wait for kdo's
-	              ./time_triggert_udp_server
+	              sudo ./time_triggert_udp_server
+
 	uds_client -> send some kdo to the server and plot the output to stdout
-	              ./time_triggert_uds -d /var/tmp -f lt-time_triggert_uds_server.socket
+	              ./time_triggert_uds -d /tmp -f lt-time_triggert_uds_server.socket
 
 
 UDP (inet datagram socket server/client):
@@ -112,10 +115,3 @@ Time-Triggert (unix domain socket server/client)
 Time-Triggert (inet datagram socket server/client)
 
 	the same like the uds example but here via UDP
-
-
-
-TO_REMOVE:
-http://www.thomasstover.com/uds.html
-http://man7.org/tlpi/code/online/book/sockets/scm_cred_recv.c.html
-http://man7.org/tlpi/code/online/book/sockets/scm_cred_send.c.html

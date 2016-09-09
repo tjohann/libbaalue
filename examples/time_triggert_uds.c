@@ -291,7 +291,7 @@ signal_handler(void *args)
  * -> this process hold the schedule table (the client)
  *    (./time_triggert_uds -d /var/tmp -f lt-time_triggert_uds_server.socket )
  * -> this process is the unix domain server
- *    (./time_triggert_udp_server)
+ *    (sudo ./time_triggert_udp_server)
  */
 int main(int argc, char *argv[])
 {
