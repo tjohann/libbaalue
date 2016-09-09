@@ -30,11 +30,16 @@ LT_INIT
 # -> ./configure --enable-silent-rules to get quite build behaviour
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([no])])
 
-# disable build of examples
+# disable build of all examples
 AC_ARG_ENABLE([examples],
 	[AC_HELP_STRING([--disable-examples], [don't build examples])],
 	[], [enable_examples=yes])
 AM_CONDITIONAL([ENABLE_EXAMPLES], [test "$enable_examples" = yes])
+
+# enable debugging
+AC_ARG_ENABLE([debug],
+	[  --enable-debug          build with additional debugging code],
+	[CFLAGS="${CFLAGS} -g"; AC_DEFINE([__DEBUG__], 1, [Enable debug infos])])
 
 # ------
 
@@ -56,8 +61,12 @@ AC_C_CONST
 # checks for library functions.
 AC_CHECK_FUNCS([strcasecmp strdup strndup])
 
-AC_CHECK_LIB([rt], [shm_open], [SHM_LIBS="-lrt"], [SHM_LIBS=""])
-AC_SUBST(SHM_LIBS)
+AC_CHECK_LIB([rt], [shm_open],
+			[],
+			[AC_MSG_ERROR([** Could not find librt **])])
+AC_CHECK_LIB([pthread], [pthread_create],
+			[],
+			[AC_MSG_ERROR([** Could not find libpthread **])])
 
 AC_OUTPUT
 

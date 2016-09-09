@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libbaalue trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-08-30 11:31+0200\n"
+"POT-Creation-Date: 2016-09-09 14:32+0200\n"
 "PO-Revision-Date: 2016-04-28 18:47+0200\n"
 "Last-Translator:  <thorsten.johannvorderbrueggen@t-online.de>\n"
 "Language-Team: German\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/libbaalue.h:170
+#: src/libbaalue.h:171
 #, c-format
 msgid "Your're in %s of %s"
 msgstr ""
@@ -248,92 +248,92 @@ msgstr ""
 msgid "couln't unlink %s"
 msgstr ""
 
-#: src/helper.c:249 src/sh_mem.c:42
+#: src/helper.c:250 src/sh_mem.c:42
 #, c-format
 msgid "could not open %s"
 msgstr ""
 
-#: src/helper.c:252
+#: src/helper.c:254
 #, c-format
 msgid "use %s as pid file"
 msgstr ""
 
-#: src/helper.c:256
+#: src/helper.c:258
 #, c-format
 msgid "pid_file == NULL %s"
 msgstr ""
 
-#: src/helper.c:263 src/helper.c:268
+#: src/helper.c:265 src/helper.c:270
 #, c-format
 msgid "could not set flag for %s"
 msgstr ""
 
-#: src/helper.c:272
+#: src/helper.c:274
 #, c-format
 msgid "pid file %s already in-use"
 msgstr ""
 
-#: src/helper.c:274
+#: src/helper.c:276
 #, c-format
 msgid "could not lock region in pid file: %s"
 msgstr ""
 
-#: src/helper.c:284
+#: src/helper.c:287
 #, c-format
 msgid "could not truncate pid file %s"
 msgstr ""
 
-#: src/helper.c:290
+#: src/helper.c:294
 #, c-format
 msgid "could not write %s to file %s"
 msgstr ""
 
-#: src/helper.c:306
+#: src/helper.c:310
 #, c-format
 msgid "named semaphore %s already exist"
 msgstr ""
 
-#: src/helper.c:320
+#: src/helper.c:324
 #, c-format
 msgid "could not open named semaphore %s"
 msgstr ""
 
-#: src/helper.c:331
+#: src/helper.c:335
 #, c-format
 msgid "could not unlink named semaphore %s"
 msgstr ""
 
-#: src/helper.c:338
+#: src/helper.c:342
 msgid "could not close named semaphore"
 msgstr ""
 
-#: src/helper.c:348
+#: src/helper.c:352
 #, c-format
 msgid "uname at line %d"
 msgstr ""
 
-#: src/helper.c:351
+#: src/helper.c:355
 msgid "NO preempt kernel"
 msgstr ""
 
-#: src/helper.c:358
-msgid "Kernel is a RT-PREEMPT kernel"
+#: src/helper.c:362
+msgid "kernel is a RT-PREEMPT kernel"
 msgstr ""
 
-#: src/helper.c:361 src/helper.c:365
-msgid "Kernel is a PREEMPT kernel"
+#: src/helper.c:365 src/helper.c:369
+msgid "kernel is a PREEMPT kernel"
 msgstr ""
 
-#: src/helper.c:382
+#: src/helper.c:386
 #, c-format
-msgid "Clock resoultion is %lu nsec"
+msgid "clock resoultion is %lu nsec"
 msgstr ""
 
-#: src/helper.c:384
-msgid "Can't get clock resolution"
+#: src/helper.c:388
+msgid "could not get clock resolution"
 msgstr ""
 
-#: src/helper.c:395
+#: src/helper.c:399
 #, c-format
 msgid "can't set capability -> %s"
 msgstr ""
@@ -366,7 +366,7 @@ msgstr ""
 msgid "sfd_f == NULL %s"
 msgstr ""
 
-#: src/network.c:108 src/network.c:327
+#: src/network.c:108 src/network.c:326
 #, c-format
 msgid "listen in %s"
 msgstr ""
@@ -388,7 +388,7 @@ msgstr ""
 
 #: src/network.c:159
 #, c-format
-msgid "strlen(tmp_s) > sizeof(add.sun_path) in %s"
+msgid "strlen(tmp_str) > sizeof(add.sun_path) in %s"
 msgstr ""
 
 #: src/network.c:166
@@ -401,16 +401,16 @@ msgstr ""
 msgid "assembled name %s"
 msgstr ""
 
-#: src/network.c:197 src/network.c:265
+#: src/network.c:197 src/network.c:264
 #, c-format
 msgid "getaddrinfo in %s with %s"
 msgstr ""
 
-#: src/network.c:220 src/network.c:299
+#: src/network.c:220 src/network.c:298
 msgid "something went wrong"
 msgstr ""
 
-#: src/network.c:283
+#: src/network.c:282
 #, c-format
 msgid "setsockopt in %s"
 msgstr ""
@@ -518,6 +518,21 @@ msgstr ""
 msgid "could not unlink %"
 msgstr ""
 
-#: src/wrapper.c:33
+#: src/wrapper.c:34
 msgid "FATAL: could not close fd"
+msgstr ""
+
+#: examples/time_triggert_uds.c:240 examples/time_triggert_uds_server.c:39
+msgid "finalize cleanup"
+msgstr ""
+
+#: examples/time_triggert_uds.c:246 examples/time_triggert_uds_server.c:45
+#: examples/time_triggert_uds_server.c:48
+#, c-format
+msgid "could not remove %s"
+msgstr ""
+
+#: examples/time_triggert_uds.c:248 examples/time_triggert_uds_server.c:50
+#, c-format
+msgid "cheers %s"
 msgstr ""

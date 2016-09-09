@@ -139,7 +139,7 @@ extern "C" {
  * common types
  * -------------
  */
-/* shortcut for old signal api (signal_old()) */
+/* shortcut for old signal api (baa_signal_old()) */
 typedef	void sigfunc(int);
 
 /* one function as part of the scheduling table */
@@ -163,12 +163,13 @@ typedef struct {
  */
 #define NSEC_PER_SEC 1000000000
 #define NS_TO_MS(val) (val / 1000000)
+#define MS_TO_NS(val) (val * 1000000)
 
 #define _(string) gettext(string)
 
 #define BAA_PRINT_LOCATION() do {		      \
-		info_msg(_("Your're in %s of %s"),    \
-			 __FUNCTION__, __FILE__);     \
+		baa_info_msg(_("Your're in %s of %s"),    \
+			     __FUNCTION__, __FILE__);     \
 	} while (0)
 
 
@@ -252,7 +253,7 @@ int
 baa_unlink_uds(int sfd);
 
 char *
-baa_get_uds_name_s(const char *file, const char *dir);
+baa_create_uds_name_string(const char *file, const char *dir);
 
 int
 baa_inet_dgram_client(const char *host, const char *service);

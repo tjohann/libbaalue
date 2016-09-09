@@ -164,7 +164,7 @@ baa_set_cloexec(int fd)
 BAALUE_EXPORT int
 baa_become_daemon(void)
 {
-	umask(0);
+	/* umask(0); */
 
 	pid_t pid = fork();
 	if (pid == -1) {
@@ -243,10 +243,12 @@ baa_create_file_with_pid(const char *name, const char *dir)
 
 	fd = open(str, access_mode, user_mode);
 open_cmd:
-	if (fd == -1 && errno == EINTR)
-		goto open_cmd;
-	else
+	if (fd == -1) {
+		if (errno == EINTR)
+			goto open_cmd;
+
 		baa_error_exit(_("could not open %s"), str);
+	}
 
 #ifdef __DEBUG__
 	baa_info_msg(_("use %s as pid file"), str);
@@ -278,10 +280,12 @@ open_cmd:
 	int ret = -1;
 ftruncate_cmd:
 	ret = ftruncate(fd, 0);
-	if (ret == -1 && errno == EINTR)
-		goto ftruncate_cmd;
-	else
+	if (ret == -1) {
+		if (errno == EINTR)
+			goto ftruncate_cmd;
+
 		baa_error_exit(_("could not truncate pid file %s"), str);
+	}
 
 	memset(str, 0, MAXLINE);
 	n = snprintf(str, MAXLINE, "%ld\n", (long) getpid());
@@ -355,14 +359,14 @@ baa_check_for_rtpreempt()
 	int flag;
 	if ((fd = fopen("/sys/kernel/realtime","r")) != NULL) {
 		if ((fscanf(fd, "%d", &flag) == 1) && (flag == 1)) {
-			baa_info_msg(_("Kernel is a RT-PREEMPT kernel"));
+			baa_info_msg(_("kernel is a RT-PREEMPT kernel"));
 			goto out;
 		} else {
-			baa_info_msg(_("Kernel is a PREEMPT kernel"));
+			baa_info_msg(_("kernel is a PREEMPT kernel"));
 			goto out;
 		}
 	} else {
-		baa_info_msg(_("Kernel is a PREEMPT kernel"));
+		baa_info_msg(_("kernel is a PREEMPT kernel"));
 		goto out;
 	}
 
@@ -374,18 +378,18 @@ out:
 }
 
 BAALUE_EXPORT void
-show_clock_resolution(clockid_t clock_type)
+baa_show_clock_resolution(clockid_t clock_type)
 {
 	struct timespec res;
 
 	if (clock_getres(clock_type, &res) == 0)
-		baa_info_msg(_("Clock resoultion is %lu nsec"), res.tv_nsec);
+		baa_info_msg(_("clock resoultion is %lu nsec"), res.tv_nsec);
 	else
-		baa_error_msg(_("Can't get clock resolution"));
+		baa_error_msg(_("could not get clock resolution"));
 }
 
 BAALUE_EXPORT int
-drop_capability(int hold_capability)
+baa_drop_capability(int hold_capability)
 {
 	capng_clear(CAPNG_SELECT_BOTH);
 

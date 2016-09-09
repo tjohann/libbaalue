@@ -11,3 +11,10 @@ src/serialize.c
 src/sh_mem.c
 src/sh_mq.c
 src/wrapper.c
+
+examples/can_send.c
+examples/can_recv.c
+examples/time_triggert_uds.c
+examples/time_triggert_uds_server.c
+examples/uds_client.c
+examples/uds_server.c

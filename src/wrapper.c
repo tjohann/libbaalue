@@ -27,8 +27,10 @@ baa_wrap_close(int fd)
 
 close_cmd:
 	err = close(fd);
-	if (err == -1 && errno == EINTR)
-		goto close_cmd;
-	else
+	if (err == -1) {
+		if (errno == EINTR)
+			goto close_cmd;
+
 		baa_error_exit(_("FATAL: could not close fd"));
+	}
 }

@@ -64,7 +64,7 @@ uds_socket(const char *name, const char *dir, char **socket_f, int type,
 	}
 
 #ifdef __DEBUG__
-	info_msg(_("use %s as socket"), str);
+	baa_info_msg(_("use %s as socket"), str);
 #endif
 	sfd = socket(AF_UNIX, type, 0);
 	if (sfd == -1)
@@ -143,30 +143,30 @@ baa_unlink_uds(int sfd)
 }
 
 BAALUE_EXPORT char *
-baa_get_uds_name_s(const char *file, const char *dir)
+baa_create_uds_name_string(const char *file, const char *dir)
 {
 	if ((file == NULL) || (dir == NULL ))
 		return NULL;
 
-	char tmp_s[MAXLINE];
-	memset(tmp_s, 0, MAXLINE);
+	char tmp_str[MAXLINE];
+	memset(tmp_str, 0, MAXLINE);
 
-	int n = snprintf(tmp_s, MAXLINE,"%s/%s", dir, file);
+	int n = snprintf(tmp_str, MAXLINE,"%s/%s", dir, file);
 
 	struct sockaddr_un addr;
 	memset(&addr, 0, sizeof(struct sockaddr_un));
-	if (strlen(tmp_s) > sizeof(addr.sun_path)) {
-		baa_info_msg(_("strlen(tmp_s) > sizeof(add.sun_path) in %s"),
+	if (strlen(tmp_str) > sizeof(addr.sun_path)) {
+		baa_info_msg(_("strlen(tmp_str) > sizeof(add.sun_path) in %s"),
 			__FUNCTION__);
 		return NULL;
 	}
 
 	char *str = malloc(n + 1);
 	if (str == NULL)
-		baa_error_exit(_("str == NULL %s"), tmp_s);
+		baa_error_exit(_("str == NULL %s"), tmp_str);
 
 	memset(str, 0, n + 1);
-	strncpy(str, tmp_s, n);
+	strncpy(str, tmp_str, n);
 
 #ifdef __DEBUG__
 	baa_info_msg(_("assembled name %s"), str);

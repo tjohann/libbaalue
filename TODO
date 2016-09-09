@@ -4,6 +4,13 @@
 
 
 #
+# -------------- 2016-09-09 ----------------------------------------------------
+#
+- implement function to set owner and permissions of a
+  unix domain socket (chown(2) chmod(2))
+
+
+#
 # -------------- 2016-07-31 ----------------------------------------------------
 #
 - get rid of libbsd                                         [2016-07-XX -> done]
