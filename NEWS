@@ -2,6 +2,13 @@
 # some news ... see also TODO for hints
 #
 
+2016-09-13 -> a lot of smaller fixes around autotools
+	      make code build with c89
+	      add some first content for can_send/recv
+	      add vcan scripts
+	      fix some minor code bugs
+	      add skeleton for man page
+
 2016-09-09 -> add time triggert example
 	      fix some wrong exports of helper functions
 	      fix some minor bugs

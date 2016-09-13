@@ -78,7 +78,8 @@ baa_print_cpu_affinity(pid_t pid, size_t max)
 	if (ret == -1) {
 		baa_error_msg("could not get affinity for pid %ld", (long) pid);
 	} else {
-		for (size_t i = 0; i < max; i++) {
+		size_t i;
+		for (i = 0; i < max; i++) {
 			int cpu;
 
 			cpu = CPU_ISSET(i, &set);

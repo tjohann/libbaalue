@@ -1,4 +1,6 @@
+#
 # configure.ac
+#
 
 AC_INIT([libbaalue], [trunk], [thorsten.johannvorderbrueggen@t-online.de])
 AC_COPYRIGHT([Copyright 2016, Thorsten Johannvorderbrueggen])
@@ -8,57 +10,84 @@ AC_CONFIG_MACRO_DIR([build-aux/m4])
 
 AM_CONFIG_HEADER(config.h)
 
-AC_CONFIG_FILES([Makefile src/Makefile po/Makefile.in examples/Makefile libbaalue.pc])
+AC_CONFIG_FILES([Makefile		\
+		src/Makefile		\
+		po/Makefile.in		\
+		examples/Makefile	\
+		man/Makefile		\
+		scripts/Makefile	\
+		libbaalue.pc])
 
-AM_GNU_GETTEXT_VERSION([0.19.7])
+AM_GNU_GETTEXT_VERSION([0.19.8])
 AM_GNU_GETTEXT([external])
 
-AM_INIT_AUTOMAKE([-Wall dist-bzip2])
+AM_INIT_AUTOMAKE([-Wall dist-bzip2 silent-rules])
 
-# checks for programs.
+# checks for programs
 AC_PROG_CC
+# use standard version -> @today:c99
+#AC_PROG_CC_STDC
 AM_PROG_AR
-AM_PROG_LEX
-AC_PROG_CC_STDC
+AC_PROG_MKDIR_P
 
-LT_INIT
-#LT_INIT([
-#	disable-static
-#	pic-only
-#])
+# init libtool
+LT_INIT([pic-only])
 
-# -> ./configure --enable-silent-rules to get quite build behaviour
-m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([no])])
+# ./configure --enable-silent-rules/--disable-silent-rules
+AM_SILENT_RULES([yes])
 
-# disable build of all examples
+# enable build of examples
 AC_ARG_ENABLE([examples],
-	[AC_HELP_STRING([--disable-examples], [don't build examples])],
-	[], [enable_examples=yes])
+	AS_HELP_STRING([--enable-examples], [enable build examples @<:@default=disabled@:>@]),
+	[], [enable_examples=no])
 AM_CONDITIONAL([ENABLE_EXAMPLES], [test "$enable_examples" = yes])
 
-# enable debugging
+# enable debug info
 AC_ARG_ENABLE([debug],
-	[  --enable-debug          build with additional debugging code],
-	[CFLAGS="${CFLAGS} -g"; AC_DEFINE([__DEBUG__], 1, [Enable debug infos])])
+        AS_HELP_STRING([--enable-debug], [enable debug messages @<:@default=disabled@:>@]),
+        [], [enable_debug=no])
+AM_CONDITIONAL([__DEBUG__], [test "$enable_debug" = yes])
+
+# enable can scripts
+AC_ARG_ENABLE([scripts],
+        AS_HELP_STRING([--enable-scripts], [enable install of scripts @<:@default=disabled@:>@]),
+        [], [enable_scripts=no])
+AM_CONDITIONAL([ENABLE_SCRIPTS], [test "$enable_scripts" = yes])
+
+# my common CFLAGS
+my_CFLAGS="\
+-Wall \
+-Wchar-subscripts \
+-Wformat-security \
+-Wmissing-declarations \
+-Wmissing-prototypes \
+-Wnested-externs \
+-Wpointer-arith \
+-Wshadow \
+-Wsign-compare \
+-Wstrict-prototypes \
+-Wtype-limits
+"
+AC_SUBST([my_CFLAGS])
 
 # ------
 
-# checks for programs.
+# checks for more programs
 PKG_PROG_PKG_CONFIG
 
 # Checks for libraries.
 PKG_CHECK_MODULES([LIBCAPNG], [libcap-ng])
-PKG_CHECK_MODULES([LIBGIT2], [libgit2])
-PKG_CHECK_MODULES([LIBCURL], [libcurl])
+#PKG_CHECK_MODULES([LIBGIT2], [libgit2])
+#PKG_CHECK_MODULES([LIBCURL], [libcurl])
 
-# checks for header files.
+# checks for header files
 AC_HEADER_STDC
 AC_CHECK_HEADERS([unistd.h])
 
-# checks for typedefs, structures, and compiler characteristics.
+# checks for typedefs, structures, and compiler characteristics
 AC_C_CONST
 
-# checks for library functions.
+# checks for library functions and more
 AC_CHECK_FUNCS([strcasecmp strdup strndup])
 
 AC_CHECK_LIB([rt], [shm_open],
@@ -70,6 +99,7 @@ AC_CHECK_LIB([pthread], [pthread_create],
 
 AC_OUTPUT
 
+# show some basic config info
 AC_MSG_RESULT([
         $PACKAGE $VERSION
         =======================================
@@ -81,4 +111,8 @@ AC_MSG_RESULT([
 
         compiler:               ${CC}
         cflags:                 ${CFLAGS}
+
+        examples:               ${enable_examples}
+	debug:                  ${enable_debug}
+	scripts:		${enable_scripts}
 ])

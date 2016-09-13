@@ -1,18 +1,18 @@
 # Makefile.am
 
 EXTRA_DIST      = example01.dat
-noinst_PROGRAMS = 	time_triggert_uds 		\
-			time_triggert_uds_server	\
-			can_send 			\
-			can_recv 			\
-			uds_server 			\
-			uds_client			\
-			udp_server 			\
-			udp_client			\
-			time_triggert_udp		\
-			time_triggert_udp_server
+noinst_PROGRAMS = time_triggert_uds 		\
+		  time_triggert_uds_server	\
+		  can_send 			\
+		  can_recv 			\
+		  uds_server 			\
+		  uds_client			\
+		  udp_server 			\
+		  udp_client			\
+		  time_triggert_udp		\
+		  time_triggert_udp_server
 
-AM_CPPFLAGS     = -I$(top_srcdir)/src
+AM_CFLAGS     	= -I$(top_srcdir)/src $(my_CFLAGS)
 AM_LDFLAGS      = -L../src/
 
 LIBS            = $(LTLIBINTL)

@@ -42,11 +42,11 @@ static pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 		baa_info_msg("--------_BEGIN_-----------");		\
 		baa_info_msg(_("show REQUIRED values"));		\
 		baa_info_msg(_("all below for thread-id %d"),		\
-			(int) fiber->kernel_tid);			\
+			     (int) fiber->kernel_tid);			\
 		baa_info_msg(_("cpu %d"), fiber->cpu);			\
 		baa_info_msg(_("policy %d"), fiber->policy);		\
 		baa_info_msg(_("priority %d"),				\
-			fiber->sched_param.sched_priority);		\
+			     fiber->sched_param.sched_priority);	\
 		baa_info_msg("---------_END_------------");		\
 	} while (0)
 
@@ -85,8 +85,10 @@ heap_prefault(size_t size)
 	size_t len = size * BASE_SAFE_SIZE;
 
 	dummy = malloc(len);
-	if (dummy == NULL)
-		baa_error_exit(_("malloc in %s"), __FUNCTION__);
+	if (dummy == NULL) {
+		baa_error_msg(_("malloc in %s"), __FUNCTION__);
+		return -1;
+	}
 
 	memset(dummy, 0, len);
 
@@ -133,7 +135,7 @@ baa_fiber(void *arg)
 		s = clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &fiber->t, NULL);
 		if (s == EINTR)
 			baa_info_msg(_("interrupted by signal SIGINT handler in %s"),
-				__FUNCTION__);
+				     __FUNCTION__);
 
 		// call the function group
 		fiber->func();
@@ -150,7 +152,8 @@ baa_build_scheduler(fiber_element_t fiber_array[], int count)
 {
 	int ret = -1;
 
-	for (int i = 0; i < count; i++) {
+	int i;
+	for (i = 0; i < count; i++) {
 		ret = pthread_create(&fiber_array[i].tid,
 					 NULL,
 					 baa_fiber,
@@ -173,7 +176,8 @@ baa_set_schedule_props(fiber_element_t fiber_array[], int count)
 	cpu_set_t set;
 	fiber_element_t *fiber = NULL;
 
-	for (int i = 0; i < count; i++) {
+	int i;
+	for (i = 0; i < count; i++) {
 		fiber = &fiber_array[i];
 
 #ifdef __DEBUG__
@@ -183,26 +187,26 @@ baa_set_schedule_props(fiber_element_t fiber_array[], int count)
 		CPU_SET(fiber->cpu, &set);
 
 		if (CPU_ISSET(fiber->cpu, &set) == false)
-			baa_error_exit(_("could not set fiber to CPU %d"), fiber->cpu);
+			baa_error_msg(_("could not set fiber to CPU %d"), fiber->cpu);
 
 		if (sched_setaffinity(fiber->kernel_tid, sizeof(cpu_set_t),
 				      &set) == -1) {
 			if (errno == EINVAL)
-				baa_error_exit(_("no physical cpu %d"), fiber->cpu);
+				baa_error_msg(_("no physical cpu %d"), fiber->cpu);
 			else
-				baa_error_exit(_("sched_setaffinity() == -1 "));
+				baa_error_msg(_("sched_setaffinity() == -1 "));
 		}
 
 		if (sched_setscheduler(fiber->kernel_tid, fiber->policy,
 				       &fiber->sched_param))
-			baa_error_exit("could not set scheduling policy %d",
-				fiber->policy);
+			baa_error_msg("could not set scheduling policy %d",
+				      fiber->policy);
 	}
 
 	return 0;
 }
 
-int
+BAALUE_EXPORT int
 baa_start_scheduler(fiber_element_t fiber_array[], int count)
 {
 	int ret = -1;
@@ -211,7 +215,8 @@ baa_start_scheduler(fiber_element_t fiber_array[], int count)
 	pthread_cond_broadcast(&cond);
 	pthread_mutex_unlock(&mutex);
 
-	for (int i = 0; i < count; i++) {
+	int i;
+	for (i = 0; i < count; i++) {
 		ret = pthread_join(fiber_array[i].tid, NULL);
 		if (ret != 0) {
 			baa_error_msg(_("pthread_join in %s"), __FUNCTION__);
@@ -222,9 +227,9 @@ baa_start_scheduler(fiber_element_t fiber_array[], int count)
 	return 0;
 }
 
-int
+BAALUE_EXPORT int
 baa_set_schedule_props_via_server(fiber_element_t fiber_array[], int count,
-				int sfd, char *kdo_f)
+				  int sfd, char *kdo_f)
 {
 	unsigned char ptype_rcv_ack;
 	socklen_t len;
@@ -239,7 +244,8 @@ baa_set_schedule_props_via_server(fiber_element_t fiber_array[], int count,
 	unsigned char buf[MAX_LEN_MSG];
 	memset(buf, 0, sizeof(buf));
 
-	for (int i = 0; i < count; i++) {
+	int i;
+	for (i = 0; i < count; i++) {
 		CLEAN_SCHED_PROPS_CLIENT();
 
 		fiber = &fiber_array[i];
@@ -251,35 +257,37 @@ baa_set_schedule_props_via_server(fiber_element_t fiber_array[], int count,
 				fiber->cpu,
 				fiber->sched_param.sched_priority);
 
-		if (num_packed > MAX_LEN_MSG) {
+		if (num_packed > MAX_LEN_MSG)
 			baa_info_msg(_("message is to longer (%d) than %d"),
-				num_packed, MAX_LEN_MSG);
-			return -1;
-		}
+				     num_packed, MAX_LEN_MSG);
 
 		num_send = sendto(sfd, buf, num_packed, 0,
 				  (struct sockaddr *) &addr, len);
-		if (num_send != num_packed)
-			baa_error_exit(_("num_send != num_packed in %s"), __FUNCTION__);
+		if (num_send != num_packed) {
+			baa_error_msg(_("num_send != num_packed in %s"), __FUNCTION__);
+			return -1;
+		}
 #ifdef __DEBUG__
 		baa_info_msg(_("send/pack %ld/%d bytes (protocol type %d) to %s"),
-			(long) num_send, num_packed, PTYPE_SCHED_PROPS, addr.sun_path);
+			     (long) num_send, num_packed,
+			     PTYPE_SCHED_PROPS, addr.sun_path);
 #endif
 		num_read = recvfrom(sfd, &ptype_rcv_ack, 1, 0,
 				    (struct sockaddr *) &addr, &len);
-		if (num_read == -1)
-			baa_error_exit(_("num_read == -1 in %s"), __FUNCTION__);
-
-		if (ptype_rcv_ack != PTYPE_RCV_ACK) {
-			baa_info_msg(_("wrong answer %d"), ptype_rcv_ack);
+		if (num_read == -1) {
+			baa_error_msg(_("num_read == -1 in %s"), __FUNCTION__);
 			return -1;
 		}
+
+		// TODO: read in a loop until ptype_rcv_ack == PTYPE_RCV_ACK
+		if (ptype_rcv_ack != PTYPE_RCV_ACK)
+			baa_info_msg(_("wrong answer %d"), ptype_rcv_ack);
 	}
 
 	return 0;
 }
 
-bool
+BAALUE_EXPORT bool
 baa_is_fiber_config_valid(fiber_element_t fiber_array[], int count)
 {
 	if (fiber_array == NULL || count == 0) {
@@ -292,7 +300,8 @@ baa_is_fiber_config_valid(fiber_element_t fiber_array[], int count)
 	int max_prio = -1, min_prio = -1;
 	int cpu_conf = -1, cpu_onln = -1;
 
-	for (int i = 0; i < count; i++) {
+	int i;
+	for (i = 0; i < count; i++) {
 		fiber = &fiber_array[i];
 		switch (fiber->policy) {
 		case SCHED_RR:
@@ -358,7 +367,7 @@ baa_is_fiber_config_valid(fiber_element_t fiber_array[], int count)
 	return true;
 }
 
-void *
+BAALUE_EXPORT void *
 baa_schedule_server_th(void *args)
 {
 	unsigned char buf[MAX_LEN_MSG];
@@ -383,31 +392,38 @@ baa_schedule_server_th(void *args)
 
 		num_read = recvfrom(kdo_s, buf, MAX_LEN_MSG, 0,
 				    (struct sockaddr *) &addr, &len);
-		if (num_read == -1)
-			baa_error_exit(_("num_read == -1 in %s"), __FUNCTION__);
+		if (num_read == -1) {
+			baa_error_msg(_("num_read == -1 in %s"), __FUNCTION__);
+			continue;
+		}
 
 		if (buf[0] == PTYPE_SCHED_PROPS) {
 			num_unpacked = baa_unpack(buf, "cLLLL",
-						&protocol_type,
-						&fiber_element.kernel_tid,
-						&fiber_element.policy,
-						&fiber_element.cpu,
-						&fiber_element.sched_param.sched_priority);
+						  &protocol_type,
+						  &fiber_element.kernel_tid,
+						  &fiber_element.policy,
+						  &fiber_element.cpu,
+						  &fiber_element.sched_param.sched_priority);
 
 			if (num_unpacked > MAX_LEN_MSG) {
 				baa_info_msg(_("message is to longer (%d) than %d"),
-					num_unpacked, MAX_LEN_MSG);
+					     num_unpacked, MAX_LEN_MSG);
 				continue;
 			}
 
 			err = baa_set_schedule_props(&fiber_element, 1);
-			if (err != 0)
-				baa_info_exit(_("Couldn't set schedule properties"));
-
-			num_send = sendto(kdo_s, &ptype_rcv_ack, 1, 0,
-					  (struct sockaddr *) &addr, len);
-			if (num_send != 1)
-				baa_error_exit(_("num_send == -1 in %s"), __FUNCTION__);
+			if (err != 0) {
+				baa_info_msg(_("Couldn't set schedule properties"));
+				// TODO: send error message to client
+				continue;
+			} else {
+				num_send = sendto(kdo_s, &ptype_rcv_ack, 1, 0,
+						  (struct sockaddr *) &addr, len);
+				if (num_send != 1) {
+					baa_error_msg(_("num_send == -1 in %s"), __FUNCTION__);
+					// TODO: send in a loop?
+				}
+			}
 
 			PRINT_SCHED_INFOS_CONFIGURED();
 		} else {
@@ -415,7 +431,8 @@ baa_schedule_server_th(void *args)
 		}
 
 #ifdef __DEBUG__
-		baa_info_msg(_("received/unpack %ld/%d bytes (protocol type %d) from %s"),
+		baa_info_msg(
+			_("received/unpack %ld/%d bytes (protocol type %d) from %s"),
 			(long) num_read, num_unpacked, protocol_type, addr.sun_path);
 #endif
 	}

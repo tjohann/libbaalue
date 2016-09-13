@@ -243,7 +243,7 @@ baa_inet_stream_client(const char *host, const char *service)
 /*
  * inet socket -> server side
  */
-int
+static int
 inet_socket(const char *host, const char *service, int type,
 	    unsigned char flags)
 {

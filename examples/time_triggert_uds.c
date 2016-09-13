@@ -22,63 +22,62 @@
 /*
  * functions -> the "real" work
  */
-
-void
-function_0()
+static void
+function_0(void)
 {
 	BAA_PRINT_LOCATION();
 }
 
-void
-function_1()
+static void
+function_1(void)
 {
 	BAA_PRINT_LOCATION();
 }
 
-void
-function_2()
+static void
+function_2(void)
 {
 	BAA_PRINT_LOCATION();
 }
 
-void
-function_3()
+static void
+function_3(void)
 {
 	BAA_PRINT_LOCATION();
 }
 
-void
-function_4()
+static void
+function_4(void)
 {
 	BAA_PRINT_LOCATION();
 }
 
-void
-function_5()
+static void
+function_5(void)
 {
 	BAA_PRINT_LOCATION();
 }
 
-void
-function_6()
+static void
+function_6(void)
 {
 	BAA_PRINT_LOCATION();
 }
 
-void
-function_7()
+static void
+function_7(void)
 {
 	BAA_PRINT_LOCATION();
 }
 
-void
-function_8()
+static void
+function_8(void)
 {
 	BAA_PRINT_LOCATION();
 }
 
-void
-function_9()
+static void
+function_9(void)
 {
 	BAA_PRINT_LOCATION();
 }
@@ -88,32 +87,32 @@ function_9()
  * thread/fiber -> schedule entity
  */
 static void
-fiber_0 (void)
+fiber_0(void)
 {
 	function_0();
 }
 
 static void
-fiber_1 (void)
+fiber_1(void)
 {
 	function_1();
 }
 
 static void
-fiber_2 (void)
+fiber_2(void)
 {
 	function_2();
 }
 
 static void
-fiber_3 (void)
+fiber_3(void)
 {
 	function_8();
 	function_9();
 }
 
 static void
-fiber_4 (void)
+fiber_4(void)
 {
 	function_3();
 	function_4();
@@ -132,16 +131,16 @@ fiber_4 (void)
  *  fiber_3   fiber_2
  *            fiber_4
  *
- * fiber_0 (priority 90) running on cpu 1 calls function_0 with cyclic time of 1ms
- * fiber_1 (priority 89) running on cpu 0 calls function_1 with cyclic time of 10ms
- * fiber_2 (priority 88) running on cpu 1 calls function_2,
- * fiber_3 (priority 87) running on cpu 0 calls function_8 and
- *                                              function_9 with cyclic time of 100ms
- * fiber_4 (priority 86) running on cpu 1 calls function_3,
- *                                              function_4,
- *                                              function_5,
- *                                              function_6 and
- *                                              function_7 with cyclic time of 100ms
+ * fiber_0 (prio 90) running on cpu 1 calls function_0 with cyclic time of 1ms
+ * fiber_1 (prio 89) running on cpu 0 calls function_1 with cyclic time of 10ms
+ * fiber_2 (prio 88) running on cpu 1 calls function_2,
+ * fiber_3 (prio 87) running on cpu 0 calls function_8 and
+ *                                          function_9 with cyclic time of 100ms
+ * fiber_4 (prio 86) running on cpu 1 calls function_3,
+ *                                          function_4,
+ *                                          function_5,
+ *                                          function_6 and
+ *                                          function_7 with cyclic time of 100ms
  */
 size_t num_fiber_elements = 5;
 fiber_element_t fiber_array[] =
@@ -202,7 +201,7 @@ static char *kdo_file;      /* to uds server */
 static char *kdo_ret_file;  /* from uds server */
 
 static void
-show_some_infos()
+show_some_infos(void)
 {
 	baa_show_package_name();
 	baa_show_version_info();
@@ -363,8 +362,8 @@ int main(int argc, char *argv[])
 	if (err != 0)
 		baa_info_exit("could not build schedule table");
 
-//	if (!baa_is_fiber_config_valid(fiber_array, num_fiber_elements))
-//		baa_info_exit("actual fiber config is not valid");
+	if (!baa_is_fiber_config_valid(fiber_array, num_fiber_elements))
+		baa_info_exit("actual fiber config is not valid");
 
 	err = baa_set_schedule_props_via_server(fiber_array, num_fiber_elements,
 						kdo_socket, kdo_file);

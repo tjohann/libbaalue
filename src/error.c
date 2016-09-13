@@ -29,7 +29,7 @@ error_common(int errno_flag, int errno_val, int log_level,
 	char buf[MAXLINE + 1];
 	int errno_save = 0;
 
-        // errno_flag (errno) should override errno_val
+        /* errno_flag (errno) should override errno_val */
 	if (errno_val != 0)
 		errno_save = errno_val;
 
@@ -45,7 +45,7 @@ error_common(int errno_flag, int errno_val, int log_level,
 	strcat(buf, "\n");
 
 	if (use_syslog)
-		syslog(log_level, buf);
+		syslog(log_level, "%s", buf);
 
 	fflush(stdout);
 	fputs(buf, stderr);
@@ -89,7 +89,7 @@ __attribute__((noreturn)) baa_dump_exit(const char *fmt, ...)
 	va_end(va);
 
 	abort();
-	exit(EXIT_FAILURE);  // shouldn't get here
+	exit(EXIT_FAILURE);  /* shouldn't get here */
 }
 
 /* print error message */
@@ -149,7 +149,7 @@ __attribute__((noreturn)) baa_th_dump_exit(int errno_val, const char *fmt, ...)
 	va_end(va);
 
 	abort();
-	exit(EXIT_FAILURE);  // shouldn't get here
+	exit(EXIT_FAILURE);  /* shouldn't get here */
 }
 
 /* print error message with errno = errno_val and exit */

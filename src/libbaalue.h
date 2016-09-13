@@ -184,10 +184,10 @@ void
 baa_set_program_name(char **program_name, char *kdo_arg);
 
 void
-baa_show_package_name();
+baa_show_package_name(void);
 
 void
-baa_show_version_info();
+baa_show_version_info(void);
 
 ssize_t
 baa_read_line(int fd, void *buf, size_t n_bytes);
@@ -217,7 +217,7 @@ void
 baa_close_psem(sem_t **sem);
 
 bool
-baa_check_for_rtpreempt();
+baa_check_for_rtpreempt(void);
 
 void
 baa_show_clock_resolution(clockid_t clock_type);
@@ -300,7 +300,7 @@ void
 baa_print_sched_time_slice_ms(pid_t pid);
 
 void
-baa_print_num_cpu();
+baa_print_num_cpu(void);
 
 
 /*

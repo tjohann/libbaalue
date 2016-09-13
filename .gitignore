@@ -110,13 +110,17 @@ po/stamp-po
 src/Makefile
 
 # example
-example/Makefile
+examples/Makefile
 examples/can_recv
 examples/can_send
 examples/time_triggert_uds
 examples/time_triggert_uds_server
+examples/time_triggert_udp
+examples/time_triggert_udp_server
 examples/uds_client
 examples/uds_server
+examples/udp_client
+examples/udp_server
 
 # others
 libbaalue.pc

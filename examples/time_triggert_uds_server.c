@@ -51,7 +51,7 @@ cleanup(void)
 }
 
 static void
-show_some_infos()
+show_some_infos(void)
 {
 	baa_show_package_name();
 	baa_show_version_info();
@@ -116,9 +116,9 @@ int main(int argc, char *argv[])
 	/*
 	 * we dont need root rights
 	 */
-	//err = baa_drop_capability(CAP_SYS_NICE);
-	//if (err == -1)
-	//	exit(EXIT_FAILURE);
+	err = baa_drop_capability(CAP_SYS_NICE);
+	if (err == -1)
+		exit(EXIT_FAILURE);
 
 	show_some_infos();
 
@@ -164,7 +164,7 @@ int main(int argc, char *argv[])
 
 	struct group *grp_users = getgrnam("users");
 	if (grp_users == NULL)
-		baa_error_exit("could not group struct");
+		baa_error_exit("could not get group struct");
 
 	err = chown(kdo_file, -1, grp_users->gr_gid);
 	if (err == -1)

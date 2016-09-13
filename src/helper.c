@@ -196,7 +196,8 @@ baa_become_daemon(void)
         if (max_fd == -1)
 		max_fd = 64;  // should be enough
 
-        for (int i = 0; i < max_fd; i++)
+	int i;
+        for (i = 0; i < max_fd; i++)
 		close(i);
 
 	int fd0 = open("/dev/null", O_RDONLY);
