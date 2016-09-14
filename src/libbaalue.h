@@ -88,6 +88,11 @@
 /* libcurl */
 #include <curl/curl.h>
 
+/* can/lin */
+#include <linux/can.h>
+#include <linux/can/raw.h>
+#include <linux/can/error.h>
+
 /* libarchive -> actually not needed */
 /* #include <archive.h>
    #include <archive_entry.h> */
@@ -134,6 +139,10 @@ extern "C" {
 #define PTYPE_SCHED_PROPS 0x00
 #define PTYPE_VERIFY_ACK  0xFE
 #define PTYPE_RCV_ACK     0xFF
+
+/* can_*_socket flags */
+#define BIND_TO_SINGLE_CANIF 0x00
+#define BIND_TO_ANY_CANIF 0x01
 
 /*
  * common types
@@ -315,7 +324,8 @@ baa_print_num_cpu(void);
  * | baa_error_exit      |     yes    |   exit()   |         LOG_ERR          |
  * | baa_info_exit       |     no     |   exit()   |         LOG_ERR          |
  * | baa_dump_exit       |     yes    |  abort()   |         LOG_ERR          |
- * | baa_error_msg       |     yes    |    no      |         LOG_ERR          |
+ * | baa_error_msg       |     no     |    no      |         LOG_ERR          |
+ * | baa_errno_msg       |     yes    |    no      |         LOG_ERR          |
  * | baa_info_msg        |     no     |    no      |         LOG_INFO         |
  * | baa_debug_msg       |     yes    |    no      |         LOG_DEBUG        |
  * +---------------------+------------+------------+--------------------------+
@@ -340,6 +350,10 @@ __attribute__((noreturn)) baa_dump_exit(const char *fmt, ...);
 /* print error message */
 void
 baa_error_msg(const char *fmt, ...);
+
+/* print error message */
+void
+baa_errno_msg(const char *fmt, ...);
 
 /* print info message */
 void
@@ -450,6 +464,21 @@ baa_ts_norm(struct timespec *t);
  * can_lin.c
  * =========
  */
+
+/* get a can socket -> CAN_RAW */
+int
+baa_can_raw_socket(char *ifname, struct sockaddr_can **addr, unsigned char flags);
+/* get a can socket -> CAN_BCM */
+int
+baa_can_bcm_socket(char *ifname, struct sockaddr_can **addr, unsigned char flags);
+
+/* set all hardware related error mask bits */
+int
+baa_set_hw_error_mask(int fd_s);
+
+/* set can-id filter list to socket */
+int
+baa_set_flist(int fds, char *flist);
 
 
 #ifdef __cplusplus

@@ -121,6 +121,13 @@ examples/uds_client
 examples/uds_server
 examples/udp_client
 examples/udp_server
+examples/time_triggert_simple
+
+# man
+man/Makefile
+
+# scripts
+scripts/Makefile
 
 # others
 libbaalue.pc

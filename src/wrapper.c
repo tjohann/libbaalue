@@ -31,6 +31,6 @@ close_cmd:
 		if (errno == EINTR)
 			goto close_cmd;
 
-		baa_error_exit(_("FATAL: could not close fd"));
+		baa_errno_msg(_("FATAL: could not close fd %d"), fd);
 	}
 }

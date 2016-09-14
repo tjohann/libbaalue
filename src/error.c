@@ -29,10 +29,10 @@ error_common(int errno_flag, int errno_val, int log_level,
 	char buf[MAXLINE + 1];
 	int errno_save = 0;
 
-        /* errno_flag (errno) should override errno_val */
 	if (errno_val != 0)
 		errno_save = errno_val;
 
+	/* errno_flag (errno) should override errno_val */
 	if (errno_flag)
 		errno_save = errno;
 
@@ -95,6 +95,17 @@ __attribute__((noreturn)) baa_dump_exit(const char *fmt, ...)
 /* print error message */
 BAALUE_EXPORT void
 baa_error_msg(const char *fmt, ...)
+{
+	va_list	va;
+
+	va_start(va, fmt);
+	error_common(0, 0, LOG_ERR, fmt, va);
+	va_end(va);
+}
+
+/* print error message */
+BAALUE_EXPORT void
+baa_errno_msg(const char *fmt, ...)
 {
 	va_list	va;
 

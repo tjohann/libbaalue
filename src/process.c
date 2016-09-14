@@ -76,7 +76,7 @@ baa_print_cpu_affinity(pid_t pid, size_t max)
 
 	int ret = sched_getaffinity(pid, sizeof(cpu_set_t), &set);
 	if (ret == -1) {
-		baa_error_msg("could not get affinity for pid %ld", (long) pid);
+		baa_errno_msg("could not get affinity for pid %ld", (long) pid);
 	} else {
 		size_t i;
 		for (i = 0; i < max; i++) {
@@ -84,7 +84,7 @@ baa_print_cpu_affinity(pid_t pid, size_t max)
 
 			cpu = CPU_ISSET(i, &set);
 			baa_info_msg(_("pid %d cpu=%d is %s"), pid, i,
-				cpu ? "set" : "unset");
+				     cpu ? "set" : "unset");
 		}
 	}
 }
@@ -95,32 +95,32 @@ baa_print_sched_policy(pid_t pid)
 	int policy = baa_get_sched_policy(pid);
 	if (policy == -1) {
 		baa_error_msg(_("could not get schedule policy for pid %ld"),
-			(long) pid);
+			      (long) pid);
 	} else {
 		switch(policy) {
 		case SCHED_FIFO:
 			baa_info_msg(_("scheduler SCHED_FIFO for pid %d"),
-				(long) pid);
+				     (long) pid);
 			break;
 		case SCHED_RR:
 			baa_info_msg(_("scheduler SCHED_RR for pid %d"),
-				(long) pid);
+				     (long) pid);
 			break;
 		case SCHED_OTHER:
 			baa_info_msg(_("scheduler SCHED_OTHER for pid %d"),
-				(long) pid);
+				     (long) pid);
 			break;
 		case SCHED_IDLE:
 			baa_info_msg(_("scheduler SCHED_IDLE for pid %d"),
-				(long) pid);
+				     (long) pid);
 			break;
 		case SCHED_BATCH:
 			baa_info_msg(_("scheduler SCHED_BATCH for pid %d"),
-				(long) pid);
+				     (long) pid);
 			break;
 		default:
 			baa_info_msg(_("unknown scheduler %d for %ld"),
-				policy, (long) pid);
+				     policy, (long) pid);
 		}
 	}
 }
@@ -129,7 +129,7 @@ BAALUE_EXPORT void
 baa_print_sched_priority(pid_t pid)
 {
 	baa_info_msg(_("priority  for pid %ld is %d"),
-		(long) pid, baa_get_sched_priority(pid));
+		     (long) pid, baa_get_sched_priority(pid));
 }
 
 BAALUE_EXPORT void
@@ -150,7 +150,7 @@ baa_print_priority_range(int policy)
 		break;
 	default:
 		baa_info_msg(_("priority range makes no sense for policy %d (must be 0)"),
-			policy);
+			     policy);
 	}
 }
 
@@ -158,7 +158,7 @@ BAALUE_EXPORT void
 baa_print_sched_time_slice_ms(pid_t pid)
 {
 	baa_info_msg(_("time slice for pid %ld in ms %ld"),
-		(long) pid, baa_get_sched_time_slice_ms(pid));
+		     (long) pid, baa_get_sched_time_slice_ms(pid));
 }
 
 BAALUE_EXPORT void

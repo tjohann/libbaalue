@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libbaalue trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-09-13 11:52+0200\n"
+"POT-Creation-Date: 2016-09-14 12:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,18 +17,43 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/libbaalue.h:171
+#: src/libbaalue.h:180
 #, c-format
 msgid "Your're in %s of %s"
 msgstr ""
 
-#: src/error.c:176
+#: src/error.c:187
 #, c-format
 msgid "syslog enabled for %s"
 msgstr ""
 
-#: src/error.c:181
+#: src/error.c:192
 msgid "syslog disabled for %"
+msgstr ""
+
+#: src/can_lin.c:71
+msgid "could not init can socket"
+msgstr ""
+
+#: src/can_lin.c:112
+msgid "could not set error mask"
+msgstr ""
+
+#: src/can_lin.c:123
+msgid "no can id filter list -> nothing to do"
+msgstr ""
+
+#: src/can_lin.c:133
+#, c-format
+msgid "try to set filter list: %s\n"
+msgstr ""
+
+#: src/can_lin.c:144
+msgid "could not realloc can_filter struct"
+msgstr ""
+
+#: src/can_lin.c:160
+msgid "could not set can filter"
 msgstr ""
 
 #: src/fiber.c:43
@@ -90,7 +115,7 @@ msgstr ""
 
 #: src/fiber.c:222
 #, c-format
-msgid "pthread_join in %s"
+msgid "pthread_join %s"
 msgstr ""
 
 #: src/fiber.c:261 src/fiber.c:409
@@ -243,174 +268,179 @@ msgstr ""
 msgid "open() at line %d"
 msgstr ""
 
-#: src/helper.c:243 src/network.c:56
+#: src/helper.c:243
 #, c-format
-msgid "couln't unlink %s"
+msgid "could not unlink %s"
 msgstr ""
 
-#: src/helper.c:251 src/sh_mem.c:42
+#: src/helper.c:253 src/sh_mem.c:42
 #, c-format
 msgid "could not open %s"
 msgstr ""
 
-#: src/helper.c:255
+#: src/helper.c:258
 #, c-format
 msgid "use %s as pid file"
 msgstr ""
 
-#: src/helper.c:259
+#: src/helper.c:262
 #, c-format
 msgid "pid_file == NULL %s"
 msgstr ""
 
-#: src/helper.c:266 src/helper.c:271
+#: src/helper.c:271 src/helper.c:278
 #, c-format
 msgid "could not set flag for %s"
 msgstr ""
 
-#: src/helper.c:275
+#: src/helper.c:284
 #, c-format
 msgid "pid file %s already in-use"
 msgstr ""
 
-#: src/helper.c:277
+#: src/helper.c:286
 #, c-format
 msgid "could not lock region in pid file: %s"
 msgstr ""
 
-#: src/helper.c:288
+#: src/helper.c:297
 #, c-format
 msgid "could not truncate pid file %s"
 msgstr ""
 
-#: src/helper.c:295
+#: src/helper.c:305
 #, c-format
 msgid "could not write %s to file %s"
 msgstr ""
 
-#: src/helper.c:311
+#: src/helper.c:331
 #, c-format
 msgid "named semaphore %s already exist"
 msgstr ""
 
-#: src/helper.c:325
+#: src/helper.c:345
 #, c-format
 msgid "could not open named semaphore %s"
 msgstr ""
 
-#: src/helper.c:336
+#: src/helper.c:356
 #, c-format
 msgid "could not unlink named semaphore %s"
 msgstr ""
 
-#: src/helper.c:343
+#: src/helper.c:363
 msgid "could not close named semaphore"
 msgstr ""
 
-#: src/helper.c:353
+#: src/helper.c:373
 #, c-format
 msgid "uname at line %d"
 msgstr ""
 
-#: src/helper.c:356
+#: src/helper.c:376
 msgid "NO preempt kernel"
 msgstr ""
 
-#: src/helper.c:363
+#: src/helper.c:383
 msgid "kernel is a RT-PREEMPT kernel"
 msgstr ""
 
-#: src/helper.c:366 src/helper.c:370
+#: src/helper.c:386 src/helper.c:390
 msgid "kernel is a PREEMPT kernel"
 msgstr ""
 
-#: src/helper.c:387
+#: src/helper.c:407
 #, c-format
 msgid "clock resoultion is %lu nsec"
 msgstr ""
 
-#: src/helper.c:389
+#: src/helper.c:409
 msgid "could not get clock resolution"
 msgstr ""
 
-#: src/helper.c:400
+#: src/helper.c:420
 #, c-format
 msgid "can't set capability -> %s"
 msgstr ""
 
-#: src/network.c:61
+#: src/network.c:56
+#, c-format
+msgid "couln't unlink %s"
+msgstr ""
+
+#: src/network.c:63
 #, c-format
 msgid "strlen(str) > sizeof(add.sun_path) in %s"
 msgstr ""
 
-#: src/network.c:67
+#: src/network.c:69
 #, c-format
 msgid "use %s as socket"
 msgstr ""
 
-#: src/network.c:71
+#: src/network.c:73
 #, c-format
 msgid "could not open socket in %s"
 msgstr ""
 
-#: src/network.c:78
+#: src/network.c:82
 msgid "could not bind socket"
 msgstr ""
 
-#: src/network.c:83
+#: src/network.c:89
 msgid "could not connect socket"
 msgstr ""
 
-#: src/network.c:87
+#: src/network.c:95
 #, c-format
 msgid "sfd_f == NULL %s"
 msgstr ""
 
-#: src/network.c:108 src/network.c:326
+#: src/network.c:118 src/network.c:344
 #, c-format
 msgid "listen in %s"
 msgstr ""
 
-#: src/network.c:132
+#: src/network.c:144
 #, c-format
 msgid "could not get sun_path in %s"
 msgstr ""
 
-#: src/network.c:136
+#: src/network.c:150
 #, c-format
 msgid "no such file %s"
 msgstr ""
 
-#: src/network.c:138
+#: src/network.c:152
 #, c-format
 msgid "could not unlink %s in %s"
 msgstr ""
 
-#: src/network.c:159
+#: src/network.c:175
 #, c-format
 msgid "strlen(tmp_str) > sizeof(add.sun_path) in %s"
 msgstr ""
 
-#: src/network.c:166
+#: src/network.c:182
 #, c-format
 msgid "str == NULL %s"
 msgstr ""
 
-#: src/network.c:172
+#: src/network.c:190
 #, c-format
 msgid "assembled name %s"
 msgstr ""
 
-#: src/network.c:197 src/network.c:264
+#: src/network.c:215 src/network.c:282
 #, c-format
 msgid "getaddrinfo in %s with %s"
 msgstr ""
 
-#: src/network.c:220 src/network.c:298
+#: src/network.c:238 src/network.c:316
 msgid "something went wrong"
 msgstr ""
 
-#: src/network.c:282
+#: src/network.c:300
 #, c-format
 msgid "setsockopt in %s"
 msgstr ""
@@ -509,32 +539,35 @@ msgstr ""
 msgid "shared memory segmente %s already exist"
 msgstr ""
 
-#: src/sh_mem.c:52 src/sh_mem.c:56
+#: src/sh_mem.c:53 src/sh_mem.c:59
 #, c-format
 msgid "could not truncate shmem segment %s"
 msgstr ""
 
-#: src/sh_mem.c:83
+#: src/sh_mem.c:89
 msgid "could not unlink %"
 msgstr ""
 
 #: src/wrapper.c:34
-msgid "FATAL: could not close fd"
+#, c-format
+msgid "FATAL: could not close fd %d"
 msgstr ""
 
-#: examples/can_recv.c:49 examples/time_triggert_uds.c:239
-#: examples/time_triggert_uds_server.c:39
+#: examples/can_send.c:30 examples/can_recv.c:51
+#: examples/time_triggert_simple.c:146 examples/time_triggert_uds.c:239
+#: examples/time_triggert_uds_server.c:37
 msgid "finalize cleanup"
 msgstr ""
 
-#: examples/can_recv.c:52 examples/time_triggert_uds.c:247
-#: examples/time_triggert_uds_server.c:50
+#: examples/can_send.c:33 examples/can_recv.c:54
+#: examples/time_triggert_simple.c:149 examples/time_triggert_uds.c:247
+#: examples/time_triggert_uds_server.c:48
 #, c-format
 msgid "cheers %s"
 msgstr ""
 
-#: examples/time_triggert_uds.c:245 examples/time_triggert_uds_server.c:45
-#: examples/time_triggert_uds_server.c:48
+#: examples/time_triggert_uds.c:245 examples/time_triggert_uds_server.c:43
+#: examples/time_triggert_uds_server.c:46
 #, c-format
 msgid "could not remove %s"
 msgstr ""

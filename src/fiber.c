@@ -86,7 +86,7 @@ heap_prefault(size_t size)
 
 	dummy = malloc(len);
 	if (dummy == NULL) {
-		baa_error_msg(_("malloc in %s"), __FUNCTION__);
+		baa_errno_msg(_("malloc in %s"), __FUNCTION__);
 		return -1;
 	}
 
@@ -192,14 +192,14 @@ baa_set_schedule_props(fiber_element_t fiber_array[], int count)
 		if (sched_setaffinity(fiber->kernel_tid, sizeof(cpu_set_t),
 				      &set) == -1) {
 			if (errno == EINVAL)
-				baa_error_msg(_("no physical cpu %d"), fiber->cpu);
+				baa_errno_msg(_("no physical cpu %d"), fiber->cpu);
 			else
-				baa_error_msg(_("sched_setaffinity() == -1 "));
+				baa_errno_msg(_("sched_setaffinity() == -1 "));
 		}
 
 		if (sched_setscheduler(fiber->kernel_tid, fiber->policy,
 				       &fiber->sched_param))
-			baa_error_msg("could not set scheduling policy %d",
+			baa_errno_msg("could not set scheduling policy %d",
 				      fiber->policy);
 	}
 
@@ -209,7 +209,7 @@ baa_set_schedule_props(fiber_element_t fiber_array[], int count)
 BAALUE_EXPORT int
 baa_start_scheduler(fiber_element_t fiber_array[], int count)
 {
-	int ret = -1;
+	int err = -1;
 
 	pthread_mutex_lock(&mutex);
 	pthread_cond_broadcast(&cond);
@@ -217,9 +217,9 @@ baa_start_scheduler(fiber_element_t fiber_array[], int count)
 
 	int i;
 	for (i = 0; i < count; i++) {
-		ret = pthread_join(fiber_array[i].tid, NULL);
-		if (ret != 0) {
-			baa_error_msg(_("pthread_join in %s"), __FUNCTION__);
+		err = pthread_join(fiber_array[i].tid, NULL);
+		if (err != 0) {
+			baa_th_error_msg(err, _("pthread_join %s"), __FUNCTION__);
 			return -1;
 		}
 	}
@@ -264,7 +264,7 @@ baa_set_schedule_props_via_server(fiber_element_t fiber_array[], int count,
 		num_send = sendto(sfd, buf, num_packed, 0,
 				  (struct sockaddr *) &addr, len);
 		if (num_send != num_packed) {
-			baa_error_msg(_("num_send != num_packed in %s"), __FUNCTION__);
+			baa_errno_msg(_("num_send != num_packed in %s"), __FUNCTION__);
 			return -1;
 		}
 #ifdef __DEBUG__
@@ -275,13 +275,13 @@ baa_set_schedule_props_via_server(fiber_element_t fiber_array[], int count,
 		num_read = recvfrom(sfd, &ptype_rcv_ack, 1, 0,
 				    (struct sockaddr *) &addr, &len);
 		if (num_read == -1) {
-			baa_error_msg(_("num_read == -1 in %s"), __FUNCTION__);
+			baa_errno_msg(_("num_read == -1 in %s"), __FUNCTION__);
 			return -1;
 		}
 
 		// TODO: read in a loop until ptype_rcv_ack == PTYPE_RCV_ACK
 		if (ptype_rcv_ack != PTYPE_RCV_ACK)
-			baa_info_msg(_("wrong answer %d"), ptype_rcv_ack);
+			baa_error_msg(_("wrong answer %d"), ptype_rcv_ack);
 	}
 
 	return 0;
@@ -291,7 +291,7 @@ BAALUE_EXPORT bool
 baa_is_fiber_config_valid(fiber_element_t fiber_array[], int count)
 {
 	if (fiber_array == NULL || count == 0) {
-		baa_info_msg(_("fiber_array == NULL || count == 0"));
+		baa_error_msg(_("fiber_array == NULL || count == 0"));
 		return false;
 	}
 
@@ -309,11 +309,11 @@ baa_is_fiber_config_valid(fiber_element_t fiber_array[], int count)
 			max_prio = sched_get_priority_max(SCHED_RR);
 
 			if (fiber->sched_param.sched_priority > max_prio) {
-				baa_info_msg(_("priority > %d"), max_prio);
+				baa_error_msg(_("priority > %d"), max_prio);
 				return false;
 			}
 			if (fiber->sched_param.sched_priority < min_prio) {
-				baa_info_msg(_("priority < %d"), min_prio);
+				baa_error_msg(_("priority < %d"), min_prio);
 				return false;
 			}
 			break;
@@ -321,44 +321,44 @@ baa_is_fiber_config_valid(fiber_element_t fiber_array[], int count)
 			min_prio = sched_get_priority_min(SCHED_FIFO);
 			max_prio = sched_get_priority_max(SCHED_FIFO);
 			if (fiber->sched_param.sched_priority > max_prio) {
-				baa_info_msg(_("priority > %d"), max_prio);
+				baa_error_msg(_("priority > %d"), max_prio);
 				return false;
 			}
 			if (fiber->sched_param.sched_priority < min_prio) {
-				baa_info_msg(_("priority < %d"), min_prio);
+				baa_error_msg(_("priority < %d"), min_prio);
 				return false;
 			}
 			break;
 		case SCHED_OTHER:
 			if (fiber->sched_param.sched_priority != 0) {
-				baa_info_msg(_("priority %d != 0"),
-					fiber->sched_param.sched_priority);
+				baa_error_msg(_("priority %d != 0"),
+					      fiber->sched_param.sched_priority);
 				return false;
 			}
 			break;
 		case SCHED_IDLE:
 			if (fiber->sched_param.sched_priority != 0) {
-				baa_info_msg(_("priority %d != 0"),
-					fiber->sched_param.sched_priority);
+				baa_error_msg(_("priority %d != 0"),
+					      fiber->sched_param.sched_priority);
 				return false;
 			}
 			break;
 		case SCHED_BATCH:
 			if (fiber->sched_param.sched_priority != 0) {
-				baa_info_msg(_("priority %d != 0"),
-					fiber->sched_param.sched_priority);
+				baa_error_msg(_("priority %d != 0"),
+					      fiber->sched_param.sched_priority);
 				return false;
 			}
 			break;
 		default:
-			baa_info_msg(_("policy %d invalid"), fiber->policy);
+			baa_error_msg(_("policy %d invalid"), fiber->policy);
 			return false;
 		}
 
 		baa_get_num_cpu(&cpu_conf, &cpu_onln);
 		if (fiber->cpu > cpu_conf) {
-			baa_info_msg(_("cpu affinity > configured cpu (%d > %d)"),
-				fiber->cpu, cpu_conf);
+			baa_error_msg(_("cpu affinity > configured cpu (%d > %d)"),
+				      fiber->cpu, cpu_conf);
 			return false;
 		}
 
@@ -393,7 +393,7 @@ baa_schedule_server_th(void *args)
 		num_read = recvfrom(kdo_s, buf, MAX_LEN_MSG, 0,
 				    (struct sockaddr *) &addr, &len);
 		if (num_read == -1) {
-			baa_error_msg(_("num_read == -1 in %s"), __FUNCTION__);
+			baa_errno_msg(_("num_read == -1 in %s"), __FUNCTION__);
 			continue;
 		}
 
@@ -406,28 +406,28 @@ baa_schedule_server_th(void *args)
 						  &fiber_element.sched_param.sched_priority);
 
 			if (num_unpacked > MAX_LEN_MSG) {
-				baa_info_msg(_("message is to longer (%d) than %d"),
-					     num_unpacked, MAX_LEN_MSG);
+				baa_error_msg(_("message is to longer (%d) than %d"),
+					      num_unpacked, MAX_LEN_MSG);
 				continue;
 			}
 
 			err = baa_set_schedule_props(&fiber_element, 1);
 			if (err != 0) {
-				baa_info_msg(_("Couldn't set schedule properties"));
+				baa_error_msg(_("Couldn't set schedule properties"));
 				// TODO: send error message to client
 				continue;
 			} else {
 				num_send = sendto(kdo_s, &ptype_rcv_ack, 1, 0,
 						  (struct sockaddr *) &addr, len);
 				if (num_send != 1) {
-					baa_error_msg(_("num_send == -1 in %s"), __FUNCTION__);
+					baa_errno_msg(_("num_send == -1 in %s"), __FUNCTION__);
 					// TODO: send in a loop?
 				}
 			}
 
 			PRINT_SCHED_INFOS_CONFIGURED();
 		} else {
-			baa_info_msg(_("protocol type %d not supported"), buf[0]);
+			baa_error_msg(_("protocol type %d not supported"), buf[0]);
 		}
 
 #ifdef __DEBUG__

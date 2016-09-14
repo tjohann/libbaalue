@@ -35,25 +35,31 @@ open_cmd:
 		goto open_cmd;
 	} else {
 		if (errno == EEXIST) {
-			baa_error_msg(_("shared memory segmente %s already exist"),
-				  name);
+			baa_errno_msg(_("shared memory segmente %s already exist"),
+				      name);
 			return EEXIST;
 		} else {
-			baa_error_exit(_("could not open %s"), name);
+			baa_errno_msg(_("could not open %s"), name);
+			return -1;
 		}
 	}
 
 	int ret = -1;
 ftruncate_cmd:
 	ret = ftruncate(fd, size);
-	if (ret == -1 && errno == EINTR)
+	if (ret == -1 && errno == EINTR) {
 		goto ftruncate_cmd;
-	else
-		baa_error_exit(_("could not truncate shmem segment %s"), name);
+	} else {
+		baa_errno_msg(_("could not truncate shmem segment %s"), name);
+		return -1;
+	}
 
 	*mmap_seg = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-	if (*mmap_seg == MAP_FAILED)
-		baa_error_exit(_("could not truncate shmem segment %s"), name);
+	if (*mmap_seg == MAP_FAILED) {
+		baa_errno_msg(_("could not truncate shmem segment %s"), name);
+		close(fd);
+		return -1;
+	}
 
 	return fd;
 }
@@ -80,5 +86,5 @@ BAALUE_EXPORT void
 baa_unlink_mmap_seg(char *name)
 {
 	if (shm_unlink(name) == -1)
-		baa_error_msg(_("could not unlink %"), name);
+		baa_errno_msg(_("could not unlink %"), name);
 }

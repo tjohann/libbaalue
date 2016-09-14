@@ -52,14 +52,16 @@ uds_socket(const char *name, const char *dir, char **socket_f, int type,
 		n = snprintf(str, MAXLINE,"%s/%s.%s", dir, name,
 			     UDS_NAME_ADD);
 
-	if ((unlink(str) == -1) && (errno != ENOENT))
-		baa_error_exit(_("couln't unlink %s"), str);
+	if ((unlink(str) == -1) && (errno != ENOENT)) {
+		baa_errno_msg(_("couln't unlink %s"), str);
+		return -1;
+	}
 
 	struct sockaddr_un addr;
 	memset(&addr, 0, sizeof(struct sockaddr_un));
 	if (strlen(str) > sizeof(addr.sun_path)) {
-		baa_info_msg(_("strlen(str) > sizeof(add.sun_path) in %s"),
-			__FUNCTION__);
+		baa_error_msg(_("strlen(str) > sizeof(add.sun_path) in %s"),
+			      __FUNCTION__);
 		return -1;
 	}
 
@@ -67,24 +69,32 @@ uds_socket(const char *name, const char *dir, char **socket_f, int type,
 	baa_info_msg(_("use %s as socket"), str);
 #endif
 	sfd = socket(AF_UNIX, type, 0);
-	if (sfd == -1)
-		baa_error_exit(_("could not open socket in %s"), __FUNCTION__);
+	if (sfd == -1) {
+		baa_errno_msg(_("could not open socket in %s"), __FUNCTION__);
+		return -1;
+	}
 
 	addr.sun_family = AF_UNIX;
 	strncpy(addr.sun_path, str, sizeof(addr.sun_path) - 1);
 
 	if (flags & USE_BIND)
-		if (bind(sfd, (struct sockaddr *) &addr, SUN_LEN(&addr)) < 0)
-			baa_error_exit(_("could not bind socket"));
+		if (bind(sfd, (struct sockaddr *) &addr, SUN_LEN(&addr)) < 0) {
+			baa_errno_msg(_("could not bind socket"));
+			return -1;
+		}
 
-	if (flags & USE_CONNECT)
+	if (flags & USE_CONNECT) {
 		if (connect(sfd, (struct sockaddr *) &addr,
 			    sizeof(struct sockaddr_un)) < 0)
-			baa_error_exit(_("could not connect socket"));
+			baa_errno_msg(_("could not connect socket"));
+		return -1;
+	}
 
 	sfd_f = malloc(n + 1);
-	if (sfd_f == NULL)
-		baa_error_exit(_("sfd_f == NULL %s"), str);
+	if (sfd_f == NULL) {
+		baa_errno_msg(_("sfd_f == NULL %s"), str);
+		return -1;
+	}
 
 	memset(sfd_f, 0, n + 1);
 	strncpy(sfd_f, str, n);
@@ -104,8 +114,10 @@ baa_uds_stream_server(const char *name, const char *dir, char **socket_f)
 {
 	int sfd = uds_socket(name, dir, socket_f, SOCK_STREAM, USE_BIND);
 
-	if (listen(sfd, BACKLOG) == -1)
-		baa_error_exit(_("listen in %s"), __FUNCTION__);
+	if (listen(sfd, BACKLOG) == -1) {
+		baa_errno_msg(_("listen in %s"), __FUNCTION__);
+		return -1;
+	}
 
 	return sfd;
 }
@@ -128,15 +140,19 @@ baa_unlink_uds(int sfd)
 	struct sockaddr_un addr;
 	socklen_t len = sizeof(struct sockaddr_un);
 
-	if (getsockname(sfd, (struct sockaddr *) &addr, &len ) == -1)
-		baa_error_exit(_("could not get sun_path in %s"), __FUNCTION__);
+	if (getsockname(sfd, (struct sockaddr *) &addr, &len ) == -1) {
+		baa_errno_msg(_("could not get sun_path in %s"), __FUNCTION__);
+		return -1;
+	}
 
 	if (unlink(addr.sun_path) == -1) {
-		if (errno == ENOENT)
+		if (errno == ENOENT) {
 			baa_info_msg(_("no such file %s"), addr.sun_path);
-		else
-			baa_error_exit(_("could not unlink %s in %s"),
-				addr.sun_path, __FUNCTION__);
+		} else {
+			baa_errno_msg(_("could not unlink %s in %s"),
+				      addr.sun_path, __FUNCTION__);
+			return -1;
+		}
 	}
 
 	return 0;
@@ -156,14 +172,16 @@ baa_create_uds_name_string(const char *file, const char *dir)
 	struct sockaddr_un addr;
 	memset(&addr, 0, sizeof(struct sockaddr_un));
 	if (strlen(tmp_str) > sizeof(addr.sun_path)) {
-		baa_info_msg(_("strlen(tmp_str) > sizeof(add.sun_path) in %s"),
-			__FUNCTION__);
+		baa_error_msg(_("strlen(tmp_str) > sizeof(add.sun_path) in %s"),
+			      __FUNCTION__);
 		return NULL;
 	}
 
 	char *str = malloc(n + 1);
-	if (str == NULL)
-		baa_error_exit(_("str == NULL %s"), tmp_str);
+	if (str == NULL) {
+		baa_errno_msg(_("str == NULL %s"), tmp_str);
+		return NULL;
+	}
 
 	memset(str, 0, n + 1);
 	strncpy(str, tmp_str, n);
@@ -279,7 +297,7 @@ inet_socket(const char *host, const char *service, int type,
 			ret = setsockopt(sfd, SOL_SOCKET, SO_REUSEADDR,
 					 &opt_val, sizeof(opt_val));
 			if (ret == -1) {
-				baa_error_msg(_("setsockopt in %s"),
+				baa_errno_msg(_("setsockopt in %s"),
 					      __FUNCTION__);
 				goto error;
 			}
@@ -322,8 +340,10 @@ baa_inet_stream_server(const char *host, const char *service)
 {
 	int sfd = inet_socket(host, service, SOCK_DGRAM, USE_LISTEN);
 
-	if (listen(sfd, BACKLOG) == -1)
-		baa_error_exit(_("listen in %s"), __FUNCTION__);
+	if (listen(sfd, BACKLOG) == -1) {
+		baa_errno_msg(_("listen in %s"), __FUNCTION__);
+		return -1;
+	}
 
 	return sfd;
 }

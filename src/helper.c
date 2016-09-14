@@ -100,7 +100,7 @@ baa_signal_old(int signo, sigfunc *func)
 		actual.sa_flags |= SA_RESTART;
 
 	if (sigaction(signo, &actual, &old_actual) < 0) {
-		baa_error_msg("signal_old -> sigaction()");
+		baa_errno_msg("signal_old -> sigaction()");
 		return SIG_ERR;
 	}
 
@@ -121,7 +121,7 @@ read_cmd:
 		if (errno == EINTR)
 			goto read_cmd;
 		else {
-			baa_error_msg("read_line() -> read");
+			baa_errno_msg("read_line() -> read");
 			return -1;
 		}
 	} else {
@@ -146,7 +146,7 @@ baa_set_cloexec(int fd)
 {
 	int err = fcntl(fd, F_GETFD, 0);
 	if (err == -1) {
-		baa_error_msg(_("fcntl() at line %d"), __LINE__);
+		baa_errno_msg(_("fcntl() at line %d"), __LINE__);
 		return -1;
 	}
 
@@ -154,7 +154,7 @@ baa_set_cloexec(int fd)
 
 	err = fcntl(fd, F_SETFD, new);
 	if (err == -1) {
-		baa_error_msg(_("fcntl() at line %d"), __LINE__);
+		baa_errno_msg(_("fcntl() at line %d"), __LINE__);
 		return -1;
 	}
 
@@ -168,27 +168,27 @@ baa_become_daemon(void)
 
 	pid_t pid = fork();
 	if (pid == -1) {
-		baa_error_msg(_("fork() at line %d"), __LINE__);
+		baa_errno_msg(_("fork() at line %d"), __LINE__);
 		return -1;
 	}
 	if (pid)
 		_exit(EXIT_SUCCESS);
 
 	if (setsid() == -1)
-		baa_error_msg(_("setsid() at line %d"), __LINE__);
+		baa_errno_msg(_("setsid() at line %d"), __LINE__);
 
 	baa_signal_old(SIGHUP, SIG_IGN);
 
 	pid = fork();
 	if (pid == -1) {
-		baa_error_msg(_("fork() at line %d"), __LINE__);
+		baa_errno_msg(_("fork() at line %d"), __LINE__);
 		return -1;
 	}
 	if (pid)
 		_exit(EXIT_SUCCESS);
 
 	if (chdir("/") == -1) {
-		baa_error_msg(_("chdir() at line %d"), __LINE__);
+		baa_errno_msg(_("chdir() at line %d"), __LINE__);
 		return -1;
 	}
 
@@ -205,7 +205,7 @@ baa_become_daemon(void)
 	int fd2 = open("/dev/null", O_RDWR);
 
 	if (fd0 != 0 || fd1 != 1 || fd2 != 2)
-		baa_error_msg(_("open() at line %d"), __LINE__);
+		baa_errno_msg(_("open() at line %d"), __LINE__);
 
 	return 0;
 }
@@ -239,8 +239,10 @@ baa_create_file_with_pid(const char *name, const char *dir)
 	memset(str, 0, MAXLINE);
 	int n = snprintf(str, MAXLINE,"%s/%s.pid", dir, name);
 
-	if ((unlink(str) == -1) && (errno != ENOENT))
-		baa_error_exit(_("couln't unlink %s"), str);
+	if ((unlink(str) == -1) && (errno != ENOENT)) {
+		baa_errno_msg(_("could not unlink %s"), str);
+		return NULL;
+	}
 
 	fd = open(str, access_mode, user_mode);
 open_cmd:
@@ -248,27 +250,34 @@ open_cmd:
 		if (errno == EINTR)
 			goto open_cmd;
 
-		baa_error_exit(_("could not open %s"), str);
+		baa_errno_msg(_("could not open %s"), str);
+		return NULL;
 	}
 
 #ifdef __DEBUG__
 	baa_info_msg(_("use %s as pid file"), str);
 #endif
 	pid_file = malloc(n + 1);
-	if (pid_file == NULL)
-		baa_error_exit(_("pid_file == NULL %s"), str);
+	if (pid_file == NULL) {
+		baa_error_msg(_("pid_file == NULL %s"), str);
+		goto error;
+	}
 
 	memset(pid_file, 0, n + 1);
 	strncpy(pid_file, str, n);
 
 	int flags = fcntl(fd, F_GETFD);
-	if (fd == -1)
-		baa_error_exit(_("could not set flag for %s"), str);
+	if (fd == -1) {
+		baa_errno_msg(_("could not set flag for %s"), str);
+		goto error;
+	}
 
 	flags |= FD_CLOEXEC;
 
-	if (fcntl(fd, F_SETFD, flags) == -1)
-		baa_error_exit(_("could not set flag for %s"), str);
+	if (fcntl(fd, F_SETFD, flags) == -1) {
+		baa_errno_msg(_("could not set flag for %s"), str);
+		goto error;
+	}
 
 	if (baa_lock_region(fd) == -1) {
 		if (errno == EAGAIN || errno == EACCES)
@@ -285,19 +294,30 @@ ftruncate_cmd:
 		if (errno == EINTR)
 			goto ftruncate_cmd;
 
-		baa_error_exit(_("could not truncate pid file %s"), str);
+		baa_errno_msg(_("could not truncate pid file %s"), str);
+		goto error;
 	}
 
 	memset(str, 0, MAXLINE);
 	n = snprintf(str, MAXLINE, "%ld\n", (long) getpid());
 
-	if (write(fd, str, n) != n)
-		baa_error_exit(_("could not write %s to file %s"),
-			str, pid_file);
+	if (write(fd, str, n) != n) {
+		baa_errno_msg(_("could not write %s to file %s"),
+			      str, pid_file);
+		goto error;
+	}
 
 	baa_wrap_close(fd);
 
 	return pid_file;
+error:
+	if (pid_file != NULL)
+		free(pid_file);
+
+	if (fd != -1)
+		close(fd);
+
+	return NULL;
 }
 
 BAALUE_EXPORT int
@@ -308,7 +328,7 @@ baa_create_psem(char *name, sem_t **sem)
 
 	if ((*sem = sem_open(name, access_mode, user_mode, 1)) == SEM_FAILED) {
 		if (errno == EEXIST) {
-			baa_error_msg(_("named semaphore %s already exist"), name);
+			baa_errno_msg(_("named semaphore %s already exist"), name);
 			return EEXIST;
 		} else {
 			return -1;
@@ -322,7 +342,7 @@ BAALUE_EXPORT int
 baa_open_psem(char *name, sem_t **sem)
 {
 	if ((*sem = sem_open(name, 0)) == SEM_FAILED)
-		baa_error_msg(_("could not open named semaphore %s"), name);
+		baa_errno_msg(_("could not open named semaphore %s"), name);
 	else
 		return 0;
 
@@ -333,14 +353,14 @@ BAALUE_EXPORT void
 baa_unlink_psem(char *name)
 {
 	if (sem_unlink(name) == -1)
-		baa_error_msg(_("could not unlink named semaphore %s"), name);
+		baa_errno_msg(_("could not unlink named semaphore %s"), name);
 }
 
 BAALUE_EXPORT void
 baa_close_psem(sem_t **sem)
 {
 	if (sem_close(*sem) == -1)
-		baa_error_msg(_("could not close named semaphore"));
+		baa_errno_msg(_("could not close named semaphore"));
 }
 
 BAALUE_EXPORT bool
@@ -350,7 +370,7 @@ baa_check_for_rtpreempt()
 	struct utsname u;
 
 	if (uname(&u) == -1)
-		baa_error_msg(_("uname at line %d"), __LINE__);
+		baa_errno_msg(_("uname at line %d"), __LINE__);
 
 	if (strstr(u.version, "PREEMPT") == NULL) {
 		baa_error_msg(_("NO preempt kernel"));
@@ -360,10 +380,10 @@ baa_check_for_rtpreempt()
 	int flag;
 	if ((fd = fopen("/sys/kernel/realtime","r")) != NULL) {
 		if ((fscanf(fd, "%d", &flag) == 1) && (flag == 1)) {
-			baa_info_msg(_("kernel is a RT-PREEMPT kernel"));
+			baa_errno_msg(_("kernel is a RT-PREEMPT kernel"));
 			goto out;
 		} else {
-			baa_info_msg(_("kernel is a PREEMPT kernel"));
+			baa_errno_msg(_("kernel is a PREEMPT kernel"));
 			goto out;
 		}
 	} else {
@@ -386,7 +406,7 @@ baa_show_clock_resolution(clockid_t clock_type)
 	if (clock_getres(clock_type, &res) == 0)
 		baa_info_msg(_("clock resoultion is %lu nsec"), res.tv_nsec);
 	else
-		baa_error_msg(_("could not get clock resolution"));
+		baa_errno_msg(_("could not get clock resolution"));
 }
 
 BAALUE_EXPORT int
@@ -395,11 +415,11 @@ baa_drop_capability(int hold_capability)
 	capng_clear(CAPNG_SELECT_BOTH);
 
 	if (capng_update(CAPNG_ADD,
-				CAPNG_EFFECTIVE | CAPNG_PERMITTED,
-				hold_capability) != 0) {
+			 CAPNG_EFFECTIVE | CAPNG_PERMITTED,
+			 hold_capability) != 0) {
 		baa_error_msg(_("can't set capability -> %s"),
-			capng_print_caps_text(CAPNG_PRINT_STDOUT,
-					CAPNG_EFFECTIVE));
+			      capng_print_caps_text(CAPNG_PRINT_STDOUT,
+						    CAPNG_EFFECTIVE));
 		return -1;
 	}
 

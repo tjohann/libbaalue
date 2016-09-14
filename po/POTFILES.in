@@ -14,7 +14,12 @@ src/wrapper.c
 
 examples/can_send.c
 examples/can_recv.c
+examples/time_triggert_simple.c
+examples/time_triggert_udp.c
+examples/time_triggert_udp_server.c
 examples/time_triggert_uds.c
 examples/time_triggert_uds_server.c
 examples/uds_client.c
 examples/uds_server.c
+examples/udp_client.c
+examples/udp_server.c

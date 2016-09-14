@@ -22,8 +22,6 @@
 #include <signal.h>
 #include <grp.h>
 
-#define TMP_DIR "/tmp"
-
 static char *program_name;
 static sigset_t mask;
 
@@ -42,10 +40,10 @@ cleanup(void)
 		baa_wrap_close(kdo_socket);
 
 	if (unlink(kdo_file) != 0)
-		baa_error_msg(_("could not remove %s"), kdo_file);
+		baa_errno_msg(_("could not remove %s"), kdo_file);
 
 	if (unlink(pid_file) != 0)
-		baa_error_msg(_("could not remove %s"), pid_file);
+		baa_errno_msg(_("could not remove %s"), pid_file);
 
 	baa_info_msg(_("cheers %s"), getenv("USER"));
 }
@@ -127,7 +125,7 @@ int main(int argc, char *argv[])
 	 */
 	err = baa_become_daemon();
 	if (err != 0)
-		baa_info_exit("become_daemon() != 0");
+		baa_error_exit("become_daemon() != 0");
 
 	baa_enable_syslog(true, program_name);
 
@@ -137,7 +135,7 @@ int main(int argc, char *argv[])
 
 	pid_file = baa_create_file_with_pid(program_name, tmp_dir);
 	if (pid_file == NULL)
-		baa_info_exit("could not create %s", pid_file);
+		baa_error_exit("could not create %s", pid_file);
 
 	/*
 	 * signale handling -> a thread for signal handling
@@ -156,7 +154,7 @@ int main(int argc, char *argv[])
 	 */
 	kdo_socket = baa_uds_dgram_server(program_name, tmp_dir, &kdo_file);
 	if (kdo_socket == -1)
-		baa_info_exit("could not create kdo socket");
+		baa_error_exit("could not create kdo socket");
 
 	err = chmod(kdo_file, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
 	if (err == -1)

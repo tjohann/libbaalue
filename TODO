@@ -4,10 +4,21 @@
 
 
 #
+# -------------- 2016-09-14 ----------------------------------------------------
+#
+- rethink the error handling functions
+  -> baa_error_msg will use errno and set LOG_ERR ... but if I dont want to
+     use errno                                              [2016-09-14 -> done]
+  -> idee remove errno usage of baa_error_msg and add baa_errno_msg for
+     that                                                   [2016-09-14 -> done]
+  -> and then rework all functions in src and examples      [2016-09-14 -> done]
+
+
+#
 # -------------- 2016-09-09 ----------------------------------------------------
 #
 - implement function to set owner and permissions of a
-  unix domain socket (chown(2) chmod(2))
+  unix domain socket (chown(2) chmod(2))                    [2016-09-10 -> done]
 
 
 #
@@ -24,8 +35,8 @@
 - add examples for every topic (network/can_lin/.../process)
   - example skeleton                                        [2016-09-04 -> done]
   - network example (for baalued -> shutdown device)
-  - time triggert example (using uds)
-  - can example (for my Bananapi Cluster)
+  - time triggert example (using uds)                       [2016-09-13 -> done]
+  - can example (for my Bananapi Cluster)                   [2016-09-14 -> done]
   - ...
 
 #
