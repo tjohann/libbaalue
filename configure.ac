@@ -9,7 +9,6 @@ AC_CONFIG_AUX_DIR([build-aux/autoconf])
 AC_CONFIG_MACRO_DIR([build-aux/m4])
 
 AM_CONFIG_HEADER(config.h)
-
 AC_CONFIG_FILES([Makefile		\
 		src/Makefile		\
 		po/Makefile.in		\
@@ -23,7 +22,10 @@ AM_GNU_GETTEXT([external])
 
 AM_INIT_AUTOMAKE([-Wall dist-bzip2 silent-rules])
 
+AC_PREFIX_DEFAULT([/usr])
+
 # checks for programs
+AC_PROG_SED
 AC_PROG_CC
 # use standard version -> @today:c99
 #AC_PROG_CC_STDC
@@ -54,6 +56,12 @@ AC_ARG_ENABLE([scripts],
         [], [enable_scripts=no])
 AM_CONDITIONAL([ENABLE_SCRIPTS], [test "$enable_scripts" = yes])
 
+# enable build of lcd160x parts
+AC_ARG_ENABLE([lcd160x],
+	AS_HELP_STRING([--enable-lcd160x], [enable build lcd160x functions @<:@default=disable@:>@]),
+	[], [enable_lcd160x=no])
+AM_CONDITIONAL([ENABLE_LCD160X], [test "$enable_lcd160x" = yes])
+
 # my common CFLAGS
 my_CFLAGS="\
 -Wall \
@@ -72,13 +80,20 @@ AC_SUBST([my_CFLAGS])
 
 # ------
 
+LIBBAALUE_CURRENT=1
+AC_SUBST([LIBBAALUE_CURRENT])
+LIBBAALUE_REVISION=0
+AC_SUBST([LIBBAALUE_REVISION])
+LIBBAALUE_AGE=0
+AC_SUBST([LIBBAALUE_AGE])
+
+# ------
+
 # checks for more programs
 PKG_PROG_PKG_CONFIG
 
 # Checks for libraries.
 PKG_CHECK_MODULES([LIBCAPNG], [libcap-ng])
-#PKG_CHECK_MODULES([LIBGIT2], [libgit2])
-#PKG_CHECK_MODULES([LIBCURL], [libcurl])
 
 # checks for header files
 AC_HEADER_STDC
@@ -96,7 +111,6 @@ AC_CHECK_LIB([rt], [shm_open],
 AC_CHECK_LIB([pthread], [pthread_create],
 			[],
 			[AC_MSG_ERROR([** Could not find libpthread **])])
-
 AC_OUTPUT
 
 # show some basic config info
@@ -115,4 +129,5 @@ AC_MSG_RESULT([
         examples:               ${enable_examples}
 	debug:                  ${enable_debug}
 	scripts:		${enable_scripts}
+	lcd160x:		${enable_lcd160x}
 ])

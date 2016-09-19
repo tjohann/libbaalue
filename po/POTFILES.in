@@ -1,6 +1,7 @@
 # List of source files which contain translatable strings.
 
 src/libbaalue.h
+src/libbaalue_lcd160x.h
 src/error.c
 src/can_lin.c
 src/fiber.c
@@ -10,6 +11,7 @@ src/process.c
 src/serialize.c
 src/sh_mem.c
 src/sh_mq.c
+src/lcd160x.c
 src/wrapper.c
 
 examples/can_send.c
