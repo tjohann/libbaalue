@@ -4,6 +4,13 @@
 
 
 #
+# -------------- 2016-09-22 ----------------------------------------------------
+#
+- check implementation of time triggert parts on bananapi
+  (a20_sdk.git -> bananapi)
+
+
+#
 # -------------- 2016-09-14 ----------------------------------------------------
 #
 - rethink the error handling functions
