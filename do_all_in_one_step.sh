@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #sudo make uninstall
-make distclean
+#make distclean
 
 autoreconf --install || exit 1
 
