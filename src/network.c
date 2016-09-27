@@ -257,7 +257,6 @@ baa_inet_stream_client(const char *host, const char *service)
 	return connect_inet_socket(host, service, SOCK_STREAM);
 }
 
-
 /*
  * inet socket -> server side
  */

@@ -138,7 +138,7 @@ int main(int argc, char *argv[])
 		baa_error_exit("could not create %s", pid_file);
 
 	/*
-	 * signale handling -> a thread for signal handling
+	 * signal handling -> a thread for signal handling
 	 */
 	sigfillset(&mask);
 	err = pthread_sigmask(SIG_BLOCK, &mask, NULL);

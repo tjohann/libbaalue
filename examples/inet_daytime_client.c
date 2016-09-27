@@ -19,98 +19,6 @@
 
 #include "libbaalue.h"
 
-/*
- * functions -> the "real" work
- */
-static void
-function_0(void)
-{
-	BAA_PRINT_LOCATION();
-}
-
-static void
-function_1(void)
-{
-	BAA_PRINT_LOCATION();
-}
-
-static void
-function_2(void)
-{
-	BAA_PRINT_LOCATION();
-}
-
-static void
-function_3(void)
-{
-	BAA_PRINT_LOCATION();
-}
-
-static void
-function_4(void)
-{
-	BAA_PRINT_LOCATION();
-}
-
-
-/*
- * thread/fiber -> schedule entity
- */
-static void
-fiber_0 (void)
-{
-	function_0();
-}
-
-static void
-fiber_1 (void)
-{
-	function_1();
-	function_2();
-	function_3();
-	function_4();
-}
-
-
-/*
- * schedule table (expect 2 cores -> like Allwinner A20)
- *
- *  Core 0     Core 1
- * ---------------------
- *  fiber_0   fiber_1
- *
- * fiber_0 (prio 89) running on cpu 1 calls function_0 with cyclic time of 10ms
- * fiber_1 (prio 90) running on cpu 0 calls function_1,
- *                                          function_2,
- *                                          function_3 and
- *                                          function_4 with cyclic time of 100ms
- */
-size_t num_fiber_elements = 2;
-fiber_element_t fiber_array[] =
-{
-	{
-		.func = fiber_0,
-		.sched_param = { .sched_priority = 89,
-		},
-		.cpu = 0,
-		.policy = SCHED_FIFO,
-		.dt = MS_TO_NS(10),
-	},
-	{
-		.func = fiber_1,
-		.sched_param = { .sched_priority = 90,
-		},
-		.cpu = 1,
-		.policy = SCHED_RR,
-		.dt = MS_TO_NS(100),
-	}
-};
-
-
-/*
- * the other parts -> not time-triggert related
- */
-
 static char *program_name;
 static sigset_t mask;
 
@@ -129,10 +37,11 @@ __attribute__((noreturn)) usage(int status)
 	baa_info_msg("Usage: %s [options]              ", program_name);
 	baa_info_msg("Options:                                       ");
 	baa_info_msg("        -h                       show help     ");
+	baa_info_msg("        -f [server name]                       ");
 	putchar('\n');
-	baa_info_msg("Notes: The kernel must support at least PREEMPT");
-	baa_info_msg("       For realtime RT-PREEMPT is mandatory    ");
-	baa_info_msg("       See \"uname -a\"                        ");
+	baa_info_msg("Examples:                                      ");
+	baa_info_msg("%s -f baalue_master                            ",
+		     program_name);
 	putchar('\n');
 
 	show_some_infos();
@@ -183,20 +92,28 @@ signal_handler(void *args)
 /*
  * Description:
  *
- * This examples show how to use of my simple time triggert infrastructure
+ * This examples show how to use the provided network functions
+ * to get the actual date via daytime service from a "server"
  *
- * -> this process hold the schedule table (the client)
- *    (sudo ./time_triggert_simple)
+ * Note: the "server" need a running daytime server
+ *
+ * -> this process is the client
+ *    (sudo ./inet_daytime_client)
  */
 int main(int argc, char *argv[])
 {
 	pthread_t tid_signal_handler;
+	char *server_name = NULL;
+	int fds = -1;
 
 	baa_set_program_name(&program_name, argv[0]);
 
 	int c;
-	while ((c = getopt(argc, argv, "h")) != -1) {
+	while ((c = getopt(argc, argv, "hf:")) != -1) {
 		switch (c) {
+		case 'f':
+			server_name = optarg;
+			break;
 		case 'h':
 			usage(EXIT_SUCCESS);
 			break;
@@ -206,12 +123,14 @@ int main(int argc, char *argv[])
 		}
 	}
 
+	if (server_name == NULL) {
+		baa_error_msg("not enough arguments -> need server name");
+		usage(EXIT_FAILURE);
+	}
+
 	int err = atexit(cleanup);
 	if (err != 0)
 		exit(EXIT_FAILURE);
-
-	if (!baa_check_for_rtpreempt())
-		usage(EXIT_FAILURE);
 
         /*
 	 * signal handling -> a thread for signal handling
@@ -226,30 +145,19 @@ int main(int argc, char *argv[])
 		baa_th_error_exit(err, "could not create pthread");
 
         /*
-	 * start schedule table
+	 * connect to daytime server
 	 */
-	err = baa_drop_capability(CAP_SYS_NICE);
-	if (err == -1)
-		exit(EXIT_FAILURE);
+	fds = baa_inet_dgram_client(server_name, "daytime");
+	if (fds != 0) {
+		baa_error_msg("could not connect to %s", &server_name);
+		usage(EXIT_FAILURE);
+	}
 
-	err = baa_build_scheduler(fiber_array, num_fiber_elements);
-	if (err != 0)
-		baa_error_exit("could not build schedule table");
 
-	if (!baa_is_fiber_config_valid(fiber_array, num_fiber_elements))
-		baa_error_exit("actual fiber config is not valid");
 
-	err = baa_set_schedule_props(fiber_array, num_fiber_elements);
-	if (err != 0)
-		baa_error_exit("could not set schedule properties");
-
-	fflush(stdout);
-
-	err = baa_start_scheduler(fiber_array, num_fiber_elements);
-	if (err != 0)
-		baa_error_exit("could not start scheduler");
 
 	(void) pthread_join(tid_signal_handler, NULL);
 
+	baa_wrap_close(fds);
 	exit(EXIT_SUCCESS);
 }

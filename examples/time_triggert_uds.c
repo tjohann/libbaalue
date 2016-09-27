@@ -331,7 +331,7 @@ int main(int argc, char *argv[])
 		usage(EXIT_FAILURE);
 
         /*
-	 * signale handling -> a thread for signal handling
+	 * signal handling -> a thread for signal handling
 	 */
 	sigfillset(&mask);
 	err = pthread_sigmask(SIG_BLOCK, &mask, NULL);
