@@ -20,21 +20,21 @@ error.c
 Common error handling functions:
 
 	/*
-	* +---------------------+------------+------------+--------------------------+
-	* |     function        | use errno? | terminate? | log_level (man 3 syslog) |
-	* +---------------------+------------+------------+--------------------------+
-	* | baa_error_exit      |     yes    |   exit()   |         LOG_ERR          |
-	* | baa_info_exit       |     no     |   exit()   |         LOG_ERR          |
-	* | baa_dump_exit       |     yes    |  abort()   |         LOG_ERR          |
-	* | baa_error_msg       |     no     |    no      |         LOG_ERR          |
-	* | baa_errno_msg       |     yes    |    no      |         LOG_ERR          |
-	* | baa_info_msg        |     no     |    no      |         LOG_INFO         |
-	* | baa_debug_msg       |     yes    |    no      |         LOG_DEBUG        |
-	* +---------------------+------------+------------+--------------------------+
-	* | baa_th_error_msg    | errno_val  |    no      |         LOG_ERR          |
-	* | baa_th_error_exit   | errno_val  |   exit()   |         LOG_ERR          |
-	* | baa_th_dump_exit    | errno_val  |  abourt()  |         LOG_ERR          |
-	* +---------------------+------------+------------+--------------------------+
+	* +-------------------+------------+------------+--------------------------+
+	* |     function      | use errno? | terminate? | log_level (man 3 syslog) |
+	* +-------------------+------------+------------+--------------------------+
+	* | baa_error_exit    |     yes    |   exit()   |         LOG_ERR          |
+	* | baa_info_exit     |     no     |   exit()   |         LOG_ERR          |
+	* | baa_dump_exit     |     yes    |  abort()   |         LOG_ERR          |
+	* | baa_error_msg     |     no     |    no      |         LOG_ERR          |
+	* | baa_errno_msg     |     yes    |    no      |         LOG_ERR          |
+	* | baa_info_msg      |     no     |    no      |         LOG_INFO         |
+	* | baa_debug_msg     |     yes    |    no      |         LOG_DEBUG        |
+	* +-------------------+------------+------------+--------------------------+
+	* | baa_th_error_msg  | errno_val  |    no      |         LOG_ERR          |
+	* | baa_th_error_exit | errno_val  |   exit()   |         LOG_ERR          |
+	* | baa_th_dump_exit  | errno_val  |  abourt()  |         LOG_ERR          |
+	* +-------------------+------------+------------+--------------------------+
 	*/
 
 	/* print error message and exit */
@@ -307,6 +307,15 @@ Functions to handle special process topics like priority and cpu affinity:
 	baa_print_num_cpu(void);
 
 
+device_mgmt.c
+-------------
+
+Functions for device managment like shotdown or get cpu load.
+
+	void *
+	device_mgmt_th(void *args);
+
+
 Provided examples (folder ./examples)
 -------------------------------------
 
@@ -332,6 +341,9 @@ UDP (inet datagram socket server/client):
 
 	the same like the uds example but here via UDP
 	see also baalued (https://github.com/tjohann/baalued)
+
+	inet_daytime_client -> simple daytime client
+	inet_daytime_server -> simple daytime server (not a daemon)
 
 
 CAN (can sender/receiver):

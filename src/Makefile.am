@@ -16,6 +16,7 @@ SRC_FILES = error.c \
 	fiber.c \
 	serialize.c \
 	can_lin.c \
+	device_mgmt.c \
 	libbaalue.h \
 	gettext.h
 

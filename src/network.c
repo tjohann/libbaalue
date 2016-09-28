@@ -261,8 +261,8 @@ baa_inet_stream_client(const char *host, const char *service)
  * inet socket -> server side
  */
 static int
-inet_socket(const char *host, const char *service, int type,
-	    unsigned char flags)
+bind_inet_socket(const char *host, const char *service, int type,
+		 unsigned char flags)
 {
 	struct addrinfo *result = NULL;
 	struct addrinfo hints;
@@ -331,13 +331,13 @@ error:
 BAALUE_EXPORT int
 baa_inet_dgram_server(const char *host, const char *service)
 {
-	return inet_socket(host, service, SOCK_DGRAM, 0);
+	return bind_inet_socket(host, service, SOCK_DGRAM, 0);
 }
 
 BAALUE_EXPORT int
 baa_inet_stream_server(const char *host, const char *service)
 {
-	int sfd = inet_socket(host, service, SOCK_DGRAM, USE_LISTEN);
+	int sfd = bind_inet_socket(host, service, SOCK_DGRAM, USE_LISTEN);
 
 	if (listen(sfd, BACKLOG) == -1) {
 		baa_errno_msg(_("listen in %s"), __FUNCTION__);

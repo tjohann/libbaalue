@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libbaalue trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-09-14 12:00+0200\n"
+"POT-Creation-Date: 2016-09-28 14:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/libbaalue.h:180
+#: src/libbaalue.h:181
 #, c-format
 msgid "Your're in %s of %s"
 msgstr ""
@@ -396,7 +396,7 @@ msgstr ""
 msgid "sfd_f == NULL %s"
 msgstr ""
 
-#: src/network.c:118 src/network.c:344
+#: src/network.c:118 src/network.c:343
 #, c-format
 msgid "listen in %s"
 msgstr ""
@@ -431,16 +431,16 @@ msgstr ""
 msgid "assembled name %s"
 msgstr ""
 
-#: src/network.c:215 src/network.c:282
+#: src/network.c:215 src/network.c:281
 #, c-format
 msgid "getaddrinfo in %s with %s"
 msgstr ""
 
-#: src/network.c:238 src/network.c:316
+#: src/network.c:238 src/network.c:315
 msgid "something went wrong"
 msgstr ""
 
-#: src/network.c:300
+#: src/network.c:299
 #, c-format
 msgid "setsockopt in %s"
 msgstr ""
@@ -555,13 +555,13 @@ msgstr ""
 
 #: examples/can_send.c:30 examples/can_recv.c:51
 #: examples/time_triggert_simple.c:146 examples/time_triggert_uds.c:239
-#: examples/time_triggert_uds_server.c:37
+#: examples/time_triggert_uds_server.c:37 examples/udp_server.c:34
 msgid "finalize cleanup"
 msgstr ""
 
 #: examples/can_send.c:33 examples/can_recv.c:54
 #: examples/time_triggert_simple.c:149 examples/time_triggert_uds.c:247
-#: examples/time_triggert_uds_server.c:48
+#: examples/time_triggert_uds_server.c:48 examples/udp_server.c:37
 #, c-format
 msgid "cheers %s"
 msgstr ""

@@ -10,6 +10,7 @@ noinst_PROGRAMS = time_triggert_uds 		\
 		  udp_server 			\
 		  udp_client			\
                   inet_daytime_client  		\
+		  inet_daytime_server  		\
 		  time_triggert_simple		\
 		  time_triggert_udp		\
 		  time_triggert_udp_server

@@ -136,9 +136,10 @@ extern "C" {
 #define MAX_LEN_MSG 100
 
 /* supported protocol type */
-#define PTYPE_SCHED_PROPS 0x00
-#define PTYPE_VERIFY_ACK  0xFE
-#define PTYPE_RCV_ACK     0xFF
+#define PTYPE_SCHED_PROPS      0x00
+#define PTYPE_DEVICE_MGMT_HALT 0x01
+#define PTYPE_VERIFY_ACK       0xFE
+#define PTYPE_RCV_ACK          0xFF
 
 /* can_*_socket flags */
 #define BIND_TO_SINGLE_CANIF 0x00
@@ -479,6 +480,17 @@ baa_set_hw_error_mask(int fd_s);
 /* set can-id filter list to socket */
 int
 baa_set_flist(int fds, char *flist);
+
+
+/*
+ * device_mgmt.c
+ * =============
+ */
+
+/* device managment thread -> shutdown device ... */
+void *
+baa_device_mgmt_th(void *args);
+
 
 
 #ifdef __cplusplus

@@ -37,7 +37,6 @@ __attribute__((noreturn)) usage(int status)
 	baa_info_msg("Usage: %s [options]              ", program_name);
 	baa_info_msg("Options:                                       ");
 	baa_info_msg("        -h                       show help     ");
-	baa_info_msg("        -f [server name]                       ");
 	putchar('\n');
 	baa_info_msg("Examples:                                      ");
 	baa_info_msg("%s -f baalue_master                            ",
@@ -92,31 +91,19 @@ signal_handler(void *args)
 /*
  * Description:
  *
- * This examples show how to use the provided network functions
- * to get the actual date via daytime service from a "server"
+ * A simple daytime server (for testing with inet_daytime_client)
  *
- * Note: the "server" need a running daytime server
- *
- * -> this process is the client
- *    (sudo ./inet_daytime_client)
  */
 int main(int argc, char *argv[])
 {
 	pthread_t tid_signal_handler;
-	char *server_name = NULL;
 	int fds = -1;
-
-	char recvline[MAXLINE + 1];
-	memset(&recvline, 0, sizeof(recvline));
 
 	baa_set_program_name(&program_name, argv[0]);
 
 	int c;
-	while ((c = getopt(argc, argv, "hf:")) != -1) {
+	while ((c = getopt(argc, argv, "h")) != -1) {
 		switch (c) {
-		case 'f':
-			server_name = optarg;
-			break;
 		case 'h':
 			usage(EXIT_SUCCESS);
 			break;
@@ -124,11 +111,6 @@ int main(int argc, char *argv[])
 			baa_error_msg("ERROR: no valid argument");
 			usage(EXIT_FAILURE);
 		}
-	}
-
-	if (server_name == NULL) {
-		baa_error_msg("not enough arguments -> need server name");
-		usage(EXIT_FAILURE);
 	}
 
 	int err = atexit(cleanup);
@@ -148,24 +130,14 @@ int main(int argc, char *argv[])
 		baa_th_error_exit(err, "could not create pthread");
 
         /*
-	 * daytime server part
+	 * setup daytime server
 	 */
-	fds = baa_inet_dgram_client(server_name, "daytime");
-	if (fds != 0) {
-		baa_error_msg("could not connect to %s", &server_name);
-		usage(EXIT_FAILURE);
-	}
+	//fds = baa_inet_dgram_server(server_name, "daytime");
+	//if (fds != 0) {
+	//	baa_error_msg("could not connect to %s", &server_name);
+	//	usage(EXIT_FAILURE);
+	//}
 
-	int n = -1;
-	while ((n = read(fds, recvline, MAXLINE)) > 0) {
-		recvline[n] = 0;
-		if (fputs(recvline, stdout) == EOF)
-			fprintf(stderr,"fputs == EOF");
-	}
-	if (n < 0)
-		baa_error_msg("could not read from fd");
-
-	baa_info_msg("read from %s: %s\n", server_name, recvline );
 
 	(void) pthread_join(tid_signal_handler, NULL);
 
