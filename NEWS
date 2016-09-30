@@ -2,7 +2,15 @@
 # some news ... see also TODO for hints
 #
 
+2016-09-30 -> some cleanups of the examples
+	      add some more documentation
+
+
+2016-09-29 -> add skeleton thread/functions for device managment
+
+
 2016-09-18 -> add skeleton for lcd160x functions (see lcd160x_driver)
+
 
 2016-09-14 -> add some more documentation
 	      add a simple time triggert example

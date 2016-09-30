@@ -45,7 +45,7 @@
 # -------------- 2016-07-20 ----------------------------------------------------
 #
 - check for exit within functions (a negativ return would be the correct
-  behaviour -> a external lib should not exit!)
+  behaviour -> a external lib should not exit!)             [2016-09-30 -> done]
 - add examples for every topic (network/can_lin/.../process)
   - example skeleton                                        [2016-09-04 -> done]
   - network example (for baalued -> shutdown device)

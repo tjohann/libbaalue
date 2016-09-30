@@ -492,7 +492,6 @@ void *
 baa_device_mgmt_th(void *args);
 
 
-
 #ifdef __cplusplus
 } /* extern "C" */
 #endif

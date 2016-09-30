@@ -11,6 +11,8 @@ Overview
 
 The prefix for all functions and datatypes is "baa". See src/libbaalue.h for more detailed informations. All functions represent some parts i want to encapsulate to make the usage of a technologie easier. Topics like setup a datagram based unix domain socket server are provided by the library. Everthing is grouped in files which represent a certain topic, only helper.c is a summary of unspecified parts.
 
+For common task (like set scheduling of fiber -> baa_schedule_server_th) threads are provided (see the corresponding file -> fiber.c). Also for device managment of a baalue node corresponding threads are available.
+
 Below the examples folder you found simple programs which show the usage of the functions (see below for more info).
 
 
@@ -268,7 +270,17 @@ can_lin.c
 
 Functions to handle CAN and/or LIN communication:
 
-	t.b.d.
+	int
+	baa_can_raw_socket(char *ifname, struct sockaddr_can **addr, unsigned char flags);
+
+	int
+	baa_can_bcm_socket(char *ifname, struct sockaddr_can **addr, unsigned char flags);
+
+	int
+	baa_set_hw_error_mask(int fd_s);
+
+	int
+	baa_set_flist(int fds, char *flist);
 
 
 process.c (in addtion to fiber.c)
@@ -322,21 +334,7 @@ Provided examples (folder ./examples)
 Below the folder examples you find some usecases of libbaalue. All server are implemented as daemon and therefore use syslog. In most cases everthing is tested on different A20 based ARM device (see https://github.com/tjohann/a20_sdk). On usecase of the A20 devices is my Bananapi (CAN) Cluster named baalue. For that I need some control and admin paths to the cluster as hole and to a specific node.
 
 
-UDS (unix domain socket server/client):
----------------------------------------
-
-This examples show how to use a unix domain socket to configure a threads in an unrelated process. The predefined thread baa_schedule_server_th does the "magic". It controls via the protocol typ PTYPE_SCHED_PROPS the policy (SCHED_FIFO/...), the cpu affinity and the schedule priority for different threads.
-
-To set the properties of a thread the server must be started with root rights, but it drops all except CAP_SYS_NICE.
-
-	uds_server -> create a uds server and wait for kdo's
-	              sudo ./time_triggert_udp_server
-
-	uds_client -> send some kdo to the server and plot the output to stdout
-	              ./time_triggert_uds -d /tmp -f lt-time_triggert_uds_server.socket
-
-
-UDP (inet datagram socket server/client):
+Inet datagram socket server/client (inet_daytime_*.c):
 -----------------------------------------
 
 	the same like the uds example but here via UDP
@@ -345,32 +343,53 @@ UDP (inet datagram socket server/client):
 	inet_daytime_client -> simple daytime client
 	inet_daytime_server -> simple daytime server (not a daemon)
 
+State: started
 
-CAN (can sender/receiver):
---------------------------
+
+CAN sender/receiver (can_send.c && can_recv.c):
+-----------------------------------------------
 
 	can_send -> send cyclic some example can telegrams on VCAN0
 	can_recv -> receive the telegrams of VCAN0 and plot them to stdout
 	see also my can/lin playground (https://github.com/tjohann/can_lin_env)
 
-
-Time-Triggert (unix domain socket server/client):
--------------------------------------------------
-
-	time_triggert_uds_server -> create a uds server to configure unrelated fiber
-	time_triggert_uds -> an time-triggert process which set the parameter via uds server
-	see also my time-triggert playground (https://github.com/tjohann/time_triggert_env)
+State: started
 
 
-Time-Triggert (inet datagram socket server/client):
----------------------------------------------------
-
-	the same like the uds example but here via UDP
-
-
-Time-Triggert (simple):
------------------------
+Time-Triggert (time_triggert_simple.c):
+---------------------------------------
 
 This examples show how to use of my simple time triggert infrastructure. To set the properties of the thread the program must be started with root rights, but it drops all except CAP_SYS_NICE.
 
 	time_triggert_simple -> create and direct run a schedule table
+
+State: finished
+
+
+Time-Triggert via unix domain socket (time_triggert_uds*.c):
+-------------------------------------------------
+
+This examples shows how to use a unix domain socket to configure a threads in an unrelated process. The predefined thread baa_schedule_server_th does the "magic". It controls via the protocol typ PTYPE_SCHED_PROPS the policy (SCHED_FIFO/...), the cpu affinity and the schedule priority for different threads.
+
+See also my time-triggert playground (https://github.com/tjohann/time_triggert_env)
+
+To set the properties of a thread the server must be started with root rights, but it drops all except CAP_SYS_NICE.
+
+	uds_server -> create a uds server and wait for kdo's
+	              sudo ./time_triggert_uds_server
+
+	uds_client -> send some kdo to the server and plot the output to stdout
+	              ./time_triggert_uds -d /tmp -f lt-time_triggert_uds_server.socket
+
+State: started
+
+
+Device managment via unix datagram socket (udp_mgmt_*.c):
+---------------------------------------------------------
+
+This example shows how to use a unix datagram socket for remote device managment like shutdown a baalue node.
+
+	udp_mgmt_server.c -> the server (reside on the target)
+	udp_mgmt_client.c -> the client (controls the device)
+
+State: not started

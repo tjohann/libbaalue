@@ -73,6 +73,10 @@ baa_set_program_name(char **program_name, char *kdo_arg)
 
 	len = strlen(whoami) + 1;
 	tmp_str = malloc(len);
+	/*
+	 * this function is called at the beginning, so when malloc could not
+	 * allocate the memory a exit is okay
+	 */
 	if (tmp_str == NULL)
 		baa_error_exit(_("malloc in %s"), __FUNCTION__);
 
@@ -281,10 +285,10 @@ open_cmd:
 
 	if (baa_lock_region(fd) == -1) {
 		if (errno == EAGAIN || errno == EACCES)
-			baa_error_exit(_("pid file %s already in-use"), str);
+			baa_error_msg(_("pid file %s already in-use"), str);
 		else
-			baa_error_exit(_("could not lock region in pid file: %s"), str);
-
+			baa_error_msg(_("could not lock region in pid file: %s"), str);
+		goto error;
 	}
 
 	int ret = -1;
