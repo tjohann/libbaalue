@@ -113,15 +113,15 @@ src/Makefile
 examples/Makefile
 examples/can_recv
 examples/can_send
-examples/time_triggert_uds
-examples/time_triggert_uds_server
+examples/inet_daytime_client
+examples/inet_daytime_server
+examples/time_triggert_simple
 examples/time_triggert_udp
 examples/time_triggert_udp_server
-examples/uds_client
-examples/uds_server
-examples/udp_client
-examples/udp_server
-examples/time_triggert_simple
+examples/time_triggert_uds
+examples/time_triggert_uds_server
+examples/udp_mgmt_client
+examples/udp_mgmt_server
 
 # man
 man/Makefile
