@@ -51,8 +51,10 @@ baa_device_mgmt_th(void *args)
 			continue;
 		}
 
-		/* TODO: protocol handling
-		if (buf[0] == PTYPE_SCHED_PROPS) {
+		switch(buf[0]) {
+		case PTYPE_DEVICE_MGMT:
+			baa_info_msg(_("protocol type -> PTYPE_DEVICE_MGMT"));
+			/*
 			num_unpacked = baa_unpack(buf, "cLLLL",
 						  &protocol_type,
 						  &fiber_element.kernel_tid,
@@ -64,18 +66,24 @@ baa_device_mgmt_th(void *args)
 				baa_error_msg(_("message is to longer (%d) than %d"),
 					      num_unpacked, MAX_LEN_MSG);
 				continue;
-			}
-
-		} else {
-			baa_error_msg(_("protocol type %d not supported"), buf[0]);
-		}
-		*/
-
+				}
 #ifdef __DEBUG__
 		baa_info_msg(
 			_("received/unpack %ld/%d bytes (protocol type %d) from %s"),
 			(long) num_read, num_unpacked, protocol_type, addr.sun_path);
 #endif
+			*/
+			break;
+		case PTYPE_DEVICE_MGMT_HALT:
+			baa_info_msg(_("protocol type -> PTYPE_DEVICE_MGMT_HALT"));
+			break;
+		case PTYPE_DEVICE_MGMT_REBOOT:
+			baa_info_msg(_("protocol type -> PTYPE_DEVICE_MGMT_HALT"));
+			break;
+
+		default:
+			baa_error_msg(_("protocol type %d not supported"), buf[0]);
+		}
 	}
 
 	return NULL;

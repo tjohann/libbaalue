@@ -20,6 +20,13 @@
 #include <libbaalue.h>
 #include "libbaalue-private.h"
 
+/*
+ * make sure that at least this size is avalable without page fault
+ * see https://rt.wiki.kernel.org/index.php/RT_PREEMPT_HOWTO
+ */
+#define BASE_SAFE_SIZE 1024
+#define DEF_MEM_FAC 1
+
 // to sync all threads
 static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t cond = PTHREAD_COND_INITIALIZER;

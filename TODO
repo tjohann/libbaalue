@@ -4,6 +4,12 @@
 
 
 #
+# -------------- 2016-10-07 ----------------------------------------------------
+#
+- get page size to correct "init" BASE_SAFE_SIZE
+
+
+#
 # -------------- 2016-09-28 ----------------------------------------------------
 #
 - move all macros (like MAXLINE) distributed via libbaalue.h to BAA_* (like

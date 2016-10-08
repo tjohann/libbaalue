@@ -81,9 +81,9 @@ signal_handler(void *args)
  * This examples show how to use a datagram socket
  *
  * -> this process is the datagram server
- *    (sudo ./udp_server )
- * -> the client process is udp_client.c
- *    (./udp_client )
+ *    (sudo ./udp_mgmt_server )
+ * -> the client process is udp_mgmt_client.c
+ *    (./udp_mgmt_client )
  */
 int main(int argc, char *argv[])
 {

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libbaalue trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-10-01 08:43+0200\n"
+"POT-Creation-Date: 2016-10-07 13:53+0200\n"
 "PO-Revision-Date: 2016-04-28 18:47+0200\n"
 "Last-Translator:  <thorsten.johannvorderbrueggen@t-online.de>\n"
 "Language-Team: German\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/libbaalue.h:181
+#: src/libbaalue.h:191
 #, c-format
 msgid "Your're in %s of %s"
 msgstr ""
@@ -56,142 +56,142 @@ msgstr ""
 msgid "could not set can filter"
 msgstr ""
 
-#: src/fiber.c:43
+#: src/fiber.c:50
 msgid "show REQUIRED values"
 msgstr ""
 
-#: src/fiber.c:44
+#: src/fiber.c:51
 #, c-format
 msgid "all below for thread-id %d"
 msgstr ""
 
-#: src/fiber.c:46
+#: src/fiber.c:53
 #, c-format
 msgid "cpu %d"
 msgstr ""
 
-#: src/fiber.c:47
+#: src/fiber.c:54
 #, c-format
 msgid "policy %d"
 msgstr ""
 
-#: src/fiber.c:48
+#: src/fiber.c:55
 #, c-format
 msgid "priority %d"
 msgstr ""
 
-#: src/fiber.c:55
+#: src/fiber.c:62
 msgid "show CONFIGURED values"
 msgstr ""
 
-#: src/fiber.c:89 src/helper.c:81
+#: src/fiber.c:96 src/helper.c:81
 #, c-format
 msgid "malloc in %s"
 msgstr ""
 
-#: src/fiber.c:137
+#: src/fiber.c:144
 #, c-format
 msgid "interrupted by signal SIGINT handler in %s"
 msgstr ""
 
-#: src/fiber.c:162
+#: src/fiber.c:169
 #, c-format
 msgid "pthread_create in %s"
 msgstr ""
 
-#: src/fiber.c:190
+#: src/fiber.c:197
 #, c-format
 msgid "could not set fiber to CPU %d"
 msgstr ""
 
-#: src/fiber.c:195
+#: src/fiber.c:202
 #, c-format
 msgid "no physical cpu %d"
 msgstr ""
 
-#: src/fiber.c:197
+#: src/fiber.c:204
 msgid "sched_setaffinity() == -1 "
 msgstr ""
 
-#: src/fiber.c:222
+#: src/fiber.c:229
 #, c-format
 msgid "pthread_join %s"
 msgstr ""
 
-#: src/fiber.c:261 src/fiber.c:409
+#: src/fiber.c:268 src/fiber.c:416
 #, c-format
 msgid "message is to longer (%d) than %d"
 msgstr ""
 
-#: src/fiber.c:267
+#: src/fiber.c:274
 #, c-format
 msgid "num_send != num_packed in %s"
 msgstr ""
 
-#: src/fiber.c:271
+#: src/fiber.c:278
 #, c-format
 msgid "send/pack %ld/%d bytes (protocol type %d) to %s"
 msgstr ""
 
-#: src/fiber.c:278 src/fiber.c:396
+#: src/fiber.c:285 src/fiber.c:403
 #, c-format
 msgid "num_read == -1 in %s"
 msgstr ""
 
-#: src/fiber.c:284
+#: src/fiber.c:291
 #, c-format
 msgid "wrong answer %d"
 msgstr ""
 
-#: src/fiber.c:294
+#: src/fiber.c:301
 msgid "fiber_array == NULL || count == 0"
 msgstr ""
 
-#: src/fiber.c:312 src/fiber.c:324
+#: src/fiber.c:319 src/fiber.c:331
 #, c-format
 msgid "priority > %d"
 msgstr ""
 
-#: src/fiber.c:316 src/fiber.c:328
+#: src/fiber.c:323 src/fiber.c:335
 #, c-format
 msgid "priority < %d"
 msgstr ""
 
-#: src/fiber.c:334 src/fiber.c:341 src/fiber.c:348
+#: src/fiber.c:341 src/fiber.c:348 src/fiber.c:355
 #, c-format
 msgid "priority %d != 0"
 msgstr ""
 
-#: src/fiber.c:354
+#: src/fiber.c:361
 #, c-format
 msgid "policy %d invalid"
 msgstr ""
 
-#: src/fiber.c:360
+#: src/fiber.c:367
 #, c-format
 msgid "cpu affinity > configured cpu (%d > %d)"
 msgstr ""
 
-#: src/fiber.c:388
+#: src/fiber.c:395
 #, c-format
 msgid "pthread_detach in %s"
 msgstr ""
 
-#: src/fiber.c:416
-msgid "Couldn't set schedule properties"
-msgstr ""
-
 #: src/fiber.c:423
-#, c-format
-msgid "num_send == -1 in %s"
+msgid "Couldn't set schedule properties"
 msgstr ""
 
 #: src/fiber.c:430
 #, c-format
+msgid "num_send == -1 in %s"
+msgstr ""
+
+#: src/fiber.c:437
+#, c-format
 msgid "protocol type %d not supported"
 msgstr ""
 
-#: src/fiber.c:435
+#: src/fiber.c:442
 #, c-format
 msgid "received/unpack %ld/%d bytes (protocol type %d) from %s"
 msgstr ""

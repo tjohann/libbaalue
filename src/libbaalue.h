@@ -113,13 +113,6 @@ extern "C" {
  * -------------
  */
 
-/*
- * make sure that at least this size is avalable without page fault
- * see https://rt.wiki.kernel.org/index.php/RT_PREEMPT_HOWTO
- */
-#define BASE_SAFE_SIZE 1024
-#define DEF_MEM_FAC 1
-
 #define MAXLINE 254
 #define DUMMY_STRING "dummy"
 #define FILE_EMPTY -2
@@ -135,11 +128,28 @@ extern "C" {
 // max num of bytes per uds msg
 #define MAX_LEN_MSG 100
 
-/* supported protocol type */
-#define PTYPE_SCHED_PROPS      0x00
-#define PTYPE_DEVICE_MGMT_HALT 0x01
-#define PTYPE_VERIFY_ACK       0xFE
-#define PTYPE_RCV_ACK          0xFF
+/*
+ * supported protocol type:
+ * - PTYPE_SCHED_PROPS -> set scheduling propertys:
+ *	num_unpacked = baa_unpack(buf, "cLLLL",
+ *				  &protocol_type,
+ *				  &fiber_element.kernel_tid,
+ *				  &fiber_element.policy,
+ *				  &fiber_element.cpu,
+ *				  &fiber_element.sched_param.sched_priority);
+ * - PTYPE_DEVICE_MGMT -> start device managment functions:
+ *      - halt
+ *      - reboot
+ *      - t.b.d.
+ * - PTYPE_DEVICE_MGMT_HALT -> independed subtype of device managment
+ * - PTYPE_DEVICE_MGMT_REBOOT -> independed subtype of device managment
+ */
+#define PTYPE_SCHED_PROPS        0x00
+#define PTYPE_DEVICE_MGMT        0x01
+#define PTYPE_DEVICE_MGMT_HALT   0x02
+#define PTYPE_DEVICE_MGMT_REBOOT 0x03
+#define PTYPE_VERIFY_ACK         0xFE
+#define PTYPE_RCV_ACK            0xFF
 
 /* can_*_socket flags */
 #define BIND_TO_SINGLE_CANIF 0x00
