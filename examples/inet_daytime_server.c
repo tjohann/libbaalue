@@ -20,7 +20,6 @@
 #include "libbaalue.h"
 
 static char *program_name;
-static char *server_name;
 static sigset_t mask;
 
 
@@ -99,6 +98,8 @@ int main(int argc, char *argv[])
 {
 	pthread_t tid_signal_handler;
 	pthread_t tid_daytime_server;
+
+	char *server_name = NULL;
 	int fds = -1;
 
 	baa_set_program_name(&program_name, argv[0]);

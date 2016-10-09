@@ -150,7 +150,7 @@ int main(int argc, char *argv[])
         /*
 	 * daytime server part
 	 */
-	fds = baa_inet_dgram_client(server_name, "daytime");
+	fds = baa_inet_stream_client(server_name, "daytime");
 	if (fds != 0) {
 		baa_error_msg("could not connect to %s", &server_name);
 		usage(EXIT_FAILURE);
