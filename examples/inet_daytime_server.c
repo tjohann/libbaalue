@@ -132,11 +132,12 @@ int main(int argc, char *argv[])
         /*
 	 * setup daytime server
 	 */
-	//fds = baa_inet_dgram_server(server_name, "daytime");
-	//if (fds != 0) {
-	//	baa_error_msg("could not connect to %s", &server_name);
-	//	usage(EXIT_FAILURE);
-	//}
+	fds = baa_inet_dgram_server(NULL, "daytime");
+	if (fds != 0) {
+		baa_error_msg("could not setup server");
+		usage(EXIT_FAILURE);
+	}
+
 
 
 	(void) pthread_join(tid_signal_handler, NULL);
