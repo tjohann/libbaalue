@@ -172,7 +172,7 @@ int main(int argc, char *argv[])
 	 * start the thread to handle config request on kdo_socket
 	 */
 	err = pthread_create(&tid_schedule_handler, NULL,
-			baa_schedule_server_th, (void *) &kdo_socket);
+			     baa_schedule_server_th, (void *) &kdo_socket);
 	if (err != 0) {
 		baa_th_error_exit(err, "could not create pthread");
 		exit(EXIT_FAILURE);

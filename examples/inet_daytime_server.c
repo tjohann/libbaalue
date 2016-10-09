@@ -20,6 +20,7 @@
 #include "libbaalue.h"
 
 static char *program_name;
+static char *server_name;
 static sigset_t mask;
 
 
@@ -97,13 +98,17 @@ signal_handler(void *args)
 int main(int argc, char *argv[])
 {
 	pthread_t tid_signal_handler;
+	pthread_t tid_daytime_server;
 	int fds = -1;
 
 	baa_set_program_name(&program_name, argv[0]);
 
 	int c;
-	while ((c = getopt(argc, argv, "h")) != -1) {
+	while ((c = getopt(argc, argv, "hf:")) != -1) {
 		switch (c) {
+		case 'f':
+			server_name = optarg;
+			break;
 		case 'h':
 			usage(EXIT_SUCCESS);
 			break;
@@ -132,14 +137,23 @@ int main(int argc, char *argv[])
         /*
 	 * setup daytime server
 	 */
-	fds = baa_inet_dgram_server(NULL, "daytime");
+	fds = baa_inet_stream_server(server_name, "daytime");
 	if (fds != 0) {
-		baa_error_msg("could not setup server");
+		baa_error_msg("could not setup server@%s", server_name);
 		usage(EXIT_FAILURE);
 	}
 
+	/*
+	 * start the thread to handle daytime server
+	 */
+	err = pthread_create(&tid_daytime_server, NULL,
+			     baa_daytime_server_th, (void *) &fds);
+	if (err != 0) {
+		baa_th_error_exit(err, "could not create pthread");
+		exit(EXIT_FAILURE);
+	}
 
-
+	(void) pthread_join(tid_daytime_server, NULL);
 	(void) pthread_join(tid_signal_handler, NULL);
 
 	baa_wrap_close(fds);

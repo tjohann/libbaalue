@@ -179,6 +179,9 @@ Network related topics like setup a unix domain socket server/clients or inet so
 	int
 	baa_inet_stream_server(const char *host, const char *service);
 
+	void *
+	baa_daytime_server_th(void *args);
+
 
 fiber.c & process.c
 -------------------
@@ -334,10 +337,9 @@ Provided examples (folder ./examples)
 Below the folder examples you find some usecases of libbaalue. All server are implemented as daemon and therefore use syslog. In most cases everthing is tested on different A20 based ARM device (see https://github.com/tjohann/a20_sdk). On usecase of the A20 devices is my Bananapi (CAN) Cluster named baalue. For that I need some control and admin paths to the cluster as hole and to a specific node.
 
 
-Inet datagram socket server/client (inet_daytime_*.c):
------------------------------------------
+Inet stream socket server/client (inet_daytime_*.c):
+----------------------------------------------------
 
-	the same like the uds example but here via UDP
 	see also baalued (https://github.com/tjohann/baalued)
 
 	inet_daytime_client -> simple daytime client

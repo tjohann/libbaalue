@@ -287,6 +287,9 @@ baa_inet_dgram_server(const char *host, const char *service);
 int
 baa_inet_stream_server(const char *host, const char *service);
 
+void *
+baa_daytime_server_th(void *args);
+
 
 /*
  * process.c

@@ -25,7 +25,7 @@
 #define USE_CONNECT 0x04
 #define USE_LISTEN 0x08
 
-// buffer 10 connection
+/* buffer 10 connection in one socket */
 #define BACKLOG 10
 
 
@@ -345,4 +345,32 @@ baa_inet_stream_server(const char *host, const char *service)
 	}
 
 	return sfd;
+}
+
+BAALUE_EXPORT void *
+baa_daytime_server_th(void *args)
+{
+	int fds = *((int *) args);
+	int confd = -1;
+
+	char buf[MAXLINE];
+	memset(&buf, 0, sizeof(buf));
+
+	time_t ticks;
+	ssize_t len;
+
+	for (;;) {
+		confd = accept(fds, (struct sockaddr *) NULL, NULL);
+		if (confd == -1)
+			continue;
+
+		ticks = time(NULL);
+		snprintf(buf, sizeof(buf), "%.24s\r\n", ctime(&ticks));
+		len = strlen(buf);
+
+		if (write(confd, buf, len) != len)
+			baa_errno_msg(_("could not write %s to socket"), buf);
+	}
+
+	return NULL;
 }
