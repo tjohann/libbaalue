@@ -174,10 +174,10 @@ Network related topics like setup a unix domain socket server/clients or inet so
 	baa_inet_stream_client(const char *host, const char *service);
 
 	int
-	baa_inet_dgram_server(const char *host, const char *service);
+	baa_inet_dgram_server(const char *service);
 
 	int
-	baa_inet_stream_server(const char *host, const char *service);
+	baa_inet_stream_server(const char *service);
 
 	void *
 	baa_daytime_server_th(void *args);
@@ -345,7 +345,7 @@ Inet stream socket server/client (inet_daytime_*.c):
 	inet_daytime_client -> simple daytime client
 	inet_daytime_server -> simple daytime server (not a daemon)
 
-State: started
+State: finished
 
 
 CAN sender/receiver (can_send.c && can_recv.c):
@@ -394,4 +394,4 @@ This example shows how to use a unix datagram socket for remote device managment
 	udp_mgmt_server.c -> the server (reside on the target)
 	udp_mgmt_client.c -> the client (controls the device)
 
-State: not started
+State: started

@@ -38,10 +38,6 @@ __attribute__((noreturn)) usage(int status)
 	baa_info_msg("Options:                                       ");
 	baa_info_msg("        -h                       show help     ");
 	putchar('\n');
-	baa_info_msg("Examples:                                      ");
-	baa_info_msg("%s -f baalue_master                            ",
-		     program_name);
-	putchar('\n');
 
 	show_some_infos();
 	exit(status);
@@ -99,17 +95,11 @@ int main(int argc, char *argv[])
 	pthread_t tid_signal_handler;
 	pthread_t tid_daytime_server;
 
-	char *server_name = NULL;
-	int fds = -1;
-
 	baa_set_program_name(&program_name, argv[0]);
 
 	int c;
-	while ((c = getopt(argc, argv, "hf:")) != -1) {
+	while ((c = getopt(argc, argv, "h")) != -1) {
 		switch (c) {
-		case 'f':
-			server_name = optarg;
-			break;
 		case 'h':
 			usage(EXIT_SUCCESS);
 			break;
@@ -138,9 +128,10 @@ int main(int argc, char *argv[])
         /*
 	 * setup daytime server
 	 */
-	fds = baa_inet_stream_server(server_name, "daytime");
-	if (fds != 0) {
-		baa_error_msg("could not setup server@%s", server_name);
+	int fds = -1;
+	fds = baa_inet_stream_server("daytime");
+	if (fds == -1) {
+		baa_error_msg("could not setup server");
 		usage(EXIT_FAILURE);
 	}
 

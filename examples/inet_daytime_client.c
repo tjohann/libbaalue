@@ -104,10 +104,7 @@ int main(int argc, char *argv[])
 {
 	pthread_t tid_signal_handler;
 	char *server_name = NULL;
-	int fds = -1;
-
 	char recvline[MAXLINE + 1];
-	memset(&recvline, 0, sizeof(recvline));
 
 	baa_set_program_name(&program_name, argv[0]);
 
@@ -131,6 +128,8 @@ int main(int argc, char *argv[])
 		usage(EXIT_FAILURE);
 	}
 
+	baa_info_msg("try to connect to %s", server_name);
+
 	int err = atexit(cleanup);
 	if (err != 0)
 		exit(EXIT_FAILURE);
@@ -147,28 +146,32 @@ int main(int argc, char *argv[])
 	if (err != 0)
 		baa_th_error_exit(err, "could not create pthread");
 
-        /*
-	 * daytime server part
-	 */
-	fds = baa_inet_stream_client(server_name, "daytime");
-	if (fds != 0) {
-		baa_error_msg("could not connect to %s", &server_name);
-		usage(EXIT_FAILURE);
-	}
+	int fds = -1;
+	ssize_t num_read = -1;
+	for (;;) {
+		memset(&recvline, 0, sizeof(recvline));
+		baa_info_msg("try to connect to daytime server of %s",
+			server_name);
 
-	int n = -1;
-	while ((n = read(fds, recvline, MAXLINE)) > 0) {
-		recvline[n] = 0;
-		if (fputs(recvline, stdout) == EOF)
-			fprintf(stderr,"fputs == EOF");
-	}
-	if (n < 0)
-		baa_error_msg("could not read from fd");
+		fds = baa_inet_stream_client(server_name, "daytime");
+		if (fds == -1) {
+			baa_error_msg("could not connect to %s", &server_name);
+			usage(EXIT_FAILURE);
+		}
 
-	baa_info_msg("read from %s: %s\n", server_name, recvline );
+		num_read = baa_read_line(fds, recvline, MAXLINE);
+		if (num_read == -1)
+			baa_error_exit("could not read from socket");
+
+		recvline[num_read - 1] = '\0'; /* eliminate NEWLINE */
+		baa_info_msg("read %d bytes from %s: %s", num_read,
+			server_name, recvline );
+
+		close(fds);
+		sleep(2);
+	}
 
 	(void) pthread_join(tid_signal_handler, NULL);
 
-	baa_wrap_close(fds);
 	exit(EXIT_SUCCESS);
 }

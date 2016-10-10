@@ -113,6 +113,8 @@ BAALUE_EXPORT int
 baa_uds_stream_server(const char *name, const char *dir, char **socket_f)
 {
 	int sfd = uds_socket(name, dir, socket_f, SOCK_STREAM, USE_BIND);
+	if (sfd == -1)
+		return -1;
 
 	if (listen(sfd, BACKLOG) == -1) {
 		baa_errno_msg(_("listen in %s"), __FUNCTION__);
@@ -199,9 +201,7 @@ baa_create_uds_name_string(const char *file, const char *dir)
 static int
 connect_inet_socket(const char *host, const char *service, int type)
 {
-	struct addrinfo *result = NULL;
 	struct addrinfo hints;
-
 	memset(&hints, 0, sizeof(struct addrinfo));
 
 	hints.ai_addr = NULL;
@@ -210,15 +210,17 @@ connect_inet_socket(const char *host, const char *service, int type)
 	hints.ai_family = AF_UNSPEC;
 	hints.ai_socktype = type;
 
+	struct addrinfo *result = NULL;
 	int ret = getaddrinfo(host, service, &hints, &result);
 	if (ret != 0) {
 		baa_info_msg(_("getaddrinfo in %s with %s"), __FUNCTION__,
-			     gai_strerror(ret));
+			gai_strerror(ret));
 		return -1;
 	}
 
 	int sfd = -1;
-	do {
+	struct addrinfo *rp = NULL;
+	for (rp = result; rp != NULL; rp = rp->ai_next) {
                 sfd = socket(result->ai_family,
 			     result->ai_socktype,
 			     result->ai_protocol);
@@ -232,17 +234,11 @@ connect_inet_socket(const char *host, const char *service, int type)
 
                 close(sfd);
 
-        } while ((result = result->ai_next) != NULL);
+        }
 
-	if (result == NULL) {
-		baa_error_msg(_("something went wrong"));
-		close(sfd);
-		return -1;
-	} else {
-		freeaddrinfo(result);
-	}
+	freeaddrinfo(result);
 
-	return sfd;
+	return (rp == NULL) ? -1 : sfd;
 }
 
 BAALUE_EXPORT int
@@ -261,12 +257,9 @@ baa_inet_stream_client(const char *host, const char *service)
  * inet socket -> server side
  */
 static int
-bind_inet_socket(const char *host, const char *service, int type,
-		 unsigned char flags)
+bind_inet_socket(const char *service, int type, unsigned char flags)
 {
-	struct addrinfo *result = NULL;
 	struct addrinfo hints;
-
 	memset(&hints, 0, sizeof(struct addrinfo));
 
 	hints.ai_addr = NULL;
@@ -276,7 +269,8 @@ bind_inet_socket(const char *host, const char *service, int type,
 	hints.ai_flags = AI_PASSIVE;
 	hints.ai_socktype = type;
 
-	int ret = getaddrinfo(host, service, &hints, &result);
+	struct addrinfo *result = NULL;
+	int ret = getaddrinfo(NULL, service, &hints, &result);
 	if (ret != 0) {
 		baa_info_msg(_("getaddrinfo in %s with %s"), __FUNCTION__,
 			     gai_strerror(ret));
@@ -285,59 +279,53 @@ bind_inet_socket(const char *host, const char *service, int type,
 
 	int sfd = -1;
 	int opt_val = 1;
-	do {
+	struct addrinfo *rp = NULL;
+	for (rp = result; rp != NULL; rp = rp->ai_next) {
                 sfd = socket(result->ai_family,
-			     result->ai_socktype,
-			     result->ai_protocol);
+			result->ai_socktype,
+			result->ai_protocol);
                 if (sfd == -1)
                         continue;
 
 		if (flags & USE_LISTEN) {
 			ret = setsockopt(sfd, SOL_SOCKET, SO_REUSEADDR,
-					 &opt_val, sizeof(opt_val));
+					&opt_val, sizeof(opt_val));
 			if (ret == -1) {
 				baa_errno_msg(_("setsockopt in %s"),
-					      __FUNCTION__);
-				goto error;
+					__FUNCTION__);
+
+				freeaddrinfo(result);
+				close(sfd);
+				return -1;
 			}
-		}
+		 }
 
 		/* take the first valid one */
 		ret = bind(sfd, result->ai_addr, result->ai_addrlen);
 		if (ret == 0)
                         break;
 
+		/* close only if bind fails! */
 		close(sfd);
-
-        } while ((result = result->ai_next) != NULL);
-
-	if (result == NULL) {
-		baa_error_msg(_("something went wrong"));
-		goto error;
-	} else {
-		freeaddrinfo(result);
 	}
 
-	return sfd;
-error:
-	if (result != NULL)
-		freeaddrinfo(result);
+	freeaddrinfo(result);
 
-	close(sfd);
-
-	return -1;
+	return (rp == NULL) ? -1 : sfd;
 }
 
 BAALUE_EXPORT int
-baa_inet_dgram_server(const char *host, const char *service)
+baa_inet_dgram_server(const char *service)
 {
-	return bind_inet_socket(host, service, SOCK_DGRAM, 0);
+	return bind_inet_socket(service, SOCK_DGRAM, 0);
 }
 
 BAALUE_EXPORT int
-baa_inet_stream_server(const char *host, const char *service)
+baa_inet_stream_server(const char *service)
 {
-	int sfd = bind_inet_socket(host, service, SOCK_DGRAM, USE_LISTEN);
+	int sfd = bind_inet_socket(service, SOCK_STREAM, USE_LISTEN);
+	if (sfd == -1)
+		return -1;
 
 	if (listen(sfd, BACKLOG) == -1) {
 		baa_errno_msg(_("listen in %s"), __FUNCTION__);
