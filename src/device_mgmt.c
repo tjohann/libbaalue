@@ -73,7 +73,7 @@ baa_device_mgmt_th(void *args)
 			baa_info_msg(_("protocol type -> PTYPE_DEVICE_MGMT_HALT"));
 #endif
 			sync();
-			reboot(LINUX_REBOOT_CMD_HALT);
+			reboot(LINUX_REBOOT_CMD_RESTART);
 
 			break;
 		default:
