@@ -20,6 +20,8 @@
 #include <libbaalue.h>
 #include "libbaalue-private.h"
 
+#include <sys/reboot.h>
+#include <linux/reboot.h>
 
 #define CLEAN_DEVICE_MGMT_PROPS() do {					\
 		num_read = 0;						\
@@ -27,7 +29,6 @@
 		memset(&addr, 0, len);					\
 		memset(buf, 0, MAX_LEN_MSG);				\
 	} while(0)
-
 
 
 BAALUE_EXPORT void *
@@ -53,34 +54,28 @@ baa_device_mgmt_th(void *args)
 
 		switch(buf[0]) {
 		case PTYPE_DEVICE_MGMT:
-			baa_info_msg(_("protocol type -> PTYPE_DEVICE_MGMT"));
-			/*
-			num_unpacked = baa_unpack(buf, "cLLLL",
-						  &protocol_type,
-						  &fiber_element.kernel_tid,
-						  &fiber_element.policy,
-						  &fiber_element.cpu,
-						  &fiber_element.sched_param.sched_priority);
-
-			if (num_unpacked > MAX_LEN_MSG) {
-				baa_error_msg(_("message is to longer (%d) than %d"),
-					      num_unpacked, MAX_LEN_MSG);
-				continue;
-				}
 #ifdef __DEBUG__
-		baa_info_msg(
-			_("received/unpack %ld/%d bytes (protocol type %d) from %s"),
-			(long) num_read, num_unpacked, protocol_type, addr.sun_path);
+			baa_info_msg(_("protocol type -> PTYPE_DEVICE_MGMT"));
 #endif
-			*/
+			/*
+			 * TODO: implement HALT & REBOOT
+			 */
 			break;
 		case PTYPE_DEVICE_MGMT_HALT:
+#ifdef __DEBUG__
 			baa_info_msg(_("protocol type -> PTYPE_DEVICE_MGMT_HALT"));
+#endif
+			sync();
+			reboot(LINUX_REBOOT_CMD_HALT);
 			break;
 		case PTYPE_DEVICE_MGMT_REBOOT:
+#ifdef __DEBUG__
 			baa_info_msg(_("protocol type -> PTYPE_DEVICE_MGMT_HALT"));
-			break;
+#endif
+			sync();
+			reboot(LINUX_REBOOT_CMD_HALT);
 
+			break;
 		default:
 			baa_error_msg(_("protocol type %d not supported"), buf[0]);
 		}

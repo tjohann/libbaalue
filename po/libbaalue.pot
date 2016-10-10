@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libbaalue trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-10-10 17:23+0200\n"
+"POT-Creation-Date: 2016-10-10 20:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -396,52 +396,52 @@ msgstr ""
 msgid "sfd_f == NULL %s"
 msgstr ""
 
-#: src/network.c:118 src/network.c:326
+#: src/network.c:120 src/network.c:331
 #, c-format
 msgid "listen in %s"
 msgstr ""
 
-#: src/network.c:144
+#: src/network.c:146
 #, c-format
 msgid "could not get sun_path in %s"
 msgstr ""
 
-#: src/network.c:150
+#: src/network.c:152
 #, c-format
 msgid "no such file %s"
 msgstr ""
 
-#: src/network.c:152
+#: src/network.c:154
 #, c-format
 msgid "could not unlink %s in %s"
 msgstr ""
 
-#: src/network.c:175
+#: src/network.c:177
 #, c-format
 msgid "strlen(tmp_str) > sizeof(add.sun_path) in %s"
 msgstr ""
 
-#: src/network.c:182
+#: src/network.c:184
 #, c-format
 msgid "str == NULL %s"
 msgstr ""
 
-#: src/network.c:190
+#: src/network.c:192
 #, c-format
 msgid "assembled name %s"
 msgstr ""
 
-#: src/network.c:214 src/network.c:273
+#: src/network.c:216 src/network.c:275
 #, c-format
 msgid "getaddrinfo in %s with %s"
 msgstr ""
 
-#: src/network.c:292
+#: src/network.c:294
 #, c-format
 msgid "setsockopt in %s"
 msgstr ""
 
-#: src/network.c:355
+#: src/network.c:360
 #, c-format
 msgid "could not write %s to socket"
 msgstr ""
