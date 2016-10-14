@@ -27,6 +27,9 @@ static sigset_t mask;
 
 static char *pid_file;
 
+/* 8101-8114   Unassigned */
+const char mgmt_port[] = "8101";
+
 static void
 cleanup(void)
 {
@@ -80,7 +83,7 @@ signal_handler(void *args)
  *
  * This examples show how to use a datagram socket
  *
- * -> this process is the datagram server
+ * -> the server process is udp_mgmt_server.c
  *    (sudo ./udp_mgmt_server )
  * -> the client process is udp_mgmt_client.c
  *    (./udp_mgmt_client )
@@ -88,6 +91,7 @@ signal_handler(void *args)
 int main(int argc, char *argv[])
 {
 	pthread_t tid_signal_handler;
+	pthread_t tid_mgmt_handler;
 
 	baa_set_program_name(&program_name, argv[0]);
 
@@ -135,12 +139,20 @@ int main(int argc, char *argv[])
         /*
 	 * setup datagram server
 	 */
+	int fds = -1;
+	fds = baa_inet_dgram_server(mgmt_port);
+	if (fds == -1)
+		baa_error_exit("could not setup server");
 
+	/*
+	 * start the thread to handle device managment server
+	 */
+	err = pthread_create(&tid_mgmt_handler, NULL,
+			     baa_device_mgmt_th, (void *) &fds);
+	if (err != 0)
+		baa_th_error_exit(err, "could not create pthread");
 
-
-
-
-
+	(void) pthread_join(tid_mgmt_handler, NULL);
         (void) pthread_join(tid_signal_handler, NULL);
 
 	exit(EXIT_SUCCESS);

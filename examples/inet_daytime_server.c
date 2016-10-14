@@ -140,10 +140,8 @@ int main(int argc, char *argv[])
 	 */
 	err = pthread_create(&tid_daytime_server, NULL,
 			     baa_daytime_server_th, (void *) &fds);
-	if (err != 0) {
+	if (err != 0)
 		baa_th_error_exit(err, "could not create pthread");
-		exit(EXIT_FAILURE);
-	}
 
 	(void) pthread_join(tid_daytime_server, NULL);
 	(void) pthread_join(tid_signal_handler, NULL);

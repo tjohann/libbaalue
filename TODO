@@ -4,6 +4,16 @@
 
 
 #
+# -------------- 2016-10-14 ----------------------------------------------------
+#
+- fiber.c
+  - baa_schedule_server_th -> use protocol_type for something? If not remove
+    it
+  - add function to set scheduling props via inet datagram
+    socket
+
+
+#
 # -------------- 2016-10-07 ----------------------------------------------------
 #
 - get page size to correct "init" BASE_SAFE_SIZE

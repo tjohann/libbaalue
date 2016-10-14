@@ -13,7 +13,51 @@ The prefix for all functions and datatypes is "baa". See src/libbaalue.h for mor
 
 For common task (like set scheduling of fiber -> baa_schedule_server_th) threads are provided (see the corresponding file -> fiber.c). Also for device managment of a baalue node corresponding threads are available.
 
-Below the examples folder you found simple programs which show the usage of the functions (see below for more info).
+Below the folder examples you find simple programs which show the usage of the functions.
+
+For different topics standard threads with simple protocols are implemented (PTYPE_*):
+
+	/*
+	* supported protocol type:
+	* - PTYPE_SCHED_PROPS -> set scheduling propertys:
+	*	num_unpacked = baa_unpack(buf, "cLLLL",
+	*				  &protocol_type,  <- TODO: use this info?
+	*				  &fiber_element.kernel_tid,
+	*				  &fiber_element.policy,
+	*				  &fiber_element.cpu,
+	*				  &fiber_element.sched_param.sched_priority);
+	* client:                            server:
+	* |__ send one fiber-element __|
+	*                                    |__ rcv and unpack __|
+	*                                    |__ send PTYPE_RCV_ACK __|
+	* |__ recv PTYPE_RCV_ACK __|
+	*                                    |__ set values __|
+	*                                    |__ send PTYPE_CMD_ACK __|
+	* |__ recv PTYPE_CMD_ACK __|
+	*
+	* - PTYPE_DEVICE_MGMT -> start device managment functions:
+	*      - t.b.d.
+	* - PTYPE_DEVICE_MGMT_HALT -> independed subtype of device managment
+	* - PTYPE_DEVICE_MGMT_REBOOT -> independed subtype of device managment
+	*/
+	#define PTYPE_SCHED_PROPS        0x00
+	#define PTYPE_DEVICE_MGMT        0x01
+	#define PTYPE_DEVICE_MGMT_HALT   0x02
+	#define PTYPE_DEVICE_MGMT_REBOOT 0x03
+	/*
+	* PTYPE_ERROR -> unspecified error (default reaction -> continue)
+	* PTYPE_RESET -> continue with next or leave thread/function
+	*/
+	#define PTYPE_RESET              0xEE
+	#define PTYPE_ERROR              0xEF
+	/*
+	* PTYPE_RCV_ACK -> received the message
+	* PTYPE_CMD_ACK -> triggered the cmd
+	* PTYPE_VERIFY_ACK -> finished and verified the cmd
+	*/
+	#define PTYPE_CMD_ACK            0xFD
+	#define PTYPE_VERIFY_ACK         0xFE
+	#define PTYPE_RCV_ACK            0xFF
 
 
 error.c
@@ -203,18 +247,20 @@ Functions to setup a thread/process like scheduling policies or cpu affinity bas
 	int
 	baa_start_scheduler(fiber_element_t fiber_array[], int count);
 
-	int
-	baa_set_schedule_props_via_server(fiber_element_t fiber_array[], int count,
-		                              int sfd, char *kdo_f);
+	void
+	baa_ts_norm(struct timespec *t);
 
 	bool
 	baa_is_fiber_config_valid(fiber_element_t fiber_array[], int count);
 
+	/* set fiber element array via dedicated server (unix domain socket) */
+	int
+	baa_set_schedule_props_via_server(fiber_element_t fiber_array[], int count,
+	                                  int sfd, char *kdo_f);
+
+	/* the server thread for baa_set_schedule_props_via_server */
 	void *
 	baa_schedule_server_th(void *args);
-
-	void
-	baa_ts_norm(struct timespec *t);
 
 
 sh_mem.c
@@ -329,6 +375,12 @@ Functions for device managment like shotdown or get cpu load.
 
 	void *
 	device_mgmt_th(void *args);
+
+	void
+	baa_reboot(void);
+
+	void
+	baa_halt(void);
 
 
 Provided examples (folder ./examples)

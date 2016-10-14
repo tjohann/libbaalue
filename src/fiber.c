@@ -128,7 +128,7 @@ baa_fiber(void *arg)
 	else
 		heap_prefault(fiber->safe_heap_fac);
 
-	// wait until every fiber is up and ready
+	/* wait until every fiber is up and ready */
 	pthread_mutex_lock(&mutex);
 	pthread_cond_wait(&cond, &mutex);
 	pthread_mutex_unlock(&mutex);
@@ -238,7 +238,7 @@ BAALUE_EXPORT int
 baa_set_schedule_props_via_server(fiber_element_t fiber_array[], int count,
 				  int sfd, char *kdo_f)
 {
-	unsigned char ptype_rcv_ack;
+	unsigned char ptype_rcv;
 	socklen_t len;
 	ssize_t num_read, num_send, num_packed;
 	fiber_element_t *fiber = NULL;
@@ -279,16 +279,33 @@ baa_set_schedule_props_via_server(fiber_element_t fiber_array[], int count,
 			     (long) num_send, num_packed,
 			     PTYPE_SCHED_PROPS, addr.sun_path);
 #endif
-		num_read = recvfrom(sfd, &ptype_rcv_ack, 1, 0,
+
+	read_rcv_ack:
+		num_read = recvfrom(sfd, &ptype_rcv, 1, 0,
 				    (struct sockaddr *) &addr, &len);
 		if (num_read == -1) {
 			baa_errno_msg(_("num_read == -1 in %s"), __FUNCTION__);
 			return -1;
 		}
 
-		// TODO: read in a loop until ptype_rcv_ack == PTYPE_RCV_ACK
-		if (ptype_rcv_ack != PTYPE_RCV_ACK)
-			baa_error_msg(_("wrong answer %d"), ptype_rcv_ack);
+		switch (ptype_rcv) {
+		case PTYPE_ERROR:
+		case PTYPE_RESET:
+			baa_error_msg(_("get PTYPE_ERROR/RESET from server"));
+			continue;
+			break;
+		case PTYPE_CMD_ACK:
+			continue;
+			break;
+		case PTYPE_RCV_ACK:
+			break;
+		default:
+			baa_error_msg(_("unknown PTYPE %d, try next one"),
+				      ptype_rcv);
+			continue;
+		}
+
+		goto read_rcv_ack;
 	}
 
 	return 0;
@@ -389,6 +406,8 @@ baa_schedule_server_th(void *args)
 
 	unsigned char protocol_type = 0x00;
 	const unsigned char ptype_rcv_ack = PTYPE_RCV_ACK;
+	const unsigned char ptype_cmd_ack = PTYPE_CMD_ACK;
+	const unsigned char ptype_error = PTYPE_ERROR;
 
 	int err = pthread_detach(pthread_self());
 	if (err != 0)
@@ -415,22 +434,20 @@ baa_schedule_server_th(void *args)
 			if (num_unpacked > MAX_LEN_MSG) {
 				baa_error_msg(_("message is to longer (%d) than %d"),
 					      num_unpacked, MAX_LEN_MSG);
+				SEND_ERROR();
 				continue;
 			}
 
+			SEND_RCV_ACK();
+
 			err = baa_set_schedule_props(&fiber_element, 1);
 			if (err != 0) {
-				baa_error_msg(_("Couldn't set schedule properties"));
-				// TODO: send error message to client
+				baa_error_msg(_("could not set schedule properties"));
+				SEND_ERROR();
 				continue;
-			} else {
-				num_send = sendto(kdo_s, &ptype_rcv_ack, 1, 0,
-						  (struct sockaddr *) &addr, len);
-				if (num_send != 1) {
-					baa_errno_msg(_("num_send == -1 in %s"), __FUNCTION__);
-					// TODO: send in a loop?
-				}
 			}
+
+			SEND_CMD_ACK();
 
 			PRINT_SCHED_INFOS_CONFIGURED();
 		} else {

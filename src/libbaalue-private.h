@@ -25,4 +25,27 @@
 #define BAALUE_EXPORT __attribute__ ((visibility ("default")))
 #define BAALUE_LOCAL  __attribute__ ((visibility ("hidden")))
 
+
+#define SEND_RCV_ACK() do {						\
+	num_send = sendto(kdo_s, &ptype_rcv_ack, 1, 0,			\
+			  (struct sockaddr *) &addr, len);		\
+	if (num_send != 1) 						\
+		baa_errno_msg(_("num_send == -1 in %s"), __FUNCTION__);	\
+	} while(0)
+
+
+#define SEND_CMD_ACK() do {						\
+	num_send = sendto(kdo_s, &ptype_cmd_ack, 1, 0,			\
+			  (struct sockaddr *) &addr, len);		\
+	if (num_send != 1) 						\
+		baa_errno_msg(_("num_send == -1 in %s"), __FUNCTION__);	\
+	} while(0)
+
+#define SEND_ERROR() do {						\
+	num_send = sendto(kdo_s, &ptype_error, 1, 0,			\
+			  (struct sockaddr *) &addr, len);		\
+	if (num_send != 1) 						\
+		baa_errno_msg(_("num_send == -1 in %s"), __FUNCTION__);	\
+	} while(0)
+
 #endif

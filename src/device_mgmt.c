@@ -20,9 +20,6 @@
 #include <libbaalue.h>
 #include "libbaalue-private.h"
 
-#include <sys/reboot.h>
-#include <linux/reboot.h>
-
 #define CLEAN_DEVICE_MGMT_PROPS() do {					\
 		num_read = 0;						\
 		len = sizeof(struct sockaddr_storage);			\
@@ -31,16 +28,48 @@
 	} while(0)
 
 
+BAALUE_EXPORT void
+baa_reboot(void)
+{
+	sync();
+	reboot(LINUX_REBOOT_CMD_HALT);
+}
+
+BAALUE_EXPORT void
+baa_halt(void)
+{
+	sync();
+	reboot(LINUX_REBOOT_CMD_RESTART);
+}
+
+BAALUE_EXPORT void
+baa_reboot_device(void)
+{
+	// TODO: content
+}
+
+BAALUE_EXPORT void
+baa_halt_device(void)
+{
+	// TODO: content
+}
+
 BAALUE_EXPORT void *
 baa_device_mgmt_th(void *args)
 {
 	unsigned char buf[MAX_LEN_MSG];
 
+	ssize_t num_unpacked, num_read, num_send;
+
 	struct sockaddr_storage addr;
 	socklen_t len;
-	ssize_t num_read;
 
 	int kdo_s = *((int *) args);
+
+	unsigned char protocol_type = 0x00;
+	const unsigned char ptype_rcv_ack = PTYPE_RCV_ACK;
+	const unsigned char ptype_cmd_ack = PTYPE_CMD_ACK;
+	const unsigned char ptype_error = PTYPE_ERROR;
 
 	for (;;) {
 		CLEAN_DEVICE_MGMT_PROPS();
@@ -58,23 +87,29 @@ baa_device_mgmt_th(void *args)
 			baa_info_msg(_("protocol type -> PTYPE_DEVICE_MGMT"));
 #endif
 			/*
-			 * TODO: implement HALT & REBOOT
+			 * TODO:
+			 * - uptime
+			 * - cpu load
+			 * - mem usage
+			 * - ...
 			 */
+
+			SEND_RCV_ACK();
 			break;
 		case PTYPE_DEVICE_MGMT_HALT:
 #ifdef __DEBUG__
 			baa_info_msg(_("protocol type -> PTYPE_DEVICE_MGMT_HALT"));
 #endif
-			sync();
-			reboot(LINUX_REBOOT_CMD_HALT);
+			SEND_RCV_ACK();
+			// baa_reboot();
+
 			break;
 		case PTYPE_DEVICE_MGMT_REBOOT:
 #ifdef __DEBUG__
 			baa_info_msg(_("protocol type -> PTYPE_DEVICE_MGMT_HALT"));
 #endif
-			sync();
-			reboot(LINUX_REBOOT_CMD_RESTART);
-
+			SEND_RCV_ACK();
+			// baa_halt();
 			break;
 		default:
 			baa_error_msg(_("protocol type %d not supported"), buf[0]);
