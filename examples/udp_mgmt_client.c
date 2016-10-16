@@ -39,10 +39,10 @@ __attribute__((noreturn)) usage(int status)
 	baa_info_msg("Usage: %s [options]              ", program_name);
 	baa_info_msg("Options:                                       ");
 	baa_info_msg("        -h                       show help     ");
-	baa_info_msg("        -f [server name]                       ");
+	baa_info_msg("        -s [server name]                       ");
 	putchar('\n');
 	baa_info_msg("Examples:                                      ");
-	baa_info_msg("%s -f baalue_master                            ",
+	baa_info_msg("%s -s baalue_master                            ",
 		     program_name);
 	putchar('\n');
 
@@ -102,7 +102,7 @@ signal_handler(void *args)
  * -> the server process is udp_mgmt_server.c
  *    (sudo ./udp_mgmt_server )
  * -> the client process is udp_mgmt_client.c
- *    (./udp_mgmt_client )
+ *    (./udp_mgmt_client -s baalue_master)
  */
 int main(int argc, char *argv[])
 {
@@ -113,9 +113,9 @@ int main(int argc, char *argv[])
 	baa_set_program_name(&program_name, argv[0]);
 
 	int c;
-	while ((c = getopt(argc, argv, "hf:")) != -1) {
+	while ((c = getopt(argc, argv, "hs:")) != -1) {
 		switch (c) {
-		case 'f':
+		case 's':
 			server_name = optarg;
 			break;
 		case 'h':
@@ -132,7 +132,7 @@ int main(int argc, char *argv[])
 		usage(EXIT_FAILURE);
 	}
 
-	baa_info_msg("try to connect to %s", server_name);
+	baa_info_msg("server name: %s", server_name);
 
 	int err = atexit(cleanup);
 	if (err != 0)
@@ -164,8 +164,11 @@ int main(int argc, char *argv[])
 	/*
 	 * reboot target device
 	 */
-
-
+	err = baa_reboot_device();
+	if (err == -1) {
+		baa_error_msg("could not reboot device %s", &server_name);
+		exit(EXIT_FAILURE);
+	}
 
 	exit(EXIT_SUCCESS);
 }

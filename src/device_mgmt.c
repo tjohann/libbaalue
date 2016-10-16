@@ -42,16 +42,29 @@ baa_halt(void)
 	reboot(LINUX_REBOOT_CMD_RESTART);
 }
 
-BAALUE_EXPORT void
+BAALUE_EXPORT int
 baa_reboot_device(void)
 {
-	// TODO: content
+	ssize_t num_read, num_send;
+
+	/*
+	num_send = sendto(sfd, buf, num_packed, 0,
+			  (struct sockaddr *) &addr, len);
+	if (num_send != num_packed) {
+		baa_errno_msg(_("num_send != num_packed in %s"), __FUNCTION__);
+		return -1;
+	}
+	*/
+
+	return 0;
 }
 
-BAALUE_EXPORT void
+BAALUE_EXPORT int
 baa_halt_device(void)
 {
 	// TODO: content
+
+	return 0;
 }
 
 BAALUE_EXPORT void *
@@ -101,15 +114,14 @@ baa_device_mgmt_th(void *args)
 			baa_info_msg(_("protocol type -> PTYPE_DEVICE_MGMT_HALT"));
 #endif
 			SEND_RCV_ACK();
-			// baa_reboot();
-
+			baa_reboot();
 			break;
 		case PTYPE_DEVICE_MGMT_REBOOT:
 #ifdef __DEBUG__
 			baa_info_msg(_("protocol type -> PTYPE_DEVICE_MGMT_HALT"));
 #endif
 			SEND_RCV_ACK();
-			// baa_halt();
+			baa_halt();
 			break;
 		default:
 			baa_error_msg(_("protocol type %d not supported"), buf[0]);

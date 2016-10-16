@@ -25,8 +25,6 @@
 static char *program_name;
 static sigset_t mask;
 
-static char *pid_file;
-
 /* 8101-8114   Unassigned */
 const char mgmt_port[] = "8101";
 
@@ -86,7 +84,7 @@ signal_handler(void *args)
  * -> the server process is udp_mgmt_server.c
  *    (sudo ./udp_mgmt_server )
  * -> the client process is udp_mgmt_client.c
- *    (./udp_mgmt_client )
+ *    (./udp_mgmt_client -s baalue_master)
  */
 int main(int argc, char *argv[])
 {
@@ -106,23 +104,6 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	*/
 	show_some_infos();
-
-	/*
-	 * daemon handling
-	 */
-	err = baa_become_daemon();
-	if (err != 0)
-		baa_error_exit("become_daemon() != 0");
-
-	baa_enable_syslog(true, program_name);
-
-	char *tmp_dir = getenv("TMPDIR");
-	if (tmp_dir == NULL)
-		tmp_dir = TMP_DIR;
-
-	pid_file = baa_create_file_with_pid(program_name, tmp_dir);
-	if (pid_file == NULL)
-		baa_error_exit("could not create %s", pid_file);
 
 	/*
 	 * signal handling -> a thread for signal handling

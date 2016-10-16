@@ -537,6 +537,12 @@ baa_halt(void);
 void *
 baa_device_mgmt_th(void *args);
 
+int
+baa_reboot_device(void);
+
+int
+baa_halt_device(void);
+
 
 #ifdef __cplusplus
 } /* extern "C" */
