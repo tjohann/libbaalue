@@ -258,11 +258,11 @@ baa_set_schedule_props_via_server(fiber_element_t fiber_array[], int count,
 		fiber = &fiber_array[i];
 
 		num_packed = baa_pack(buf, "cLLLL",
-				PTYPE_SCHED_PROPS,
-				(int) fiber->kernel_tid,
-				fiber->policy,
-				fiber->cpu,
-				fiber->sched_param.sched_priority);
+				      PTYPE_SCHED_PROPS,
+				      (int) fiber->kernel_tid,
+				      fiber->policy,
+				      fiber->cpu,
+				      fiber->sched_param.sched_priority);
 
 		if (num_packed > MAX_LEN_MSG)
 			baa_info_msg(_("message is to longer (%d) than %d"),

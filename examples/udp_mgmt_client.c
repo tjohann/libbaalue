@@ -164,7 +164,7 @@ int main(int argc, char *argv[])
 	/*
 	 * reboot target device
 	 */
-	err = baa_reboot_device();
+	err = baa_reboot_device(fds);
 	if (err == -1) {
 		baa_error_msg("could not reboot device %s", &server_name);
 		exit(EXIT_FAILURE);

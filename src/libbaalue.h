@@ -538,10 +538,10 @@ void *
 baa_device_mgmt_th(void *args);
 
 int
-baa_reboot_device(void);
+baa_reboot_device(int sfd);
 
 int
-baa_halt_device(void);
+baa_halt_device(int sfd);
 
 
 #ifdef __cplusplus
