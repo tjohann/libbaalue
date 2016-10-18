@@ -122,6 +122,7 @@ examples/time_triggert_uds
 examples/time_triggert_uds_server
 examples/udp_mgmt_client
 examples/udp_mgmt_server
+examples/lcd1602
 
 # man
 man/Makefile

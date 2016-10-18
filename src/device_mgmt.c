@@ -32,15 +32,27 @@
 BAALUE_EXPORT void
 baa_reboot(void)
 {
-	sync();
-	reboot(LINUX_REBOOT_CMD_HALT);
+	/*
+	 * the normal way
+	  sync();
+	  reboot(LINUX_REBOOT_CMD_HALT);
+	*/
+
+	/* use runit to reboot device */
+	system("init 6");
 }
 
 BAALUE_EXPORT void
 baa_halt(void)
 {
-	sync();
-	reboot(LINUX_REBOOT_CMD_RESTART);
+	/*
+	 * the normal way
+	 sync();
+	 reboot(LINUX_REBOOT_CMD_RESTART);
+	*/
+
+	/* use runit to halt device */
+	system("init 0");
 }
 
 
@@ -99,18 +111,14 @@ baa_device_mgmt_th(void *args)
 {
 	unsigned char buf[MAX_LEN_MSG];
 
-	ssize_t num_unpacked, num_read, num_send;
+	ssize_t num_read, num_send;
 
 	struct sockaddr_storage addr;
 	socklen_t len;
 
 	int kdo_s = *((int *) args);
 
-	unsigned char protocol_type = 0x00;
 	const unsigned char ptype_rcv_ack = PTYPE_RCV_ACK;
-	const unsigned char ptype_cmd_ack = PTYPE_CMD_ACK;
-	const unsigned char ptype_error = PTYPE_ERROR;
-
 	for (;;) {
 		CLEAN_DEVICE_MGMT_PROPS();
 

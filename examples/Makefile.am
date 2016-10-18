@@ -3,6 +3,7 @@
 EXTRA_DIST      = example01.dat
 noinst_PROGRAMS = time_triggert_uds 		\
 		  time_triggert_uds_server	\
+		  lcd1602			\
 		  can_send 			\
 		  can_recv 			\
 		  udp_mgmt_server		\

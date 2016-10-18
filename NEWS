@@ -2,9 +2,20 @@
 # some news ... see also TODO for hints
 #
 
+
+2016-10-18 -> use runit service to halt/reboot device
+
+
+2016-10-17 -> add skeleton for lcd1602 example
+
+
+2016-10-16 -> add working example for device_mgmt functions
+	      add halt and reboot functions to device_mgmt.c
+
+
 2016-10-14 -> some rework in the fiber part
 	      add some more content to device_mgmt.c
-	      add working example for device_mgmt functions
+	      add working example skeleton for device_mgmt functions
 
 
 2016-09-30 -> some cleanups of the examples

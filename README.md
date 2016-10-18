@@ -386,13 +386,15 @@ Functions for device managment like shotdown or get cpu load.
 Provided examples (folder ./examples)
 -------------------------------------
 
-Below the folder examples you find some usecases of libbaalue. All server are implemented as daemon and therefore use syslog. In most cases everthing is tested on different A20 based ARM device (see https://github.com/tjohann/a20_sdk). On usecase of the A20 devices is my Bananapi (CAN) Cluster named baalue. For that I need some control and admin paths to the cluster as hole and to a specific node.
+Below the folder examples you find some usecases of libbaalue. Most server are implemented as a daemon and therefore use syslog. In most cases everthing is tested on different A20 based ARM device (see https://github.com/tjohann/a20_sdk).
+
+One usecase of the A20 devices is my Bananapi (CAN) Cluster named baalue. For that I need some control and admin paths to the cluster as hole and to a specific node.
 
 
 Inet stream socket server/client (inet_daytime_*.c):
 ----------------------------------------------------
 
-	see also baalued (https://github.com/tjohann/baalued)
+Simple daytime server (server thread: baa_daytime_server_th) and client to demonstrate TCP usage.
 
 	inet_daytime_client -> simple daytime client
 	inet_daytime_server -> simple daytime server (not a daemon)
@@ -410,8 +412,8 @@ CAN sender/receiver (can_send.c && can_recv.c):
 State: started
 
 
-Time-Triggert (time_triggert_simple.c):
----------------------------------------
+Time-Triggert system (time_triggert_simple.c):
+----------------------------------------------
 
 This examples show how to use of my simple time triggert infrastructure. To set the properties of the thread the program must be started with root rights, but it drops all except CAP_SYS_NICE.
 
@@ -420,8 +422,8 @@ This examples show how to use of my simple time triggert infrastructure. To set 
 State: finished
 
 
-Time-Triggert via unix domain socket (time_triggert_uds*.c):
--------------------------------------------------
+Time-Triggert system controlled via unix domain socket (time_triggert_uds*.c):
+------------------------------------------------------------------------------
 
 This examples shows how to use a unix domain socket to configure a threads in an unrelated process. The predefined thread baa_schedule_server_th does the "magic". It controls via the protocol typ PTYPE_SCHED_PROPS the policy (SCHED_FIFO/...), the cpu affinity and the schedule priority for different threads.
 
@@ -438,12 +440,38 @@ To set the properties of a thread the server must be started with root rights, b
 State: started
 
 
-Device managment via unix datagram socket (udp_mgmt_*.c):
----------------------------------------------------------
+Time-Triggert system controlled via unix datagram socket (time_triggert_udp*.c):
+------------------------------------------------------------------------------
 
-This example shows how to use a unix datagram socket for remote device managment like shutdown a baalue node.
+This examples shows how to use a unix datagram socket (remote) to configure a threads in an unrelated process on a target device (like baalue).
+
+Note: this is a special usecase based on decice_mgmt.c
+
+	udp_server -> create a udd server and wait for kdo's
+	              sudo ./time_triggert_udp_server
+
+	udp_client -> send some kdo to the server
+	              ./time_triggert_udp -s baalue_master
+
+State: not started
+
+
+Remote device managment via unix datagram socket (udp_mgmt_*.c):
+----------------------------------------------------------------
+
+This example shows how to use a unix datagram socket for remote device managment like shutdown a baalue node. The server is implemented within the thread with baa_device_mgmt_th.
 
 	udp_mgmt_server.c -> the server (reside on the target)
 	udp_mgmt_client.c -> the client (controls the device)
 
 State: started
+
+
+Plot status info to an I2C-LCD1602 display (lcd1602.c):
+-------------------------------------------------------
+
+This example shows how to use a simple lcd as an state monitor (see also https://github.com/tjohann/baalued.git).
+
+	lcd1602.c -> cycle some state info on the display
+
+State: not started
