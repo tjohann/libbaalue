@@ -48,7 +48,6 @@
 #include <sysexits.h>
 #include <ctype.h>
 #include <pthread.h>
-#include <bsd/stdlib.h>
 #include <sys/utsname.h>
 #include <sched.h>
 #include <time.h>
