@@ -80,9 +80,9 @@
 #include <locale.h>
 #include "gettext.h"
 
-/* libgit2 */
-#include <git2.h>
-#include <git2/clone.h>
+/* libgit2 -> actually not needed */
+/* #include <git2.h>
+   #include <git2/clone.h> */
 
 /* libcurl */
 #include <curl/curl.h>
