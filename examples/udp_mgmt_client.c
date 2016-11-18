@@ -162,11 +162,11 @@ int main(int argc, char *argv[])
 	}
 
 	/*
-	 * reboot target device
+	 * halt device
 	 */
-	err = baa_reboot_device(fds);
+	err = baa_halt_device(fds);
 	if (err == -1) {
-		baa_error_msg("could not reboot device %s", &server_name);
+		baa_error_msg("could not halt device %s", &server_name);
 		exit(EXIT_FAILURE);
 	}
 

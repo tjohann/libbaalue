@@ -10,9 +10,7 @@ noinst_PROGRAMS = time_triggert_uds 		\
 		  udp_mgmt_client		\
                   inet_daytime_client  		\
 		  inet_daytime_server  		\
-		  time_triggert_simple		\
-		  time_triggert_udp		\
-		  time_triggert_udp_server
+		  time_triggert_simple
 
 AM_CFLAGS     	= -I$(top_srcdir)/src $(my_CFLAGS)
 AM_LDFLAGS      = -L../src/

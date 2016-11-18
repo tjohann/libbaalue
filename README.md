@@ -19,45 +19,62 @@ For different topics standard threads with simple protocols are implemented (PTY
 
 	/*
 	* supported protocol type:
-	* - PTYPE_SCHED_PROPS -> set scheduling propertys:
+	*
+	* *****************************************************************************
+	*
+	* - PTYPE_SCHED_PROPS -> set scheduling properties (via unix domain):
 	*	num_unpacked = baa_unpack(buf, "cLLLL",
 	*				  &protocol_type,  <- TODO: use this info?
 	*				  &fiber_element.kernel_tid,
 	*				  &fiber_element.policy,
 	*				  &fiber_element.cpu,
 	*				  &fiber_element.sched_param.sched_priority);
+	*
 	* client:                            server:
 	* |__ send one fiber-element __|
-	*                                    |__ rcv and unpack __|
+	*                                    |__ unpack(see above)  __|
 	*                                    |__ send PTYPE_RCV_ACK __|
-	* |__ recv PTYPE_RCV_ACK __|
-	*                                    |__ set values __|
+	* |__ recv PTYPE_RCV_ACK     __|
+	*                                    |__ set properties     __|
 	*                                    |__ send PTYPE_CMD_ACK __|
-	* |__ recv PTYPE_CMD_ACK __|
+	* |__ recv PTYPE_CMD_ACK     __|
+	*
+	* *****************************************************************************
 	*
 	* - PTYPE_DEVICE_MGMT -> start device managment functions:
+	* client:                            server:
 	*      - t.b.d.
+	*
+	* *****************************************************************************
+	*
 	* - PTYPE_DEVICE_MGMT_HALT -> independed subtype of device managment
+	*
+	* client:                            server:
+	* |__ send PTYPE_...         __|
+	*                                    |__ send PTYPE_RCV_ACK __|
+	*                                    |__ execv('halt')      __|
+	*
+	* *****************************************************************************
+	*
 	* - PTYPE_DEVICE_MGMT_REBOOT -> independed subtype of device managment
+	*
+	* client:                            server:
+	* |__ send PTYPE_...         __|
+	*                                    |__ send PTYPE_RCV_ACK __|
+	*                                    |__ execv('reboot')    __|
+	*
+	* *****************************************************************************
+	*
+	* - PTYPE_DEVICE_MGMT_PING -> independed subtype of device managment
+	*
+	* client:                            server:
+	* |__ send PTYPE_...         __|
+	*                                    |__ send PTYPE_RCV_ACK __|
+	*
+	* *****************************************************************************
 	*/
-	#define PTYPE_SCHED_PROPS        0x00
-	#define PTYPE_DEVICE_MGMT        0x01
-	#define PTYPE_DEVICE_MGMT_HALT   0x02
-	#define PTYPE_DEVICE_MGMT_REBOOT 0x03
-	/*
-	* PTYPE_ERROR -> unspecified error (default reaction -> continue)
-	* PTYPE_RESET -> continue with next or leave thread/function
-	*/
-	#define PTYPE_RESET              0xEE
-	#define PTYPE_ERROR              0xEF
-	/*
-	* PTYPE_RCV_ACK -> received the message
-	* PTYPE_CMD_ACK -> triggered the cmd
-	* PTYPE_VERIFY_ACK -> finished and verified the cmd
-	*/
-	#define PTYPE_CMD_ACK            0xFD
-	#define PTYPE_VERIFY_ACK         0xFE
-	#define PTYPE_RCV_ACK            0xFF
+
+	... see libbaalue.h for more info
 
 
 error.c
@@ -382,6 +399,15 @@ Functions for device managment like shotdown or get cpu load.
 	void
 	baa_halt(void);
 
+	int
+	baa_reboot_device(int sfd);
+
+	int
+	baa_halt_device(int sfd);
+
+	int
+	baa_ping_device(int sfd);
+
 
 Provided examples (folder ./examples)
 -------------------------------------
@@ -440,31 +466,15 @@ To set the properties of a thread the server must be started with root rights, b
 State: started
 
 
-Time-Triggert system controlled via unix datagram socket (time_triggert_udp*.c):
-------------------------------------------------------------------------------
-
-This examples shows how to use a unix datagram socket (remote) to configure a threads in an unrelated process on a target device (like baalue).
-
-Note: this is a special usecase based on decice_mgmt.c
-
-	udp_server -> create a udd server and wait for kdo's
-	              sudo ./time_triggert_udp_server
-
-	udp_client -> send some kdo to the server
-	              ./time_triggert_udp -s baalue_master
-
-State: not started
-
-
 Remote device managment via unix datagram socket (udp_mgmt_*.c):
 ----------------------------------------------------------------
 
-This example shows how to use a unix datagram socket for remote device managment like shutdown a baalue node. The server is implemented within the thread with baa_device_mgmt_th.
+This example shows how to use a unix datagram socket for remote device managment like halt a baalue node (halt device). The server is implemented within the thread with baa_device_mgmt_th.
 
 	udp_mgmt_server.c -> the server (reside on the target)
 	udp_mgmt_client.c -> the client (controls the device)
 
-State: started
+State: finished
 
 
 Plot status info to an I2C-LCD1602 display (lcd1602.c):

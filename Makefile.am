@@ -33,4 +33,4 @@ if ENABLE_SCRIPTS
   MYSCRIPTS   	+= scripts
 endif
 
-SUBDIRS         = src po $(EXAMPLES) man $(MYSCRIPTS)
+SUBDIRS         = src po $(EXAMPLES) man $(MYSCRIPTS) Documentation

@@ -133,31 +133,65 @@ extern "C" {
 
 /*
  * supported protocol type:
- * - PTYPE_SCHED_PROPS -> set scheduling propertys:
+ *
+ * *****************************************************************************
+ *
+ * - PTYPE_SCHED_PROPS -> set scheduling properties (via unix domain):
  *	num_unpacked = baa_unpack(buf, "cLLLL",
  *				  &protocol_type,  <- TODO: use this info?
  *				  &fiber_element.kernel_tid,
  *				  &fiber_element.policy,
  *				  &fiber_element.cpu,
  *				  &fiber_element.sched_param.sched_priority);
+ *
  * client:                            server:
  * |__ send one fiber-element __|
- *                                    |__ rcv and unpack __|
+ *                                    |__ unpack(see above)  __|
  *                                    |__ send PTYPE_RCV_ACK __|
- * |__ recv PTYPE_RCV_ACK __|
- *                                    |__ set values __|
+ * |__ recv PTYPE_RCV_ACK     __|
+ *                                    |__ set properties     __|
  *                                    |__ send PTYPE_CMD_ACK __|
- * |__ recv PTYPE_CMD_ACK __|
+ * |__ recv PTYPE_CMD_ACK     __|
+ *
+ * *****************************************************************************
  *
  * - PTYPE_DEVICE_MGMT -> start device managment functions:
+ * client:                            server:
  *      - t.b.d.
+ *
+ * *****************************************************************************
+ *
  * - PTYPE_DEVICE_MGMT_HALT -> independed subtype of device managment
+ *
+ * client:                            server:
+ * |__ send PTYPE_...         __|
+ *                                    |__ send PTYPE_RCV_ACK __|
+ *                                    |__ execv('halt')      __|
+ *
+ * *****************************************************************************
+ *
  * - PTYPE_DEVICE_MGMT_REBOOT -> independed subtype of device managment
+ *
+ * client:                            server:
+ * |__ send PTYPE_...         __|
+ *                                    |__ send PTYPE_RCV_ACK __|
+ *                                    |__ execv('reboot')    __|
+ *
+ * *****************************************************************************
+ *
+ * - PTYPE_DEVICE_MGMT_PING -> independed subtype of device managment
+ *
+ * client:                            server:
+ * |__ send PTYPE_...         __|
+ *                                    |__ send PTYPE_RCV_ACK __|
+ *
+ * *****************************************************************************
  */
 #define PTYPE_SCHED_PROPS        0x00
 #define PTYPE_DEVICE_MGMT        0x01
 #define PTYPE_DEVICE_MGMT_HALT   0x02
 #define PTYPE_DEVICE_MGMT_REBOOT 0x03
+#define PTYPE_DEVICE_MGMT_PING   0x04
 /*
  * PTYPE_ERROR -> unspecified error (default reaction -> continue)
  * PTYPE_RESET -> continue with next or leave thread/function
@@ -176,6 +210,7 @@ extern "C" {
 /* can_*_socket flags */
 #define BIND_TO_SINGLE_CANIF 0x00
 #define BIND_TO_ANY_CANIF 0x01
+
 
 /*
  * common types
@@ -541,6 +576,9 @@ baa_reboot_device(int sfd);
 
 int
 baa_halt_device(int sfd);
+
+int
+baa_ping_device(int sfd);
 
 
 #ifdef __cplusplus

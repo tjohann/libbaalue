@@ -13,6 +13,7 @@ AC_CONFIG_FILES([Makefile		\
 		src/Makefile		\
 		po/Makefile.in		\
 		examples/Makefile	\
+		Documentation/Makefile	\
 		man/Makefile		\
 		scripts/Makefile	\
 		libbaalue.pc])

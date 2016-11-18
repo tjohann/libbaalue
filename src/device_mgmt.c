@@ -29,33 +29,14 @@
 	} while(0)
 
 
-BAALUE_EXPORT void
-baa_reboot(void)
-{
-	/*
-	 * the normal way
-	  sync();
-	  reboot(LINUX_REBOOT_CMD_HALT);
-	*/
-
-	/* use runit to reboot device */
-	system("init 6");
-}
-
-BAALUE_EXPORT void
-baa_halt(void)
-{
-	/*
-	 * the normal way
-	 sync();
-	 reboot(LINUX_REBOOT_CMD_RESTART);
-	*/
-
-	/* use runit to halt device */
-	system("init 0");
-}
+/*
+ * ----------- client side functions/threads -----------
+ */
 
 
+/*
+ * simple_device_cmd's are single byte commands like REBOOT/HALT or PING
+ */
 static int
 simple_device_cmd(int sfd, unsigned char cmd)
 {
@@ -104,6 +85,44 @@ BAALUE_EXPORT int
 baa_halt_device(int sfd)
 {
 	return simple_device_cmd(sfd, PTYPE_DEVICE_MGMT_HALT);
+}
+
+BAALUE_EXPORT int
+baa_ping_device(int sfd)
+{
+	return simple_device_cmd(sfd, PTYPE_DEVICE_MGMT_PING);
+}
+
+
+/*
+ * ----------- server side functions/threads -----------
+ */
+
+
+BAALUE_EXPORT void
+baa_reboot(void)
+{
+	/*
+	 * the normal way
+	  sync();
+	  reboot(LINUX_REBOOT_CMD_HALT);
+	*/
+
+	/* use runit to reboot device */
+	system("init 6");
+}
+
+BAALUE_EXPORT void
+baa_halt(void)
+{
+	/*
+	 * the normal way
+	 sync();
+	 reboot(LINUX_REBOOT_CMD_RESTART);
+	*/
+
+	/* use runit to halt device */
+	system("init 0");
 }
 
 BAALUE_EXPORT void *
@@ -157,6 +176,12 @@ baa_device_mgmt_th(void *args)
 #endif
 			SEND_RCV_ACK();
 			baa_reboot();
+			break;
+		case PTYPE_DEVICE_MGMT_PING:
+#ifdef __DEBUG__
+			baa_info_msg(_("protocol type -> PTYPE_DEVICE_MGMT_PING"));
+#endif
+			SEND_RCV_ACK();
 			break;
 		default:
 			baa_error_msg(_("protocol type %d not supported"), buf[0]);

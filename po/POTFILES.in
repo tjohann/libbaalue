@@ -13,15 +13,4 @@ src/sh_mem.c
 src/sh_mq.c
 src/lcd160x.c
 src/wrapper.c
-
-examples/can_recv.c
-examples/can_send.c
-examples/inet_daytime_client.c
-examples/inet_daytime_server.c
-examples/time_triggert_simple.c
-examples/time_triggert_udp.c
-examples/time_triggert_udp_server.c
-examples/time_triggert_uds.c
-examples/time_triggert_uds_server.c
-examples/udp_mgmt_client.c
-examples/udp_mgmt_server.c
+src/device_mgmt.c
