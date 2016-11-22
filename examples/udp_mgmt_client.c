@@ -150,23 +150,23 @@ int main(int argc, char *argv[])
 	if (err != 0)
 		baa_th_error_exit(err, "could not create pthread");
 
-	baa_info_msg("try to connect to daytime server of %s", server_name);
+	baa_info_msg("try connect to server of %s", server_name);
 
 	/*
 	 * connect to datagram server
 	 */
 	int fds = baa_inet_dgram_client(server_name, mgmt_port);
 	if (fds == -1) {
-		baa_error_msg("could not connect to %s", &server_name);
+		baa_error_msg("could not connect to %s", server_name);
 		usage(EXIT_FAILURE);
 	}
 
 	/*
 	 * halt device
 	 */
-	err = baa_halt_device(fds);
+	err = baa_ping_device(fds);
 	if (err == -1) {
-		baa_error_msg("could not halt device %s", &server_name);
+		baa_error_msg("could not ping device %s", server_name);
 		exit(EXIT_FAILURE);
 	}
 
