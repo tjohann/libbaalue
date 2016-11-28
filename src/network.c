@@ -338,7 +338,7 @@ baa_inet_stream_server(const char *service)
 BAALUE_EXPORT void *
 baa_daytime_server_th(void *args)
 {
-	int fds = *((int *) args);
+	int sfd = *((int *) args);
 	int confd = -1;
 
 	char buf[MAXLINE];
@@ -348,7 +348,7 @@ baa_daytime_server_th(void *args)
 	ssize_t len;
 
 	for (;;) {
-		confd = accept(fds, (struct sockaddr *) NULL, NULL);
+		confd = accept(sfd, (struct sockaddr *) NULL, NULL);
 		if (confd == -1)
 			continue;
 

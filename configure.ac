@@ -49,7 +49,7 @@ AM_CONDITIONAL([ENABLE_EXAMPLES], [test "$enable_examples" = yes])
 AC_ARG_ENABLE([debug],
         AS_HELP_STRING([--enable-debug], [enable debug messages @<:@default=disabled@:>@]),
         [], [enable_debug=no])
-AM_CONDITIONAL([__DEBUG__], [test "$enable_debug" = yes])
+AM_CONDITIONAL([ENABLE_DEBUG], [test "$enable_debug" = yes])
 
 # enable can scripts
 AC_ARG_ENABLE([scripts],
@@ -78,6 +78,8 @@ my_CFLAGS="\
 -Wtype-limits
 "
 AC_SUBST([my_CFLAGS])
+
+# add debug symbol
 
 # ------
 

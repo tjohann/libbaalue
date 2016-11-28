@@ -553,7 +553,7 @@ baa_set_hw_error_mask(int fd_s);
 
 /* set can-id filter list to socket */
 int
-baa_set_flist(int fds, char *flist);
+baa_set_flist(int sfd, char *flist);
 
 
 /*

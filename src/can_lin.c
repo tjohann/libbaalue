@@ -117,7 +117,7 @@ baa_set_hw_error_mask(int fd_s)
 }
 
 BAALUE_EXPORT int
-baa_set_flist(int fds, char *flist)
+baa_set_flist(int sfd, char *flist)
 {
 	if (flist == NULL) {
 		baa_info_msg(_("no can id filter list -> nothing to do"));
@@ -155,7 +155,7 @@ baa_set_flist(int fds, char *flist)
 		count++;
 	}
 
-	if (setsockopt(fds, SOL_CAN_RAW, CAN_RAW_FILTER,
+	if (setsockopt(sfd, SOL_CAN_RAW, CAN_RAW_FILTER,
 		       filter, count * sizeof(struct can_filter)) == -1) {
 		baa_errno_msg(_("could not set can filter"));
 		if (filter != NULL)
