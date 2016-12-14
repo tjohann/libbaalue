@@ -409,6 +409,13 @@ Functions for device managment like shotdown or get cpu load.
 	baa_ping_device(int sfd);
 
 
+datatypes.c
+-----------
+
+Some basic datatypes like linked-list, queue or btree and access functions.
+
+
+
 Provided examples (folder ./examples)
 -------------------------------------
 

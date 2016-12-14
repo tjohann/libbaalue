@@ -13,7 +13,7 @@
     and file (/tmp/my_socket.socket instead of "/tmp"
     and "my_socket")
 
-- fix __DEBUG__ in configure.ac and co
+- fix __DEBUG__ in configure.ac and co                      [2016-12-14 -> done]
 
 
 #

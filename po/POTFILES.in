@@ -14,3 +14,4 @@ src/sh_mq.c
 src/lcd160x.c
 src/wrapper.c
 src/device_mgmt.c
+src/datatypes.c

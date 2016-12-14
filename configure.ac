@@ -46,10 +46,10 @@ AC_ARG_ENABLE([examples],
 AM_CONDITIONAL([ENABLE_EXAMPLES], [test "$enable_examples" = yes])
 
 # enable debug info
-AC_ARG_ENABLE([debug],
-        AS_HELP_STRING([--enable-debug], [enable debug messages @<:@default=disabled@:>@]),
-        [], [enable_debug=no])
-AM_CONDITIONAL([ENABLE_DEBUG], [test "$enable_debug" = yes])
+AC_ARG_ENABLE([debug-info],
+        AS_HELP_STRING([--enable-debug-info], [enable debug messages @<:@default=disabled@:>@]),
+        [], [enable_debug_info=no])
+AM_CONDITIONAL([ENABLE_DEBUG_INFO], [test "$enable_debug_info" = yes])
 
 # enable can scripts
 AC_ARG_ENABLE([scripts],
@@ -78,6 +78,12 @@ my_CFLAGS="\
 -Wtype-limits
 "
 AC_SUBST([my_CFLAGS])
+
+# my common DEBUG flags
+my_DEBUG_CFLAGS="\
+-D__DEBUG__
+"
+AC_SUBST([my_DEBUG_CFLAGS])
 
 # add debug symbol
 
@@ -130,7 +136,7 @@ AC_MSG_RESULT([
         cflags:                 ${CFLAGS}
 
         examples:               ${enable_examples}
-	debug:                  ${enable_debug}
+	debug_infos:            ${enable_debug_info}
 	scripts:		${enable_scripts}
 	lcd160x:		${enable_lcd160x}
 ])

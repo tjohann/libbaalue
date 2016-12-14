@@ -1,10 +1,11 @@
 # Makefile.am
 
-AM_LDFLAGS = -Wl,--gc-sections -Wl,--as-needed
 AM_CFLAGS = ${my_CFLAGS} \
+	${my_DEBUG_CFLAGS} \
 	-fvisibility=hidden \
 	-ffunction-sections \
 	-fdata-sections
+AM_LDFLAGS = -Wl,--gc-sections -Wl,--as-needed
 
 SRC_FILES = error.c \
 	helper.c \
@@ -17,6 +18,7 @@ SRC_FILES = error.c \
 	serialize.c \
 	can_lin.c \
 	device_mgmt.c \
+	datatypes.c \
 	libbaalue.h \
 	gettext.h
 

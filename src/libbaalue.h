@@ -84,8 +84,8 @@
 /* #include <git2.h>
    #include <git2/clone.h> */
 
-/* libcurl */
-#include <curl/curl.h>
+/* libcurl -> actually not needed */
+/* #include <curl/curl.h> */
 
 /* can/lin */
 #include <linux/can.h>
@@ -128,7 +128,7 @@ extern "C" {
 
 #define TMP_DIR "/tmp"
 #define UDS_NAME_ADD "socket"
-// max num of bytes per uds msg
+/* max num of bytes per uds msg */
 #define MAX_LEN_MSG 100
 
 /*
@@ -579,6 +579,13 @@ baa_halt_device(int sfd);
 
 int
 baa_ping_device(int sfd);
+
+
+/*
+ * datatypes.c
+ * ===========
+ */
+
 
 
 #ifdef __cplusplus

@@ -2,6 +2,9 @@
 # some news ... see also TODO for hints
 #
 
+2016-12-14 -> add skeleton for datatypes and algos
+	      fist wrong __DEBUG__ handling
+
 2016-11-18 -> add ping device managment service
 	      remove udp time-triggert example
 
