@@ -243,6 +243,8 @@ Network related topics like setup a unix domain socket server/clients or inet so
 	void *
 	baa_daytime_server_th(void *args);
 
+Note: if you wont split the socket name into dir (/var/run) and file (my_daemon) you can use name which is then the absolute name (/var/run/my_daemon).
+
 
 fiber.c & process.c
 -------------------

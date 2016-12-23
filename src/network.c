@@ -36,7 +36,7 @@ static int
 uds_socket(const char *name, const char *dir, char **socket_f, int type,
 	   unsigned char flags)
 {
-	if (name == NULL || dir == NULL)
+	if (name == NULL)
 		return -1;
 
 	char *sfd_f = NULL;
@@ -45,12 +45,21 @@ uds_socket(const char *name, const char *dir, char **socket_f, int type,
 	int n = -1;
 	char str[MAXLINE];
 	memset(str, 0, MAXLINE);
-	if (flags & USE_PID)
-		n = snprintf(str, MAXLINE,"%s/%s.%ld", dir, name,
-			     (long) getpid());
-	else
-		n = snprintf(str, MAXLINE,"%s/%s.%s", dir, name,
-			     UDS_NAME_ADD);
+
+	if (dir == NULL) {
+		if (flags & USE_PID)
+			n = snprintf(str, MAXLINE,"%s.%ld", name,
+				     (long) getpid());
+		else
+			n = snprintf(str, MAXLINE,"%s.%s", name, UDS_NAME_ADD);
+	} else {
+		if (flags & USE_PID)
+			n = snprintf(str, MAXLINE,"%s/%s.%ld", dir, name,
+				     (long) getpid());
+		else
+			n = snprintf(str, MAXLINE,"%s/%s.%s", dir, name,
+				     UDS_NAME_ADD);
+	}
 
 	if ((unlink(str) == -1) && (errno != ENOENT)) {
 		baa_errno_msg(_("couln't unlink %s"), str);
