@@ -130,7 +130,7 @@ read_cmd:
 		}
 	} else {
 		if (n == 0 && count == 0)
-			return FILE_EMPTY;
+			return BAA_FILE_EMPTY;
 
 		if (count < n_bytes - 1) {
 			count++;
@@ -239,9 +239,9 @@ baa_create_file_with_pid(const char *name, const char *dir)
 	mode_t access_mode = O_RDWR | O_CREAT | O_TRUNC | O_EXCL;
 	mode_t user_mode = S_IWUSR | S_IRUSR;
 
-	char str[MAXLINE];
-	memset(str, 0, MAXLINE);
-	int n = snprintf(str, MAXLINE,"%s/%s.pid", dir, name);
+	char str[BAA_MAXLINE];
+	memset(str, 0, BAA_MAXLINE);
+	int n = snprintf(str, BAA_MAXLINE,"%s/%s.pid", dir, name);
 
 	if ((unlink(str) == -1) && (errno != ENOENT)) {
 		baa_errno_msg(_("could not unlink %s"), str);
@@ -302,8 +302,8 @@ ftruncate_cmd:
 		goto error;
 	}
 
-	memset(str, 0, MAXLINE);
-	n = snprintf(str, MAXLINE, "%ld\n", (long) getpid());
+	memset(str, 0, BAA_MAXLINE);
+	n = snprintf(str, BAA_MAXLINE, "%ld\n", (long) getpid());
 
 	if (write(fd, str, n) != n) {
 		baa_errno_msg(_("could not write %s to file %s"),

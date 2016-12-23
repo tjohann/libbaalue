@@ -25,6 +25,7 @@
 #define BAALUE_EXPORT __attribute__ ((visibility ("default")))
 #define BAALUE_LOCAL  __attribute__ ((visibility ("hidden")))
 
+#define UDS_NAME_ADD "socket"
 
 /*
  *  send an 'i have received ACK'

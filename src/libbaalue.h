@@ -115,21 +115,17 @@ extern "C" {
  * common defines
  * -------------
  */
-
-#define MAXLINE 254
-#define DUMMY_STRING "dummy"
-#define FILE_EMPTY -2
+#define BAA_MAXLINE 254
+#define BAA_FILE_EMPTY -2
 
 #ifndef __DEBUG__
-#define VAR_RUN_DIR "/var/run"
+#define BAA_VAR_RUN_DIR "/var/run"
 #else
-#define VAR_RUN_DIR "/tmp"
+#define BAA_VAR_RUN_DIR "/tmp"
 #endif
 
-#define TMP_DIR "/tmp"
-#define UDS_NAME_ADD "socket"
 /* max num of bytes per uds msg */
-#define MAX_LEN_MSG 100
+#define BAA_MAX_LEN_MSG 100
 
 /*
  * supported protocol type:

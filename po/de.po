@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libbaalue trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-11-18 13:56+0100\n"
+"POT-Creation-Date: 2016-12-23 17:38+0100\n"
 "PO-Revision-Date: 2016-04-28 18:47+0200\n"
 "Last-Translator:  <thorsten.johannvorderbrueggen@t-online.de>\n"
 "Language-Team: German\n"
@@ -17,17 +17,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/libbaalue.h:248
+#: src/libbaalue.h:244
 #, c-format
 msgid "Your're in %s of %s"
 msgstr ""
 
-#: src/error.c:187
+#: src/error.c:188
 #, c-format
 msgid "syslog enabled for %s"
 msgstr ""
 
-#: src/error.c:192
+#: src/error.c:193
 msgid "syslog disabled for %"
 msgstr ""
 
@@ -362,85 +362,85 @@ msgstr ""
 msgid "can't set capability -> %s"
 msgstr ""
 
-#: src/network.c:56
+#: src/network.c:66
 #, c-format
 msgid "couln't unlink %s"
 msgstr ""
 
-#: src/network.c:63
+#: src/network.c:73
 #, c-format
 msgid "strlen(str) > sizeof(add.sun_path) in %s"
 msgstr ""
 
-#: src/network.c:69
+#: src/network.c:79
 #, c-format
 msgid "use %s as socket"
 msgstr ""
 
-#: src/network.c:73
+#: src/network.c:83
 #, c-format
 msgid "could not open socket in %s"
 msgstr ""
 
-#: src/network.c:82
+#: src/network.c:92
 msgid "could not bind socket"
 msgstr ""
 
-#: src/network.c:89
+#: src/network.c:99
 msgid "could not connect socket"
 msgstr ""
 
-#: src/network.c:95
+#: src/network.c:105
 #, c-format
 msgid "sfd_f == NULL %s"
 msgstr ""
 
-#: src/network.c:120 src/network.c:331
+#: src/network.c:130 src/network.c:341
 #, c-format
 msgid "listen in %s"
 msgstr ""
 
-#: src/network.c:146
+#: src/network.c:156
 #, c-format
 msgid "could not get sun_path in %s"
 msgstr ""
 
-#: src/network.c:152
+#: src/network.c:162
 #, c-format
 msgid "no such file %s"
 msgstr ""
 
-#: src/network.c:154
+#: src/network.c:164
 #, c-format
 msgid "could not unlink %s in %s"
 msgstr ""
 
-#: src/network.c:177
+#: src/network.c:187
 #, c-format
 msgid "strlen(tmp_str) > sizeof(add.sun_path) in %s"
 msgstr ""
 
-#: src/network.c:184
+#: src/network.c:194
 #, c-format
 msgid "str == NULL %s"
 msgstr ""
 
-#: src/network.c:192
+#: src/network.c:202
 #, c-format
 msgid "assembled name %s"
 msgstr ""
 
-#: src/network.c:216 src/network.c:275
+#: src/network.c:226 src/network.c:285
 #, c-format
 msgid "getaddrinfo in %s with %s"
 msgstr ""
 
-#: src/network.c:294
+#: src/network.c:304
 #, c-format
 msgid "setsockopt in %s"
 msgstr ""
 
-#: src/network.c:360
+#: src/network.c:370
 #, c-format
 msgid "could not write %s to socket"
 msgstr ""

@@ -34,14 +34,14 @@ static pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 #define CLEAN_SCHED_PROPS_CLIENT() do {				\
 		num_packed = 0, num_read = 0, num_send = 0;	\
 		len = sizeof(struct sockaddr_un);		\
-		memset(buf, 0, MAX_LEN_MSG);			\
+		memset(buf, 0, BAA_MAX_LEN_MSG);		\
 	} while(0)
 
 #define CLEAN_SCHED_PROPS_SERVER() do {					\
 		num_unpacked = 0, num_read = 0, num_send = 0;		\
 		len = sizeof(struct sockaddr_un);			\
 		memset(&addr, 0, len);					\
-		memset(buf, 0, MAX_LEN_MSG);				\
+		memset(buf, 0, BAA_MAX_LEN_MSG);			\
 		memset(&fiber_element, 0, sizeof(fiber_element));	\
 	} while(0)
 
@@ -248,7 +248,7 @@ baa_set_schedule_props_via_server(fiber_element_t fiber_array[], int count,
 	addr.sun_family = AF_UNIX;
 	strncpy(addr.sun_path, kdo_f, sizeof(addr.sun_path) - 1);
 
-	unsigned char buf[MAX_LEN_MSG];
+	unsigned char buf[BAA_MAX_LEN_MSG];
 	memset(buf, 0, sizeof(buf));
 
 	int i;
@@ -264,9 +264,9 @@ baa_set_schedule_props_via_server(fiber_element_t fiber_array[], int count,
 				      fiber->cpu,
 				      fiber->sched_param.sched_priority);
 
-		if (num_packed > MAX_LEN_MSG)
+		if (num_packed > BAA_MAX_LEN_MSG)
 			baa_info_msg(_("message is to longer (%d) than %d"),
-				     num_packed, MAX_LEN_MSG);
+				     num_packed, BAA_MAX_LEN_MSG);
 
 		num_send = sendto(sfd, buf, num_packed, 0,
 				  (struct sockaddr *) &addr, len);
@@ -394,7 +394,7 @@ baa_is_fiber_config_valid(fiber_element_t fiber_array[], int count)
 BAALUE_EXPORT void *
 baa_schedule_server_th(void *args)
 {
-	unsigned char buf[MAX_LEN_MSG];
+	unsigned char buf[BAA_MAX_LEN_MSG];
 
 	fiber_element_t fiber_element;
 	ssize_t num_unpacked, num_read, num_send;
@@ -416,7 +416,7 @@ baa_schedule_server_th(void *args)
 	for(;;) {
 		CLEAN_SCHED_PROPS_SERVER();
 
-		num_read = recvfrom(kdo_s, buf, MAX_LEN_MSG, 0,
+		num_read = recvfrom(kdo_s, buf, BAA_MAX_LEN_MSG, 0,
 				    (struct sockaddr *) &addr, &len);
 		if (num_read == -1) {
 			baa_errno_msg(_("num_read == -1 in %s"), __FUNCTION__);
@@ -431,9 +431,9 @@ baa_schedule_server_th(void *args)
 						  &fiber_element.cpu,
 						  &fiber_element.sched_param.sched_priority);
 
-			if (num_unpacked > MAX_LEN_MSG) {
+			if (num_unpacked > BAA_MAX_LEN_MSG) {
 				baa_error_msg(_("message is to longer (%d) than %d"),
-					      num_unpacked, MAX_LEN_MSG);
+					      num_unpacked, BAA_MAX_LEN_MSG);
 				SEND_ERROR();
 				continue;
 			}

@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
 {
 	pthread_t tid_signal_handler;
 	char *server_name = NULL;
-	char recvline[MAXLINE + 1];
+	char recvline[BAA_MAXLINE + 1];
 
 	baa_set_program_name(&program_name, argv[0]);
 
@@ -159,7 +159,7 @@ int main(int argc, char *argv[])
 			usage(EXIT_FAILURE);
 		}
 
-		num_read = baa_read_line(fds, recvline, MAXLINE);
+		num_read = baa_read_line(fds, recvline, BAA_MAXLINE);
 		if (num_read == -1)
 			baa_error_exit("could not read from socket");
 

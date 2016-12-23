@@ -25,7 +25,7 @@
 		num_send = 0;						\
 		len = sizeof(struct sockaddr_storage);			\
 		memset(&addr, 0, len);					\
-		memset(buf, 0, MAX_LEN_MSG);				\
+		memset(buf, 0, BAA_MAX_LEN_MSG);			\
 	} while(0)
 
 
@@ -128,7 +128,7 @@ baa_halt(void)
 BAALUE_EXPORT void *
 baa_device_mgmt_th(void *args)
 {
-	unsigned char buf[MAX_LEN_MSG];
+	unsigned char buf[BAA_MAX_LEN_MSG];
 
 	ssize_t num_read, num_send;
 
@@ -141,7 +141,7 @@ baa_device_mgmt_th(void *args)
 	for (;;) {
 		CLEAN_DEVICE_MGMT_PROPS();
 
-		num_read = recvfrom(kdo_s, buf, MAX_LEN_MSG, 0,
+		num_read = recvfrom(kdo_s, buf, BAA_MAX_LEN_MSG, 0,
 				    (struct sockaddr *) &addr, &len);
 		if (num_read == -1) {
 			baa_errno_msg(_("num_read == -1 in %s"), __FUNCTION__);

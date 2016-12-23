@@ -43,21 +43,22 @@ uds_socket(const char *name, const char *dir, char **socket_f, int type,
 	int sfd = -1;
 
 	int n = -1;
-	char str[MAXLINE];
-	memset(str, 0, MAXLINE);
+	char str[BAA_MAXLINE];
+	memset(str, 0, BAA_MAXLINE);
 
 	if (dir == NULL) {
 		if (flags & USE_PID)
-			n = snprintf(str, MAXLINE,"%s.%ld", name,
+			n = snprintf(str, BAA_MAXLINE,"%s.%ld", name,
 				     (long) getpid());
 		else
-			n = snprintf(str, MAXLINE,"%s.%s", name, UDS_NAME_ADD);
+			n = snprintf(str, BAA_MAXLINE,"%s.%s", name,
+				     UDS_NAME_ADD);
 	} else {
 		if (flags & USE_PID)
-			n = snprintf(str, MAXLINE,"%s/%s.%ld", dir, name,
+			n = snprintf(str, BAA_MAXLINE,"%s/%s.%ld", dir, name,
 				     (long) getpid());
 		else
-			n = snprintf(str, MAXLINE,"%s/%s.%s", dir, name,
+			n = snprintf(str, BAA_MAXLINE,"%s/%s.%s", dir, name,
 				     UDS_NAME_ADD);
 	}
 
@@ -175,10 +176,10 @@ baa_create_uds_name_string(const char *file, const char *dir)
 	if ((file == NULL) || (dir == NULL ))
 		return NULL;
 
-	char tmp_str[MAXLINE];
-	memset(tmp_str, 0, MAXLINE);
+	char tmp_str[BAA_MAXLINE];
+	memset(tmp_str, 0, BAA_MAXLINE);
 
-	int n = snprintf(tmp_str, MAXLINE,"%s/%s", dir, file);
+	int n = snprintf(tmp_str, BAA_MAXLINE,"%s/%s", dir, file);
 
 	struct sockaddr_un addr;
 	memset(&addr, 0, sizeof(struct sockaddr_un));
@@ -350,7 +351,7 @@ baa_daytime_server_th(void *args)
 	int sfd = *((int *) args);
 	int confd = -1;
 
-	char buf[MAXLINE];
+	char buf[BAA_MAXLINE];
 	memset(&buf, 0, sizeof(buf));
 
 	time_t ticks;

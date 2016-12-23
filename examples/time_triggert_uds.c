@@ -349,11 +349,8 @@ int main(int argc, char *argv[])
 	if (kdo_file == NULL)
 		usage(EXIT_FAILURE);
 
-	char *tmp_dir = getenv("TMPDIR");
-	if (tmp_dir == NULL)
-		tmp_dir = TMP_DIR;
-
-	kdo_socket = baa_uds_dgram_client(program_name, VAR_RUN_DIR, &kdo_ret_file);
+	kdo_socket = baa_uds_dgram_client(program_name, BAA_VAR_RUN_DIR,
+					  &kdo_ret_file);
 	if (kdo_socket == -1)
 		baa_error_exit("could not create socket");
 

@@ -2,6 +2,7 @@
 
 src/libbaalue.h
 src/libbaalue_lcd160x.h
+src/libbaalue_types.h
 src/error.c
 src/can_lin.c
 src/fiber.c

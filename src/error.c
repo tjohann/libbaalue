@@ -26,7 +26,7 @@ static void
 error_common(int errno_flag, int errno_val, int log_level,
 	     const char *fmt, va_list va)
 {
-	char buf[MAXLINE + 1];
+	char buf[BAA_MAXLINE + 1];
 	int errno_save = 0;
 
 	if (errno_val != 0)
@@ -36,11 +36,12 @@ error_common(int errno_flag, int errno_val, int log_level,
 	if (errno_flag)
 		errno_save = errno;
 
-	vsnprintf(buf, MAXLINE, fmt, va);
+	vsnprintf(buf, BAA_MAXLINE, fmt, va);
 
 	size_t n = strlen(buf);
 	if (errno_save)
-		snprintf(buf + n, MAXLINE - n, ": %s", strerror(errno_save));
+		snprintf(buf + n, BAA_MAXLINE - n, ": %s",
+			 strerror(errno_save));
 
 	strcat(buf, "\n");
 
