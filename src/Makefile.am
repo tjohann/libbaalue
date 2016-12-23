@@ -18,11 +18,12 @@ SRC_FILES = error.c \
 	serialize.c \
 	can_lin.c \
 	device_mgmt.c \
+	libbaalue_types.h \
 	datatypes.c \
 	libbaalue.h \
 	gettext.h
 
-HDR_FILES = libbaalue.h
+HDR_FILES = libbaalue.h libbaalue_types.h
 
 if ENABLE_LCD160X
 SRC_FILES += lcd160x.c \

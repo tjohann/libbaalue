@@ -18,5 +18,3 @@
 */
 
 #include <libbaalue.h>
-#include <libbaalue_types.h>
-#include "libbaalue-private.h"
