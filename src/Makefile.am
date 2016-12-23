@@ -1,10 +1,17 @@
 # Makefile.am
 
+if ENABLE_DEBUG_INFO
 AM_CFLAGS = ${my_CFLAGS} \
 	${my_DEBUG_CFLAGS} \
 	-fvisibility=hidden \
 	-ffunction-sections \
 	-fdata-sections
+else
+AM_CFLAGS = ${my_CFLAGS} \
+	-fvisibility=hidden \
+	-ffunction-sections \
+	-fdata-sections
+endif
 AM_LDFLAGS = -Wl,--gc-sections -Wl,--as-needed
 
 SRC_FILES = error.c \
