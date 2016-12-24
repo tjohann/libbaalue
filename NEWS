@@ -3,44 +3,36 @@
 #
 
 2016-12-2x -> a lot of smaller cleanups/changes/fixes
-
+	      add skeleton header for datatypes
+	      another fix of wrong __DBUG__ handling
+	      cleanup of macros and add BAA_ prefix
 
 2016-12-14 -> add skeleton for datatypes and algos
 	      fist wrong __DEBUG__ handling
 
-
 2016-11-18 -> add ping device managment service
 	      remove udp time-triggert example
-
 
 2016-11-17 -> some smaller cleanups and documentation around
 	      device managment
 
-
 2016-10-18 -> use runit service to halt/reboot device
-
 
 2016-10-17 -> add skeleton for lcd1602 example
 
-
 2016-10-16 -> add working example for device_mgmt functions
 	      add halt and reboot functions to device_mgmt.c
-
 
 2016-10-14 -> some rework in the fiber part
 	      add some more content to device_mgmt.c
 	      add working example skeleton for device_mgmt functions
 
-
 2016-09-30 -> some cleanups of the examples
 	      add some more documentation
 
-
 2016-09-29 -> add skeleton thread/functions for device managment
 
-
 2016-09-18 -> add skeleton for lcd160x functions (see lcd160x_driver)
-
 
 2016-09-14 -> add some more documentation
 	      add a simple time triggert example
@@ -50,7 +42,6 @@
 	      -> baa_error_msg wont use errno val
 	      -> (new) baa_errno_msg will use errno val
 
-
 2016-09-13 -> a lot of smaller fixes around autotools
 	      make code build with c89
 	      add some first content for can_send/recv
@@ -58,20 +49,15 @@
 	      fix some minor code bugs
 	      add skeleton for man page
 
-
 2016-09-09 -> add time triggert example
 	      fix some wrong exports of helper functions
 	      fix some minor bugs
 
-
 2016-07-18 -> some cleanups and preparations for can/lin stuff
-
 
 2016-06-xx -> add file for can/lin functions
 
-
 2016-05-23 -> all base functions are implemented
-
 
 2016-04-21 -> start to implement new structure as base for sdk_builder
 	      and others
