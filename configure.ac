@@ -85,8 +85,6 @@ my_DEBUG_CFLAGS="\
 "
 AC_SUBST([my_DEBUG_CFLAGS])
 
-# add debug symbol
-
 # ------
 
 LIBBAALUE_CURRENT=1
@@ -101,7 +99,7 @@ AC_SUBST([LIBBAALUE_AGE])
 # checks for more programs
 PKG_PROG_PKG_CONFIG
 
-# Checks for libraries.
+# Checks for libraries
 PKG_CHECK_MODULES([LIBCAPNG], [libcap-ng])
 
 # checks for header files
