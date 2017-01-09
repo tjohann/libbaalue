@@ -2,6 +2,8 @@
 # some news ... see also TODO for hints
 #
 
+2017-01-09 -> change do_install script to use /usr instead of /usr/local
+
 2016-12-2x -> a lot of smaller cleanups/changes/fixes
 	      add skeleton header for datatypes
 	      another fix of wrong __DBUG__ handling
