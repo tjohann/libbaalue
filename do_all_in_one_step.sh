@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#sudo make uninstall
+sudo make uninstall
 make distclean
 
 autoreconf --install || exit 1
@@ -13,4 +13,4 @@ make update-po
 
 cd ..
 make
-#sudo make install
+sudo make install
