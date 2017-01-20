@@ -478,12 +478,14 @@ State: started
 Remote device managment via unix datagram socket (udp_mgmt_*.c):
 ----------------------------------------------------------------
 
-This example shows how to use a unix datagram socket for remote device managment like halt a baalue node (halt/reboot/.../ping). The server is implemented within the thread with baa_device_mgmt_th.
+These examples show how to use a unix datagram socket for remote device managment like halt a baalue node (halt/reboot/.../ping). The server is implemented within the thread with baa_device_mgmt_th.
 
-	udp_mgmt_server.c -> the server (reside on the target)
-	udp_mgmt_client.c -> the client (controls the device)
+	udp_mgmt_server.c -> the server (a baalue node)
 
-State: finished
+	udp_mgmt_ping_client.c -> a simple client which pings a baalue node
+	udp_mgmt_reboot_client.c -> a simple client which reboots a baalue node
+
+State: restarted for next examples/functions (finished)
 
 
 Plot status info to an I2C-LCD1602 display (lcd1602.c):

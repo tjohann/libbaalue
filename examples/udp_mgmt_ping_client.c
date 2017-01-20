@@ -162,12 +162,18 @@ int main(int argc, char *argv[])
 	}
 
 	/*
-	 * halt device
+	 * ping device
 	 */
-	err = baa_ping_device(fds);
-	if (err == -1) {
-		baa_error_msg("could not ping device %s", server_name);
-		exit(EXIT_FAILURE);
+	int max_num_ping = 10;
+	baa_info_msg("Will ping %s %d times", server_name, max_num_ping);
+	for (int i = 0; i < max_num_ping; i++) {
+		err = baa_ping_device(fds);
+		if (err == -1) {
+			baa_error_msg("could not ping device %s", server_name);
+			exit(EXIT_FAILURE);
+		}
+
+		sleep(5);
 	}
 
 	exit(EXIT_SUCCESS);

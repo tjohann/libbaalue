@@ -7,7 +7,8 @@ noinst_PROGRAMS = time_triggert_uds 		\
 		  can_send 			\
 		  can_recv 			\
 		  udp_mgmt_server		\
-		  udp_mgmt_client		\
+		  udp_mgmt_ping_client		\
+		  udp_mgmt_reboot_client	\
                   inet_daytime_client  		\
 		  inet_daytime_server  		\
 		  time_triggert_simple

@@ -2,6 +2,10 @@
 # some news ... see also TODO for hints
 #
 
+2017-01-20 -> some smaller changes in the device managment client example
+	      add new device managment example which reboots a baalue-node
+	      add new device managment which reads device infos
+
 2017-01-09 -> change do_install script to use /usr instead of /usr/local
 
 2016-12-2x -> a lot of smaller cleanups/changes/fixes
