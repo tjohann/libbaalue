@@ -52,10 +52,10 @@ static void
 cleanup(void)
 {
 #ifdef __DEBUG__
-	baa_info_msg(_("finalize cleanup"));
+	baa_info_msg("finalize cleanup");
 #endif
 
-	baa_info_msg(_("cheers %s"), getenv("USER"));
+	baa_info_msg("cheers %s", getenv("USER"));
 }
 
 static void *

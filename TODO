@@ -19,7 +19,7 @@
 #
 # -------------- 2016-10-18 ----------------------------------------------------
 #
-- set FD_CLOEXEC to all opened fd passed by libbaalue
+- set FD_CLOEXEC to all opened fd passed by libbaalue       [2017-03-09 -> done]
 
 
 #

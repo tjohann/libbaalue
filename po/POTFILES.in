@@ -6,6 +6,8 @@ src/libbaalue_types.h
 src/error.c
 src/can_lin.c
 src/fiber.c
+src/user.c
+src/group.c
 src/helper.c
 src/network.c
 src/process.c

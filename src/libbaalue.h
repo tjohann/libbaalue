@@ -55,6 +55,8 @@
 #include <sys/sysinfo.h>
 #include <semaphore.h>
 #include <sys/syscall.h>
+#include <pwd.h>
+#include <grp.h>
 
 /* inotify inc */
 #include <sys/inotify.h>
@@ -118,10 +120,10 @@ extern "C" {
 #define BAA_MAXLINE 254
 #define BAA_FILE_EMPTY -2
 
-#ifndef __DEBUG__
-#define BAA_VAR_RUN_DIR "/var/run"
-#else
+#ifdef __DEBUG__
 #define BAA_VAR_RUN_DIR "/tmp"
+#else
+#define BAA_VAR_RUN_DIR "/var/run"
 #endif
 
 /* max num of bytes per uds msg */
@@ -309,7 +311,6 @@ baa_strlwr(char* str);
  * network.c
  * =========
  */
-
 int
 baa_uds_dgram_server(const char *name, const char *dir, char **socket_f);
 
@@ -578,10 +579,40 @@ baa_ping_device(int sfd);
 
 
 /*
+ * user.c
+ * ======
+ */
+int
+get_username(uid_t uid, char *buf, size_t size);
+
+uid_t
+get_userid(const char *name);
+
+gid_t
+get_groupid_of_user(const char *name);
+
+int
+get_homedir(uid_t uid, char *buf, size_t size);
+
+int
+get_userinfo(uid_t uid, char *buf, size_t size);
+
+
+/*
+ * group.c
+ * =======
+ */
+int
+get_groupname(gid_t gid, char *buf, size_t size);
+
+gid_t
+get_groupid(const char *name);
+
+
+/*
  * datatypes.c
  * ===========
  */
-
 
 
 #ifdef __cplusplus

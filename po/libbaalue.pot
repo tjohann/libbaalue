@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libbaalue trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-12-23 17:38+0100\n"
+"POT-Creation-Date: 2017-03-09 11:02+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/libbaalue.h:244
+#: src/libbaalue.h:246
 #, c-format
 msgid "Your're in %s of %s"
 msgstr ""
@@ -287,77 +287,72 @@ msgstr ""
 msgid "pid_file == NULL %s"
 msgstr ""
 
-#: src/helper.c:275 src/helper.c:282
-#, c-format
-msgid "could not set flag for %s"
-msgstr ""
-
-#: src/helper.c:288
+#: src/helper.c:275
 #, c-format
 msgid "pid file %s already in-use"
 msgstr ""
 
-#: src/helper.c:290
+#: src/helper.c:277
 #, c-format
 msgid "could not lock region in pid file: %s"
 msgstr ""
 
-#: src/helper.c:301
+#: src/helper.c:288
 #, c-format
 msgid "could not truncate pid file %s"
 msgstr ""
 
-#: src/helper.c:309
+#: src/helper.c:296
 #, c-format
 msgid "could not write %s to file %s"
 msgstr ""
 
-#: src/helper.c:335
+#: src/helper.c:322
 #, c-format
 msgid "named semaphore %s already exist"
 msgstr ""
 
-#: src/helper.c:349
+#: src/helper.c:336
 #, c-format
 msgid "could not open named semaphore %s"
 msgstr ""
 
-#: src/helper.c:360
+#: src/helper.c:347
 #, c-format
 msgid "could not unlink named semaphore %s"
 msgstr ""
 
-#: src/helper.c:367
+#: src/helper.c:354
 msgid "could not close named semaphore"
 msgstr ""
 
-#: src/helper.c:377
+#: src/helper.c:364
 #, c-format
 msgid "uname at line %d"
 msgstr ""
 
-#: src/helper.c:380
+#: src/helper.c:367
 msgid "NO preempt kernel"
 msgstr ""
 
-#: src/helper.c:387
+#: src/helper.c:374
 msgid "kernel is a RT-PREEMPT kernel"
 msgstr ""
 
-#: src/helper.c:390 src/helper.c:394
+#: src/helper.c:377 src/helper.c:381
 msgid "kernel is a PREEMPT kernel"
 msgstr ""
 
-#: src/helper.c:411
+#: src/helper.c:398
 #, c-format
 msgid "clock resoultion is %lu nsec"
 msgstr ""
 
-#: src/helper.c:413
+#: src/helper.c:400
 msgid "could not get clock resolution"
 msgstr ""
 
-#: src/helper.c:424
+#: src/helper.c:411
 #, c-format
 msgid "can't set capability -> %s"
 msgstr ""

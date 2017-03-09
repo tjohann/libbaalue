@@ -22,6 +22,8 @@ SRC_FILES = error.c \
 	sh_mq.c	\
 	process.c \
 	fiber.c \
+	user.c \
+	group.c \
 	serialize.c \
 	can_lin.c \
 	device_mgmt.c \

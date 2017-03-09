@@ -411,11 +411,43 @@ Functions for device managment like shotdown or get cpu load.
 	baa_ping_device(int sfd);
 
 
+user.c
+------
+
+Functions to get user related informations (struct passwd).
+
+	int
+	get_username(uid_t uid, char *buf, size_t size);
+
+	uid_t
+	get_userid(const char *name);
+
+	gid_t
+	get_groupid_of_user(const char *name);
+
+	int
+	get_homedir(uid_t uid, char *buf, size_t size);
+
+	int
+	get_homeinfo(uid_t uid, char *buf, size_t size);
+
+
+group.c
+-------
+
+Functions to get group related informations (struct group).
+
+	int
+	get_groupname(gid_t gid, char *buf, size_t size);
+
+	gid_t
+	get_groupid(const char *name);
+
+
 datatypes.c
 -----------
 
 Some basic datatypes like linked-list, queue or btree and access functions.
-
 
 
 Provided examples (folder ./examples)
@@ -496,3 +528,13 @@ This example shows how to use a simple lcd as an state monitor (see also https:/
 	lcd1602.c -> cycle some state info on the display
 
 State: not started
+
+
+Show some user and group related infos (user_group_info.c):
+----------------------------------------------------------
+
+This example shows how to use the simple functions for user/group topics.
+
+	user_group_info.c -> shows some infos about the your user account based on struct passwd and struct group
+
+State: finished

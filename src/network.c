@@ -20,10 +20,10 @@
 #include <libbaalue.h>
 #include "libbaalue-private.h"
 
-#define USE_PID 0x01
-#define USE_BIND 0x02
+#define USE_PID     0x01
+#define USE_BIND    0x02
 #define USE_CONNECT 0x04
-#define USE_LISTEN 0x08
+#define USE_LISTEN  0x08
 
 /* buffer 10 connection in one socket */
 #define BACKLOG 10

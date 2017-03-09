@@ -34,18 +34,18 @@ static void
 cleanup(void)
 {
 #ifdef __DEBUG__
-	baa_info_msg(_("finalize cleanup"));
+	baa_info_msg("finalize cleanup");
 #endif
 	if (kdo_socket != -1)
 		baa_wrap_close(kdo_socket);
 
 	if (unlink(kdo_file) != 0)
-		baa_errno_msg(_("could not remove %s"), kdo_file);
+		baa_errno_msg("could not remove %s", kdo_file);
 
 	if (unlink(pid_file) != 0)
-		baa_errno_msg(_("could not remove %s"), pid_file);
+		baa_errno_msg("could not remove %s", pid_file);
 
-	baa_info_msg(_("cheers %s"), getenv("USER"));
+	baa_info_msg("cheers %s", getenv("USER"));
 }
 
 static void

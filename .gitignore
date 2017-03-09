@@ -124,6 +124,7 @@ examples/udp_mgmt_ping_client
 examples/udp_mgmt_reboot_client
 examples/udp_mgmt_server
 examples/lcd1602
+examples/user_group_info
 
 # man
 man/Makefile

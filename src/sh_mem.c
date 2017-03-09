@@ -67,7 +67,7 @@ ftruncate_cmd:
 BAALUE_EXPORT int
 baa_shmem_server(char *name, size_t size, void **mmap_seg)
 {
-	mode_t access_mode = O_RDWR | O_CREAT | O_EXCL;
+	mode_t access_mode = O_RDWR | O_CREAT | O_EXCL | O_CLOEXEC;
 	mode_t user_mode = S_IWUSR | S_IRUSR | S_IRGRP | S_IWGRP | S_IROTH;
 
 	return shmem_handle(name, size, access_mode, user_mode, mmap_seg);
@@ -76,7 +76,7 @@ baa_shmem_server(char *name, size_t size, void **mmap_seg)
 BAALUE_EXPORT int
 baa_shmem_client(char *name, size_t size, void **mmap_seg)
 {
-	mode_t access_mode = O_RDWR;
+	mode_t access_mode = O_RDWR | O_CLOEXEC;
 	mode_t user_mode = S_IWUSR | S_IRUSR | S_IRGRP | S_IWGRP | S_IROTH;
 
 	return shmem_handle(name, size, access_mode, user_mode, mmap_seg);

@@ -236,7 +236,7 @@ baa_create_file_with_pid(const char *name, const char *dir)
 	char *pid_file = NULL;
 	int fd = -1;
 
-	mode_t access_mode = O_RDWR | O_CREAT | O_TRUNC | O_EXCL;
+	mode_t access_mode = O_RDWR | O_CREAT | O_TRUNC | O_EXCL | O_CLOEXEC;
 	mode_t user_mode = S_IWUSR | S_IRUSR;
 
 	char str[BAA_MAXLINE];
@@ -269,19 +269,6 @@ open_cmd:
 
 	memset(pid_file, 0, n + 1);
 	strncpy(pid_file, str, n);
-
-	int flags = fcntl(fd, F_GETFD);
-	if (fd == -1) {
-		baa_errno_msg(_("could not set flag for %s"), str);
-		goto error;
-	}
-
-	flags |= FD_CLOEXEC;
-
-	if (fcntl(fd, F_SETFD, flags) == -1) {
-		baa_errno_msg(_("could not set flag for %s"), str);
-		goto error;
-	}
 
 	if (baa_lock_region(fd) == -1) {
 		if (errno == EAGAIN || errno == EACCES)
@@ -327,7 +314,7 @@ error:
 BAALUE_EXPORT int
 baa_create_psem(char *name, sem_t **sem)
 {
-	mode_t access_mode = O_CREAT | O_EXCL;
+	mode_t access_mode = O_CREAT | O_EXCL | O_CLOEXEC;
 	mode_t user_mode =  S_IWUSR | S_IRUSR | S_IRGRP | S_IWGRP | S_IROTH;
 
 	if ((*sem = sem_open(name, access_mode, user_mode, 1)) == SEM_FAILED) {
@@ -382,7 +369,7 @@ baa_check_for_rtpreempt()
 	}
 
 	int flag;
-	if ((fd = fopen("/sys/kernel/realtime","r")) != NULL) {
+	if ((fd = fopen("/sys/kernel/realtime", "r")) != NULL) {
 		if ((fscanf(fd, "%d", &flag) == 1) && (flag == 1)) {
 			baa_errno_msg(_("kernel is a RT-PREEMPT kernel"));
 			goto out;
