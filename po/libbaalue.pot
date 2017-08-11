@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libbaalue trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2017-03-09 11:02+0100\n"
+"POT-Creation-Date: 2017-07-14 19:40+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -193,6 +193,60 @@ msgstr ""
 #: src/fiber.c:459
 #, c-format
 msgid "received/unpack %ld/%d bytes (protocol type %d) from %s"
+msgstr ""
+
+#: src/user.c:31
+msgid "buffer for user-name == NULL"
+msgstr ""
+
+#: src/user.c:42 src/user.c:124 src/user.c:141
+msgid "struct passwd == NULL"
+msgstr ""
+
+#: src/user.c:52 src/user.c:65 src/user.c:79 src/group.c:40
+#, c-format
+msgid "len(%d) > size(%d)"
+msgstr ""
+
+#: src/user.c:58
+#, c-format
+msgid "copied user-name %s to buffer(:%s)"
+msgstr ""
+
+#: src/user.c:71
+#, c-format
+msgid "copied name of home dir %s to buffer(:%s)"
+msgstr ""
+
+#: src/user.c:85
+#, c-format
+msgid "copied user info %s to buffer(:%s)"
+msgstr ""
+
+#: src/user.c:90
+#, c-format
+msgid "unknown type: %d"
+msgstr ""
+
+#: src/user.c:118 src/user.c:135
+msgid "user-name == NULL"
+msgstr ""
+
+#: src/group.c:28
+msgid "buffer for group name == NULL"
+msgstr ""
+
+#: src/group.c:34 src/group.c:61
+msgid "struct group == NULL"
+msgstr ""
+
+#: src/group.c:46
+#, c-format
+msgid "copied group name %s to buffer %s"
+msgstr ""
+
+#: src/group.c:55
+msgid "name == NULL"
 msgstr ""
 
 #: src/helper.c:28
