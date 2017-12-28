@@ -94,25 +94,25 @@ get_user_infos(uid_t uid, char *buf, size_t size, unsigned char what)
 }
 
 BAALUE_EXPORT int
-get_username(uid_t uid, char *buf, size_t size)
+baa_get_username(uid_t uid, char *buf, size_t size)
 {
 	return get_user_infos(uid, buf, size, GET_USERNAME);
 }
 
 BAALUE_EXPORT int
-get_homedir(uid_t uid, char *buf, size_t size)
+baa_get_homedir(uid_t uid, char *buf, size_t size)
 {
 	return get_user_infos(uid, buf, size, GET_USERDIR);
 }
 
 BAALUE_EXPORT int
-get_userinfo(uid_t uid, char *buf, size_t size)
+baa_get_userinfo(uid_t uid, char *buf, size_t size)
 {
 	return get_user_infos(uid, buf, size, GET_USERINFO);
 }
 
 BAALUE_EXPORT uid_t
-get_userid(const char *name)
+baa_get_userid(const char *name)
 {
 	if (name == NULL) {
 		baa_error_msg(_("user-name == NULL"));
@@ -129,7 +129,7 @@ get_userid(const char *name)
 }
 
 BAALUE_EXPORT gid_t
-get_groupid_of_user(const char *name)
+baa_get_groupid_of_user(const char *name)
 {
 	if (name == NULL) {
 		baa_error_msg(_("user-name == NULL"));

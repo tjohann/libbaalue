@@ -48,32 +48,32 @@ int main(int argc, char *argv[])
 	baa_info_msg("hello user %s ", user);
 	baa_info_msg("-------------------------------------------");
 
-	uid_t uid = get_userid(user);
+	uid_t uid = baa_get_userid(user);
 	if (uid == -1)
 		baa_error_msg("could not get user id -> ignore it");
 	else
 		baa_info_msg("- your user id is: %d", uid);
 
-	gid_t gid = get_groupid_of_user(user);
+	gid_t gid = baa_get_groupid_of_user(user);
 	if (gid == -1)
 		baa_error_msg("could not get group id -> ignore it");
 	else
 		baa_info_msg("- your group id is: %d", gid);
 
 	char buf[BAA_MAXLINE];
-	int err = get_homedir(uid, buf, BAA_MAXLINE);
+	int err = baa_get_homedir(uid, buf, BAA_MAXLINE);
 	if (err == -1)
 		baa_error_msg("could not net home dir -> ignore it");
 	else
 		baa_info_msg("- your home dir: %s", buf);
 
-	err = get_userinfo(uid, buf, BAA_MAXLINE);
+	err = baa_get_userinfo(uid, buf, BAA_MAXLINE);
 	if (err == -1)
 		baa_error_msg("could not net user infos -> ignore it");
 	else
 		baa_info_msg("- your additional user entrys: %s", buf);
 
-	err = get_groupname(gid, buf, BAA_MAXLINE);
+	err = baa_get_groupname(gid, buf, BAA_MAXLINE);
 	if (err == -1)
 		baa_error_msg("could not get name of main group -> ignore it");
 	else

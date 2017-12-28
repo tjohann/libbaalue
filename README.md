@@ -417,19 +417,19 @@ user.c
 Functions to get user related informations (struct passwd).
 
 	int
-	get_username(uid_t uid, char *buf, size_t size);
+	baa_get_username(uid_t uid, char *buf, size_t size);
 
 	uid_t
-	get_userid(const char *name);
+	baa_get_userid(const char *name);
 
 	gid_t
-	get_groupid_of_user(const char *name);
+	baa_get_groupid_of_user(const char *name);
 
 	int
-	get_homedir(uid_t uid, char *buf, size_t size);
+	baa_get_homedir(uid_t uid, char *buf, size_t size);
 
 	int
-	get_homeinfo(uid_t uid, char *buf, size_t size);
+	baa_get_homeinfo(uid_t uid, char *buf, size_t size);
 
 
 group.c
@@ -438,10 +438,10 @@ group.c
 Functions to get group related informations (struct group).
 
 	int
-	get_groupname(gid_t gid, char *buf, size_t size);
+	baa_get_groupname(gid_t gid, char *buf, size_t size);
 
 	gid_t
-	get_groupid(const char *name);
+	baa_get_groupid(const char *name);
 
 
 datatypes.c

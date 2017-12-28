@@ -22,7 +22,7 @@
 
 
 BAALUE_EXPORT int
-get_groupname(gid_t gid, char *buf, size_t size)
+baa_get_groupname(gid_t gid, char *buf, size_t size)
 {
 	if (buf == NULL) {
 		baa_error_msg(_("buffer for group name == NULL"));
@@ -49,7 +49,7 @@ get_groupname(gid_t gid, char *buf, size_t size)
 }
 
 BAALUE_EXPORT gid_t
-get_groupid(const char *name)
+baa_get_groupid(const char *name)
 {
 	if (name == NULL) {
 		baa_error_msg(_("name == NULL"));

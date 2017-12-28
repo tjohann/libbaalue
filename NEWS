@@ -2,6 +2,8 @@
 # some news ... see also TODO for hints
 #
 
+2017-12-28 -> fix namespace collision
+
 2017-03-09 -> add functions to handle user and group realted infos
 	      add O_CLOEXEC to all open fd
 
