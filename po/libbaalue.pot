@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libbaalue trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2017-07-14 19:40+0200\n"
+"POT-Creation-Date: 2018-02-03 12:02+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/libbaalue.h:246
+#: src/libbaalue.h:281
 #, c-format
 msgid "Your're in %s of %s"
 msgstr ""
