@@ -3,7 +3,7 @@
 #
 
 2018-02-03 -> add enum baa_bitposition
-	      add timeout handling in connect_inet_socket
+	      add common timeout handling via socket options SO_SND/RCVTIMEO
 
 2017-12-28 -> fix namespace collision
 

@@ -1,6 +1,6 @@
 /*
   GPL
-  (c) 2016, thorsten.johannvorderbrueggen@t-online.de
+  (c) 2016-2018, thorsten.johannvorderbrueggen@t-online.de
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -98,7 +98,6 @@ baa_ping_device(int sfd)
  * ----------- server side functions/threads -----------
  */
 
-
 BAALUE_EXPORT void
 baa_reboot(void)
 {
@@ -144,7 +143,14 @@ baa_device_mgmt_th(void *args)
 		num_read = recvfrom(kdo_s, buf, BAA_MAX_LEN_MSG, 0,
 				    (struct sockaddr *) &addr, &len);
 		if (num_read == -1) {
-			baa_errno_msg(_("num_read == -1 in %s"), __FUNCTION__);
+#ifdef __DEBUG__
+			if (errno == EWOULDBLOCK)
+				baa_info_msg(_("socket_timeout in %s"),
+					__FUNCTION__);
+			else
+				baa_info_msg(_("num_read == -1 in %s"),
+					__FUNCTION__);
+#endif
 			continue;
 		}
 

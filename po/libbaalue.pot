@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libbaalue trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2018-02-03 12:44+0100\n"
+"POT-Creation-Date: 2018-02-03 16:44+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -118,7 +118,7 @@ msgstr ""
 msgid "pthread_join %s"
 msgstr ""
 
-#: src/fiber.c:268 src/fiber.c:435
+#: src/fiber.c:268 src/fiber.c:442
 #, c-format
 msgid "message is to longer (%d) than %d"
 msgstr ""
@@ -133,7 +133,7 @@ msgstr ""
 msgid "send/pack %ld/%d bytes (protocol type %d) to %s"
 msgstr ""
 
-#: src/fiber.c:287 src/fiber.c:422 src/device_mgmt.c:55 src/device_mgmt.c:147
+#: src/fiber.c:287 src/fiber.c:427 src/device_mgmt.c:55 src/device_mgmt.c:151
 #, c-format
 msgid "num_read == -1 in %s"
 msgstr ""
@@ -181,16 +181,21 @@ msgstr ""
 msgid "pthread_detach in %s"
 msgstr ""
 
-#: src/fiber.c:445
+#: src/fiber.c:424 src/device_mgmt.c:148
+#, c-format
+msgid "socket_timeout in %s"
+msgstr ""
+
+#: src/fiber.c:452
 msgid "could not set schedule properties"
 msgstr ""
 
-#: src/fiber.c:454 src/device_mgmt.c:187
+#: src/fiber.c:461 src/device_mgmt.c:193
 #, c-format
 msgid "protocol type %d not supported"
 msgstr ""
 
-#: src/fiber.c:459
+#: src/fiber.c:466
 #, c-format
 msgid "received/unpack %ld/%d bytes (protocol type %d) from %s"
 msgstr ""
@@ -411,90 +416,94 @@ msgstr ""
 msgid "can't set capability -> %s"
 msgstr ""
 
-#: src/network.c:75
+#: src/network.c:46
+msgid "could not set timeout"
+msgstr ""
+
+#: src/network.c:111
 #, c-format
 msgid "couln't unlink %s"
 msgstr ""
 
-#: src/network.c:82
+#: src/network.c:118
 #, c-format
 msgid "strlen(str) > sizeof(add.sun_path) in %s"
 msgstr ""
 
-#: src/network.c:88
+#: src/network.c:124
 #, c-format
 msgid "use %s as socket"
 msgstr ""
 
-#: src/network.c:92
+#: src/network.c:128
 #, c-format
 msgid "could not open socket in %s"
 msgstr ""
 
-#: src/network.c:101
+#: src/network.c:137
 msgid "could not bind socket"
 msgstr ""
 
-#: src/network.c:108
-msgid "could not connect socket"
-msgstr ""
-
-#: src/network.c:114
-#, c-format
-msgid "sfd_f == NULL %s"
-msgstr ""
-
-#: src/network.c:139 src/network.c:358
-#, c-format
-msgid "listen in %s"
-msgstr ""
-
-#: src/network.c:165
-#, c-format
-msgid "could not get sun_path in %s"
-msgstr ""
-
-#: src/network.c:171
-#, c-format
-msgid "no such file %s"
-msgstr ""
-
-#: src/network.c:173
-#, c-format
-msgid "could not unlink %s in %s"
-msgstr ""
-
-#: src/network.c:196
-#, c-format
-msgid "strlen(tmp_str) > sizeof(add.sun_path) in %s"
-msgstr ""
-
-#: src/network.c:203
-#, c-format
-msgid "str == NULL %s"
-msgstr ""
-
-#: src/network.c:211
-#, c-format
-msgid "assembled name %s"
-msgstr ""
-
-#: src/network.c:235 src/network.c:302
-#, c-format
-msgid "getaddrinfo in %s with %s"
-msgstr ""
-
-#: src/network.c:243
+#: src/network.c:145 src/network.c:291
 #, c-format
 msgid "could not set alarm timer (%d sec)"
 msgstr ""
 
-#: src/network.c:321
+#: src/network.c:149
+msgid "could not connect socket"
+msgstr ""
+
+#: src/network.c:162
+#, c-format
+msgid "sfd_f == NULL %s"
+msgstr ""
+
+#: src/network.c:187 src/network.c:412
+#, c-format
+msgid "listen in %s"
+msgstr ""
+
+#: src/network.c:213
+#, c-format
+msgid "could not get sun_path in %s"
+msgstr ""
+
+#: src/network.c:219
+#, c-format
+msgid "no such file %s"
+msgstr ""
+
+#: src/network.c:221
+#, c-format
+msgid "could not unlink %s in %s"
+msgstr ""
+
+#: src/network.c:244
+#, c-format
+msgid "strlen(tmp_str) > sizeof(add.sun_path) in %s"
+msgstr ""
+
+#: src/network.c:251
+#, c-format
+msgid "str == NULL %s"
+msgstr ""
+
+#: src/network.c:259
+#, c-format
+msgid "assembled name %s"
+msgstr ""
+
+#: src/network.c:283 src/network.c:353
+#, c-format
+msgid "getaddrinfo in %s with %s"
+msgstr ""
+
+#: src/network.c:372
 #, c-format
 msgid "setsockopt in %s"
 msgstr ""
 
-#: src/network.c:387
+#: src/network.c:441
 #, c-format
 msgid "could not write %s to socket"
 msgstr ""
@@ -622,18 +631,18 @@ msgstr ""
 msgid "received protocol type %d"
 msgstr ""
 
-#: src/device_mgmt.c:154
+#: src/device_mgmt.c:160
 msgid "protocol type -> PTYPE_DEVICE_MGMT"
 msgstr ""
 
-#: src/device_mgmt.c:168
+#: src/device_mgmt.c:174
 msgid "protocol type -> PTYPE_DEVICE_MGMT_HALT"
 msgstr ""
 
-#: src/device_mgmt.c:175
+#: src/device_mgmt.c:181
 msgid "protocol type -> PTYPE_DEVICE_MGMT_REBOOT"
 msgstr ""
 
-#: src/device_mgmt.c:182
+#: src/device_mgmt.c:188
 msgid "protocol type -> PTYPE_DEVICE_MGMT_PING"
 msgstr ""

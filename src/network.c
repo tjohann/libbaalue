@@ -30,6 +30,42 @@
 
 
 /*
+ * set socket snd/rcv timeouts
+ */
+static int
+set_timeout(int sfd, int optval, int nsec)
+{
+	struct timeval tv;
+	memset(&tv, 0, sizeof(tv));
+
+	tv.tv_sec = nsec;
+	tv.tv_usec = 0;
+
+	int ret = setsockopt(sfd, SOL_SOCKET, optval, &tv, sizeof(tv));
+	if (ret == -1) {
+		baa_errno_msg(_("could not set timeout"));
+		return -1;
+	}
+
+#ifdef __DEBUG__
+	baa_info_msg("set timeout to %d secs", tv.tv_sec);
+#endif
+	return 0;
+}
+
+BAALUE_LOCAL int
+set_snd_timeout(int sfd)
+{
+	return set_timeout(sfd, SO_SNDTIMEO, SEND_TIMEOUT);
+}
+
+BAALUE_LOCAL int
+set_rcv_timeout(int sfd)
+{
+	return set_timeout(sfd, SO_RCVTIMEO, RECV_TIMEOUT);
+}
+
+/*
  * alarm handler wich only returns for connect timeouts
  */
 BAALUE_LOCAL void
@@ -103,11 +139,23 @@ uds_socket(const char *name, const char *dir, char **socket_f, int type,
 		}
 
 	if (flags & USE_CONNECT) {
+		unsigned int nsec = CONNECT_TIMEOUT;
+		sigfunc *old_handler = baa_signal_old(SIGALRM, handle_alarm );
+		if (alarm(nsec) != 0)
+			baa_info_msg(_("could not set alarm timer (%d sec)"), nsec);
+
 		if (connect(sfd, (struct sockaddr *) &addr,
-			    sizeof(struct sockaddr_un)) < 0)
+				sizeof(struct sockaddr_un)) < 0) {
 			baa_errno_msg(_("could not connect socket"));
-		return -1;
+			return -1;
+		}
+
+		alarm(0);
+		baa_signal_old(SIGALRM, old_handler);
 	}
+
+	(void) set_snd_timeout(sfd);
+	(void) set_rcv_timeout(sfd);
 
 	sfd_f = malloc(n + 1);
 	if (sfd_f == NULL) {
@@ -251,6 +299,9 @@ connect_inet_socket(const char *host, const char *service, int type)
                 if (sfd == -1)
                         continue;
 
+		(void) set_rcv_timeout(sfd);
+		(void) set_snd_timeout(sfd);
+
 		/* take the first valid one */
 		ret = connect(sfd, result->ai_addr, result->ai_addrlen);
 		if (ret == 0)
@@ -325,7 +376,10 @@ bind_inet_socket(const char *service, int type, unsigned char flags)
 				close(sfd);
 				return -1;
 			}
-		 }
+		}
+
+		(void) set_snd_timeout(sfd);
+		(void) set_rcv_timeout(sfd);
 
 		/* take the first valid one */
 		ret = bind(sfd, result->ai_addr, result->ai_addrlen);

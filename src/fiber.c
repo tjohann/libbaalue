@@ -1,6 +1,6 @@
 /*
   GPL
-  (c) 2016, thorsten.johannvorderbrueggen@t-online.de
+  (c) 2016-2018, thorsten.johannvorderbrueggen@t-online.de
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -407,7 +407,7 @@ baa_schedule_server_th(void *args)
 	unsigned char protocol_type = 0x00;
 	const unsigned char ptype_rcv_ack = PTYPE_RCV_ACK;
 	const unsigned char ptype_cmd_ack = PTYPE_CMD_ACK;
-	const unsigned char ptype_error = PTYPE_ERROR;
+	const unsigned char ptype_error   = PTYPE_ERROR;
 
 	int err = pthread_detach(pthread_self());
 	if (err != 0)
@@ -419,7 +419,14 @@ baa_schedule_server_th(void *args)
 		num_read = recvfrom(kdo_s, buf, BAA_MAX_LEN_MSG, 0,
 				    (struct sockaddr *) &addr, &len);
 		if (num_read == -1) {
-			baa_errno_msg(_("num_read == -1 in %s"), __FUNCTION__);
+#ifdef __DEBUG__
+			if (errno == EWOULDBLOCK)
+				baa_info_msg(_("socket_timeout in %s"),
+					__FUNCTION__);
+			else
+				baa_info_msg(_("num_read == -1 in %s"),
+					__FUNCTION__);
+#endif
 			continue;
 		}
 

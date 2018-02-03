@@ -26,7 +26,13 @@
 #define BAALUE_LOCAL  __attribute__ ((visibility ("hidden")))
 
 #define UDS_NAME_ADD "socket"
+
+/*
+ * common defines for connect and send/recv timeouts (5 secs)
+ */
 #define CONNECT_TIMEOUT 5
+#define RECV_TIMEOUT    5
+#define SEND_TIMEOUT    5
 
 /*
  *  send an 'i have received ACK'
@@ -64,5 +70,13 @@
  */
 void
 handle_alarm(int sigio);
+
+/*
+ * set SO_RCVTIMEO/SO_SNDTIMEO for a socket
+ */
+int
+set_rcv_timeout(int sfd);
+int
+set_snd_timeout(int sfd);
 
 #endif
