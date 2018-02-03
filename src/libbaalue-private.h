@@ -1,6 +1,6 @@
 /*
   GPL
-  (c) 2016, thorsten.johannvorderbrueggen@t-online.de
+  (c) 2016-2018, thorsten.johannvorderbrueggen@t-online.de
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@
 #define BAALUE_LOCAL  __attribute__ ((visibility ("hidden")))
 
 #define UDS_NAME_ADD "socket"
+#define CONNECT_TIMEOUT 5
 
 /*
  *  send an 'i have received ACK'
@@ -57,5 +58,11 @@
 	if (num_send != 1) 						\
 		baa_errno_msg(_("num_send == -1 in %s"), __FUNCTION__);	\
 	} while(0)
+
+/*
+ * alarm handler wich only returns for connect timeouts
+ */
+void
+handle_alarm(int sigio);
 
 #endif

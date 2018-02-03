@@ -2,7 +2,8 @@
 # some news ... see also TODO for hints
 #
 
-2018-02-03 -> add enam baa_bitposition
+2018-02-03 -> add enum baa_bitposition
+	      add timeout handling in connect_inet_socket
 
 2017-12-28 -> fix namespace collision
 

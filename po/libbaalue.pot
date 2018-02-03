@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libbaalue trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2018-02-03 12:02+0100\n"
+"POT-Creation-Date: 2018-02-03 12:44+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -411,85 +411,90 @@ msgstr ""
 msgid "can't set capability -> %s"
 msgstr ""
 
-#: src/network.c:66
+#: src/network.c:75
 #, c-format
 msgid "couln't unlink %s"
 msgstr ""
 
-#: src/network.c:73
+#: src/network.c:82
 #, c-format
 msgid "strlen(str) > sizeof(add.sun_path) in %s"
 msgstr ""
 
-#: src/network.c:79
+#: src/network.c:88
 #, c-format
 msgid "use %s as socket"
 msgstr ""
 
-#: src/network.c:83
+#: src/network.c:92
 #, c-format
 msgid "could not open socket in %s"
 msgstr ""
 
-#: src/network.c:92
+#: src/network.c:101
 msgid "could not bind socket"
 msgstr ""
 
-#: src/network.c:99
+#: src/network.c:108
 msgid "could not connect socket"
 msgstr ""
 
-#: src/network.c:105
+#: src/network.c:114
 #, c-format
 msgid "sfd_f == NULL %s"
 msgstr ""
 
-#: src/network.c:130 src/network.c:341
+#: src/network.c:139 src/network.c:358
 #, c-format
 msgid "listen in %s"
 msgstr ""
 
-#: src/network.c:156
+#: src/network.c:165
 #, c-format
 msgid "could not get sun_path in %s"
 msgstr ""
 
-#: src/network.c:162
+#: src/network.c:171
 #, c-format
 msgid "no such file %s"
 msgstr ""
 
-#: src/network.c:164
+#: src/network.c:173
 #, c-format
 msgid "could not unlink %s in %s"
 msgstr ""
 
-#: src/network.c:187
+#: src/network.c:196
 #, c-format
 msgid "strlen(tmp_str) > sizeof(add.sun_path) in %s"
 msgstr ""
 
-#: src/network.c:194
+#: src/network.c:203
 #, c-format
 msgid "str == NULL %s"
 msgstr ""
 
-#: src/network.c:202
+#: src/network.c:211
 #, c-format
 msgid "assembled name %s"
 msgstr ""
 
-#: src/network.c:226 src/network.c:285
+#: src/network.c:235 src/network.c:302
 #, c-format
 msgid "getaddrinfo in %s with %s"
 msgstr ""
 
-#: src/network.c:304
+#: src/network.c:243
+#, c-format
+msgid "could not set alarm timer (%d sec)"
+msgstr ""
+
+#: src/network.c:321
 #, c-format
 msgid "setsockopt in %s"
 msgstr ""
 
-#: src/network.c:370
+#: src/network.c:387
 #, c-format
 msgid "could not write %s to socket"
 msgstr ""

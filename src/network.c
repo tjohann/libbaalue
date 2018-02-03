@@ -30,6 +30,15 @@
 
 
 /*
+ * alarm handler wich only returns for connect timeouts
+ */
+BAALUE_LOCAL void
+handle_alarm(int sigio)
+{
+	return;
+}
+
+/*
  * unix domain socket
  */
 static int
@@ -228,6 +237,11 @@ connect_inet_socket(const char *host, const char *service, int type)
 		return -1;
 	}
 
+	unsigned int nsec = CONNECT_TIMEOUT;
+	sigfunc *old_handler = baa_signal_old(SIGALRM, handle_alarm );
+	if (alarm(nsec) != 0)
+		baa_info_msg(_("could not set alarm timer (%d sec)"), nsec);
+
 	int sfd = -1;
 	struct addrinfo *rp = NULL;
 	for (rp = result; rp != NULL; rp = rp->ai_next) {
@@ -245,6 +259,9 @@ connect_inet_socket(const char *host, const char *service, int type)
                 close(sfd);
 
         }
+
+	alarm(0);
+	baa_signal_old(SIGALRM, old_handler);
 
 	freeaddrinfo(result);
 
