@@ -232,6 +232,41 @@ typedef struct {
 	unsigned int safe_heap_fac;
 } fiber_element_t;
 
+enum baa_bitpositions {
+	BAA_BIT0    = 1 << 0,
+	BAA_BIT1    = 1 << 1,
+	BAA_BIT2    = 1 << 2,
+	BAA_BIT3    = 1 << 3,
+	BAA_BIT4    = 1 << 4,
+	BAA_BIT5    = 1 << 5,
+	BAA_BIT6    = 1 << 6,
+	BAA_BIT7    = 1 << 7,
+	BAA_BIT8    = 1 << 8,
+	BAA_BIT9    = 1 << 9,
+	BAA_BIT10   = 1 << 10,
+	BAA_BIT11   = 1 << 11,
+	BAA_BIT12   = 1 << 12,
+	BAA_BIT13   = 1 << 13,
+	BAA_BIT14   = 1 << 14,
+	BAA_BIT15   = 1 << 15,
+	BAA_BIT16   = 1 << 16,
+	BAA_BIT17   = 1 << 17,
+	BAA_BIT18   = 1 << 18,
+	BAA_BIT19   = 1 << 19,
+	BAA_BIT20   = 1 << 20,
+	BAA_BIT21   = 1 << 21,
+	BAA_BIT22   = 1 << 22,
+	BAA_BIT23   = 1 << 23,
+	BAA_BIT24   = 1 << 24,
+	BAA_BIT25   = 1 << 25,
+	BAA_BIT26   = 1 << 26,
+	BAA_BIT27   = 1 << 27,
+	BAA_BIT28   = 1 << 28,
+	BAA_BIT29   = 1 << 29,
+	BAA_BIT30   = 1 << 30,
+	BAA_BIT31   = 1 << 31
+};
+
 /*
  * common macros
  * -------------
