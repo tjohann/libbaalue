@@ -1,9 +1,17 @@
-Libbaalue
-=========
+Libbaalue (Linux)
+=================
 
 A base library for my different projects like sdk_builder (https://github.com/tjohann/sdk_builder) or baalued (https://github.com/tjohann/baalued.git). In this library all useful code from my different playgrounds like https://github.com/tjohann/time_triggert_env.git or https://github.com/tjohann/can_lin_env.git are migrated to (and will in the future).
 
 WARNING: This is work in progress! Don't expect things to be complete in any dimension.
+
+
+Support FreeBSD and OpenBSD:
+----------------------------
+
+The acual version works for void-linux and slackware, but not for FreeBSD and OpenBSD.
+
+State: started
 
 
 Overview
@@ -531,7 +539,7 @@ State: not started
 
 
 Show some user and group related infos (user_group_info.c):
-----------------------------------------------------------
+-----------------------------------------------------------
 
 This example shows how to use the simple functions for user/group topics.
 
