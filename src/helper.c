@@ -1,6 +1,6 @@
 /*
   GPL
-  (c) 2016, thorsten.johannvorderbrueggen@t-online.de
+  (c) 2016-2020, thorsten.johannvorderbrueggen@t-online.de
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -87,7 +87,7 @@ baa_set_program_name(char **program_name, char *kdo_arg)
 }
 
 BAALUE_EXPORT sigfunc *
-baa_signal_old(int signo, sigfunc *func)
+baa_signal(int signo, sigfunc *func)
 {
 	struct sigaction actual, old_actual;
 
@@ -104,7 +104,7 @@ baa_signal_old(int signo, sigfunc *func)
 		actual.sa_flags |= SA_RESTART;
 
 	if (sigaction(signo, &actual, &old_actual) < 0) {
-		baa_errno_msg("signal_old -> sigaction()");
+		baa_errno_msg("baa_signal -> sigaction()");
 		return SIG_ERR;
 	}
 
@@ -181,7 +181,7 @@ baa_become_daemon(void)
 	if (setsid() == -1)
 		baa_errno_msg(_("setsid() at line %d"), __LINE__);
 
-	baa_signal_old(SIGHUP, SIG_IGN);
+	baa_signal(SIGHUP, SIG_IGN);
 
 	pid = fork();
 	if (pid == -1) {

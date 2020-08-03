@@ -159,7 +159,7 @@ helper.c
 Some general functions to become a daemon or posix semaphore handling:
 
 	sigfunc *
-	baa_signal_old(int signo, sigfunc *func);
+	baa_signal(int signo, sigfunc *func);
 
 	void
 	baa_set_program_name(char **program_name, char *kdo_arg);

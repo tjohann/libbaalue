@@ -1,6 +1,6 @@
 /*
   GPL
-  (c) 2016-2018, thorsten.johannvorderbrueggen@t-online.de
+  (c) 2016-2020, thorsten.johannvorderbrueggen@t-online.de
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -214,7 +214,7 @@ extern "C" {
  * common types
  * -------------
  */
-/* shortcut for old signal api (baa_signal_old()) */
+/* shortcut for old signal api (baa_signal()) */
 typedef	void sigfunc(int);
 
 /* one function as part of the scheduling table */
@@ -288,7 +288,7 @@ enum baa_bitpositions {
  * ========
  */
 sigfunc *
-baa_signal_old(int signo, sigfunc *func);
+baa_signal(int signo, sigfunc *func);
 
 void
 baa_set_program_name(char **program_name, char *kdo_arg);

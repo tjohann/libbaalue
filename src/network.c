@@ -1,6 +1,6 @@
 /*
   GPL
-  (c) 2016-2018, thorsten.johannvorderbrueggen@t-online.de
+  (c) 2016-2020, thorsten.johannvorderbrueggen@t-online.de
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -140,7 +140,7 @@ uds_socket(const char *name, const char *dir, char **socket_f, int type,
 
 	if (flags & USE_CONNECT) {
 		unsigned int nsec = CONNECT_TIMEOUT;
-		sigfunc *old_handler = baa_signal_old(SIGALRM, handle_alarm );
+		sigfunc *old_handler = baa_signal(SIGALRM, handle_alarm);
 		if (alarm(nsec) != 0)
 			baa_info_msg(_("could not set alarm timer (%d sec)"), nsec);
 
@@ -151,7 +151,7 @@ uds_socket(const char *name, const char *dir, char **socket_f, int type,
 		}
 
 		alarm(0);
-		baa_signal_old(SIGALRM, old_handler);
+		baa_signal(SIGALRM, old_handler);
 	}
 
 	(void) set_snd_timeout(sfd);
@@ -286,7 +286,7 @@ connect_inet_socket(const char *host, const char *service, int type)
 	}
 
 	unsigned int nsec = CONNECT_TIMEOUT;
-	sigfunc *old_handler = baa_signal_old(SIGALRM, handle_alarm );
+	sigfunc *old_handler = baa_signal(SIGALRM, handle_alarm );
 	if (alarm(nsec) != 0)
 		baa_info_msg(_("could not set alarm timer (%d sec)"), nsec);
 
@@ -312,7 +312,7 @@ connect_inet_socket(const char *host, const char *service, int type)
         }
 
 	alarm(0);
-	baa_signal_old(SIGALRM, old_handler);
+	baa_signal(SIGALRM, old_handler);
 
 	freeaddrinfo(result);
 
