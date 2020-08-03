@@ -73,7 +73,7 @@ __attribute__((noreturn)) baa_info_exit(const char *fmt, ...)
 	va_list va;
 
 	va_start(va, fmt);
-	error_common(0, 0, LOG_ERR, fmt, va);
+	error_common(0, 0, LOG_INFO, fmt, va);
 	va_end(va);
 
 	exit(EXIT_FAILURE);

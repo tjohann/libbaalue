@@ -71,6 +71,9 @@ set_rcv_timeout(int sfd)
 BAALUE_LOCAL void
 handle_alarm(int sigio)
 {
+#ifdef __DEBUG__
+	baa_info_msg("an connect timeout happens");
+#endif
 	return;
 }
 
@@ -114,8 +117,8 @@ uds_socket(const char *name, const char *dir, char **socket_f, int type,
 
 	struct sockaddr_un addr;
 	memset(&addr, 0, sizeof(struct sockaddr_un));
-	if (strlen(str) > sizeof(addr.sun_path)) {
-		baa_error_msg(_("strlen(str) > sizeof(add.sun_path) in %s"),
+	if (strlen(str) > (sizeof(addr.sun_path) -1 )) {
+		baa_error_msg(_("strlen(str) > (sizeof(add.sun_path) -1)  in %s"),
 			      __FUNCTION__);
 		return -1;
 	}
@@ -130,7 +133,7 @@ uds_socket(const char *name, const char *dir, char **socket_f, int type,
 	}
 
 	addr.sun_family = AF_UNIX;
-	strncpy(addr.sun_path, str, sizeof(addr.sun_path) - 1);
+	strncpy(addr.sun_path, str, sizeof(addr.sun_path) - 1); /* len is okay */
 
 	if (flags & USE_BIND)
 		if (bind(sfd, (struct sockaddr *) &addr, SUN_LEN(&addr)) < 0) {
@@ -293,6 +296,10 @@ connect_inet_socket(const char *host, const char *service, int type)
 	int sfd = -1;
 	struct addrinfo *rp = NULL;
 	for (rp = result; rp != NULL; rp = rp->ai_next) {
+#ifdef __DEBUG__
+		baa_info_msg(_("in function %s and go through addrinfo list"),
+			__FUNCTION__);
+#endif
                 sfd = socket(result->ai_family,
 			     result->ai_socktype,
 			     result->ai_protocol);
@@ -308,7 +315,6 @@ connect_inet_socket(const char *host, const char *service, int type)
 			break;
 
                 close(sfd);
-
         }
 
 	alarm(0);

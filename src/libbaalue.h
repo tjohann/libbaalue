@@ -425,7 +425,7 @@ baa_print_num_cpu(void);
  * |     function        | use errno? | terminate? | log_level (man 3 syslog) |
  * +---------------------+------------+------------+--------------------------+
  * | baa_error_exit      |     yes    |   exit()   |         LOG_ERR          |
- * | baa_info_exit       |     no     |   exit()   |         LOG_ERR          |
+ * | baa_info_exit       |     no     |   exit()   |         LOG_INFO         |
  * | baa_dump_exit       |     yes    |  abort()   |         LOG_ERR          |
  * | baa_error_msg       |     no     |    no      |         LOG_ERR          |
  * | baa_errno_msg       |     yes    |    no      |         LOG_ERR          |
@@ -434,7 +434,7 @@ baa_print_num_cpu(void);
  * +---------------------+------------+------------+--------------------------+
  * | baa_th_error_msg    | errno_val  |    no      |         LOG_ERR          |
  * | baa_th_error_exit   | errno_val  |   exit()   |         LOG_ERR          |
- * | baa_th_dump_exit    | errno_val  |  abourt()  |         LOG_ERR          |
+ * | baa_th_dump_exit    | errno_val  |  abort()   |         LOG_ERR          |
  * +---------------------+------------+------------+--------------------------+
  */
 

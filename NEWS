@@ -3,6 +3,8 @@
 #
 
 
+2020-08-03 -> some minor improvements
+
 2020-08-02 -> change name from baa_signal_old() to baa_signal()
 	      update gettext.h and ABOUT-NLS
 	      update .gitignore
