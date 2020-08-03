@@ -4,7 +4,8 @@
 
 
 2020-08-02 -> change name from baa_signal_old() to baa_signal()
-	      update gettext.h
+	      update gettext.h and ABOUT-NLS
+	      update .gitignore
 
 2018-02-03 -> add enum baa_bitposition
 	      add common timeout handling via socket options SO_SND/RCVTIMEO
