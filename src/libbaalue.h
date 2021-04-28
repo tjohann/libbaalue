@@ -93,6 +93,7 @@
 #include <linux/can.h>
 #include <linux/can/raw.h>
 #include <linux/can/error.h>
+#include <linux/sockios.h>
 
 /* libarchive -> actually not needed */
 /* #include <archive.h>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libbaalue trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2020-08-03 12:58+0200\n"
+"POT-Creation-Date: 2020-09-13 12:47+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -133,16 +133,16 @@ msgstr ""
 msgid "send/pack %ld/%d bytes (protocol type %d) to %s"
 msgstr ""
 
-#: src/fiber.c:287 src/fiber.c:427 src/device_mgmt.c:56 src/device_mgmt.c:152
+#: src/fiber.c:287 src/fiber.c:427 src/device_mgmt.c:55 src/device_mgmt.c:151
 #, c-format
 msgid "num_read == -1 in %s"
 msgstr ""
 
-#: src/fiber.c:294 src/device_mgmt.c:65
+#: src/fiber.c:294 src/device_mgmt.c:64
 msgid "get PTYPE_ERROR/RESET from server"
 msgstr ""
 
-#: src/fiber.c:303 src/device_mgmt.c:71
+#: src/fiber.c:303 src/device_mgmt.c:70
 #, c-format
 msgid "unknown PTYPE %d, try next one"
 msgstr ""
@@ -181,7 +181,7 @@ msgstr ""
 msgid "pthread_detach in %s"
 msgstr ""
 
-#: src/fiber.c:424 src/device_mgmt.c:149
+#: src/fiber.c:424 src/device_mgmt.c:148
 #, c-format
 msgid "socket_timeout in %s"
 msgstr ""
@@ -190,7 +190,7 @@ msgstr ""
 msgid "could not set schedule properties"
 msgstr ""
 
-#: src/fiber.c:461 src/device_mgmt.c:194
+#: src/fiber.c:461 src/device_mgmt.c:193
 #, c-format
 msgid "protocol type %d not supported"
 msgstr ""
@@ -626,33 +626,28 @@ msgstr ""
 msgid "command: %d"
 msgstr ""
 
-#: src/device_mgmt.c:45
-#, c-format
-msgid "socket fd: %d"
-msgstr ""
-
-#: src/device_mgmt.c:49
+#: src/device_mgmt.c:48
 #, c-format
 msgid "num_send != 1 in %s"
 msgstr ""
 
-#: src/device_mgmt.c:60
+#: src/device_mgmt.c:59
 #, c-format
 msgid "received protocol type %d"
 msgstr ""
 
-#: src/device_mgmt.c:161
+#: src/device_mgmt.c:160
 msgid "protocol type -> PTYPE_DEVICE_MGMT"
 msgstr ""
 
-#: src/device_mgmt.c:175
+#: src/device_mgmt.c:174
 msgid "protocol type -> PTYPE_DEVICE_MGMT_HALT"
 msgstr ""
 
-#: src/device_mgmt.c:182
+#: src/device_mgmt.c:181
 msgid "protocol type -> PTYPE_DEVICE_MGMT_REBOOT"
 msgstr ""
 
-#: src/device_mgmt.c:189
+#: src/device_mgmt.c:188
 msgid "protocol type -> PTYPE_DEVICE_MGMT_PING"
 msgstr ""
