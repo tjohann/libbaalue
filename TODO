@@ -4,10 +4,16 @@
 
 
 #
+# -------------- 2020-06-27 ----------------------------------------------------
+#
+- pull stuff from ambient_tracker repo (lcd + poweroff + gpio + ...)
+
+
+#
 # -------------- 2020-04-23 ----------------------------------------------------
 #
 - make it build for freebsd and openbsd
-  - config handling based on OS
+ - config handling based on OS
 
 
 #
